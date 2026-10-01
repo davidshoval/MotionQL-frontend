@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async redirects() {
+    // The desktop app and the backend's key e-mails link here.
+    return [{ source: "/account/licenses", destination: "/account", permanent: false }];
+  },
 };
 
 export default nextConfig;
