@@ -41,7 +41,7 @@ content/               CHANGELOG.md and legal documents, copied from the app rep
 
 `render.yaml` is a Render Blueprint: in Render choose **New > Blueprint** and pick this repository. It creates the `xquery-website` web service, which builds with `npm ci && npm run build` and runs `npm start`.
 
-- Set `NEXT_PUBLIC_API_URL` to the backend URL. Values starting with `NEXT_PUBLIC_` are baked into the build, so trigger a redeploy after changing them.
+- `NEXT_PUBLIC_API_URL` points at the backend's Render service (`https://xquery-api.onrender.com`); change it to `https://api.xquery.io` once that domain is live. Values starting with `NEXT_PUBLIC_` are baked into the build, so trigger a redeploy after changing them.
 - Add the custom domain `xquery.io` under the service's **Settings > Custom Domains**.
 - The backend's `WEB_ORIGINS` must list `https://xquery.io` and the service's `https://xquery-website.onrender.com` address, or sign-in requests are refused.
 - The free plan sleeps after 15 minutes without traffic, so the first visit after that is slow. Switch `plan` to `starter` for the live site.

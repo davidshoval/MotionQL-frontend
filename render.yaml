@@ -17,8 +17,9 @@ services:
         value: "22"
       - key: NEXT_TELEMETRY_DISABLED
         value: "1"
-      # Backend base URL, e.g. https://api.xquery.io. Leave unset to run on demo data.
+      # Backend base URL: the "xquery-api" Render service from Xquery.io-backend.
+      # Switch to https://api.xquery.io once that custom domain is live. Remove it to run on demo data.
       - key: NEXT_PUBLIC_API_URL
-        sync: false
+        value: https://xquery-api.onrender.com
       - key: NEXT_PUBLIC_SITE_URL
         value: https://xquery.io
