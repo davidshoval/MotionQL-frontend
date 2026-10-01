@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { Download, LogOut, User as UserIcon, Users } from "lucide-react";
-import { api, type User, type Team } from "@/lib/api";
+import { api, type User, type TeamSummary } from "@/lib/api";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,7 +33,7 @@ export function Avatar({ label, className = "size-8 text-xs" }: { label: string;
   );
 }
 
-export function UserMenu({ user, teams }: { user: User; teams: Team[] }) {
+export function UserMenu({ user, teams }: { user: User; teams: TeamSummary[] }) {
   const router = useRouter();
   const qc = useQueryClient();
   async function signOut() {

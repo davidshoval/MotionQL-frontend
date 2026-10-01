@@ -1,11 +1,16 @@
 "use client";
 
 import { use, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
   Activity,
+  Crown,
+  Link2,
   KeyRound,
+  LogOut,
+  Trash2,
   Loader2,
   Mail,
   MoreHorizontal,
@@ -19,8 +24,9 @@ import {
   Users,
   X,
 } from "lucide-react";
-import { api, ApiError, type Member, type Role } from "@/lib/api";
-import { qk } from "@/lib/api/hooks";
+import { api, ApiError, USE_MOCK, type AuditEvent, type Member, type Role } from "@/lib/api";
+import { mockInviteLink } from "@/lib/api/mock";
+import { qk, useMe } from "@/lib/api/hooks";
 import { cn, formatDate } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -48,9 +54,10 @@ function errText(e: unknown, fallback: string) {
 
 export default function TeamPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const teamQ = useQuery({ queryKey: qk.team(id), queryFn: () => api.team(id).then((r) => r.team) });
+  const teamQ = useQuery({ queryKey: qk.team(id), queryFn: () => api.team(id) });
   const membersQ = useQuery({ queryKey: qk.members(id), queryFn: () => api.members(id).then((r) => r.members) });
-  const isAdmin = teamQ.data?.role === "owner" || teamQ.data?.role === "admin";
+  const myRole = teamQ.data?.role;
+  const isAdmin = myRole === "owner" || myRole === "admin";
   const invitesQ = useQuery({ queryKey: qk.invites(id), queryFn: () => api.invites(id).then((r) => r.invites), enabled: isAdmin });
   const [inviteOpen, setInviteOpen] = useState(false);
 
@@ -62,8 +69,8 @@ export default function TeamPage({ params }: { params: Promise<{ id: string }> }
       </div>
     );
   if (!teamQ.data) return <Skeleton className="h-96 rounded-3xl" />;
-  const team = teamQ.data;
-  const pct = Math.min(100, (team.seats.used / Math.max(1, team.seats.limit)) * 100);
+  const { team, role } = teamQ.data;
+  const pct = Math.min(100, (team.seatsUsed / Math.max(1, team.seatLimit)) * 100);
 
   return (
     <div className="grid gap-8">
@@ -82,7 +89,7 @@ export default function TeamPage({ params }: { params: Promise<{ id: string }> }
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <Stat label="Seats in use" value={`${team.seats.used} / ${team.seats.limit}`}>
+        <Stat label="Seats in use" value={`${team.seatsUsed} / ${team.seatLimit}`}>
           <div className="bg-foreground/[0.07] mt-3 h-1.5 overflow-hidden rounded-full">
             <div className={cn("h-full rounded-full", pct > 90 ? "bg-warning" : "bg-primary")} style={{ width: `${pct}%` }} />
           </div>
@@ -109,14 +116,12 @@ export default function TeamPage({ params }: { params: Promise<{ id: string }> }
               <Activity /> Activity
             </TabsTrigger>
           )}
-          {isAdmin && (
-            <TabsTrigger value="settings">
-              <Settings /> Settings
-            </TabsTrigger>
-          )}
+          <TabsTrigger value="settings">
+            <Settings /> Settings
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="members">
-          <MembersTable teamId={id} members={membersQ.data} loading={membersQ.isLoading} isAdmin={isAdmin} myRole={team.role} />
+          <MembersTable teamId={id} members={membersQ.data} loading={membersQ.isLoading} isAdmin={isAdmin} myRole={role} />
         </TabsContent>
         {isAdmin && (
           <TabsContent value="invites">
@@ -128,11 +133,9 @@ export default function TeamPage({ params }: { params: Promise<{ id: string }> }
             <AuditLog teamId={id} />
           </TabsContent>
         )}
-        {isAdmin && (
-          <TabsContent value="settings">
-            <TeamSettings teamId={id} name={team.name} />
-          </TabsContent>
-        )}
+        <TabsContent value="settings">
+          <TeamSettings teamId={id} name={team.name} role={role} />
+        </TabsContent>
       </Tabs>
 
       <InviteDialog teamId={id} open={inviteOpen} onOpenChange={setInviteOpen} />
@@ -150,7 +153,7 @@ function Stat({ label, value, children }: { label: string; value: string; childr
   );
 }
 
-type PendingAction = { kind: "remove" | "free" | "reissue"; member: Member } | null;
+type PendingAction = { kind: "remove" | "free" | "reissue" | "owner"; member: Member } | null;
 
 function MembersTable({
   teamId,
@@ -173,13 +176,16 @@ function MembersTable({
   const assign = useMutation({
     mutationFn: (m: Member) => api.assignSeat(teamId, m.userId!),
     onSuccess: (_r, m) => {
-      toast.success(`Seat assigned. ${m.email} gets their key by email.`);
+      toast.success(`Seat assigned. ${m.email} gets their key by email and in their account.`);
       refresh();
     },
-    onError: (e) => toast.error(errText(e, "Couldn't assign a seat.")),
+    onError: (e) =>
+      toast.error(
+        e instanceof ApiError && e.code === "seat_limit_reached" ? "Every seat is taken. Free one first." : errText(e, "Couldn't assign a seat."),
+      ),
   });
   const setRole = useMutation({
-    mutationFn: ({ m, role }: { m: Member; role: Role }) => api.updateMember(teamId, m.userId!, { role }),
+    mutationFn: ({ m, role }: { m: Member; role: "admin" | "member" }) => api.updateMember(teamId, m.userId!, { role }),
     onSuccess: () => {
       toast.success("Role updated");
       refresh();
@@ -199,7 +205,15 @@ function MembersTable({
       if (kind === "remove") await api.removeMember(teamId, m.userId!);
       if (kind === "free") await api.freeSeat(teamId, m.userId!);
       if (kind === "reissue") await api.reissueMemberKey(teamId, m.userId!);
-      toast.success({ remove: `${m.email} was removed`, free: "Seat freed and key revoked", reissue: `New key sent to ${m.email}` }[kind]);
+      if (kind === "owner") await api.transferOwnership(teamId, m.userId!);
+      toast.success(
+        {
+          remove: `${m.email} was removed`,
+          free: "Seat freed and key revoked",
+          reissue: `New key sent to ${m.email}`,
+          owner: `${m.email} now owns the team. You're an admin.`,
+        }[kind],
+      );
       await refresh();
     } catch (e) {
       toast.error(errText(e, "That didn't work. Try again."));
@@ -257,7 +271,7 @@ function MembersTable({
                   </Badge>
                 </td>
                 <td className="px-5 py-3.5">
-                  {m.seat && m.license ? (
+                  {m.hasSeat && m.license ? (
                     <span className="flex items-center gap-2">
                       <KeyRound className="text-primary size-4" />
                       <span>
@@ -269,12 +283,12 @@ function MembersTable({
                   )}
                 </td>
                 <td className="text-muted-foreground px-5 py-3.5">
-                  {m.lastSeenAt ? (
+                  {m.usage?.lastSeen ? (
                     <span>
-                      {formatDate(m.lastSeenAt)}
+                      {formatDate(m.usage.lastSeen)}
                       <span className="block text-xs">
-                        v{m.appVersion} · {m.os}
-                        {m.installs && m.installs > 1 ? ` · ${m.installs} installs` : ""}
+                        v{m.usage.appVersion} · {m.usage.platform}
+                        {m.usage.installs > 1 ? ` · ${m.usage.installs} installs` : ""}
                       </span>
                     </span>
                   ) : (
@@ -291,7 +305,7 @@ function MembersTable({
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          {m.seat ? (
+                          {m.hasSeat ? (
                             <>
                               <DropdownMenuItem onSelect={() => setPending({ kind: "reissue", member: m })}>
                                 <RotateCcw /> Reissue key
@@ -308,9 +322,16 @@ function MembersTable({
                           {m.role !== "owner" && (
                             <>
                               <DropdownMenuSeparator />
-                              <DropdownMenuItem onSelect={() => setRole.mutate({ m, role: m.role === "admin" ? "member" : "admin" })}>
-                                <ShieldCheck /> {m.role === "admin" ? "Make member" : "Make admin"}
-                              </DropdownMenuItem>
+                              {myRole === "owner" && (
+                                <>
+                                  <DropdownMenuItem onSelect={() => setRole.mutate({ m, role: m.role === "admin" ? "member" : "admin" })}>
+                                    <ShieldCheck /> {m.role === "admin" ? "Make member" : "Make admin"}
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem onSelect={() => setPending({ kind: "owner", member: m })}>
+                                    <Crown /> Make owner
+                                  </DropdownMenuItem>
+                                </>
+                              )}
                               <DropdownMenuItem variant="destructive" onSelect={() => setPending({ kind: "remove", member: m })}>
                                 <UserMinus /> Remove from team
                               </DropdownMenuItem>
@@ -337,27 +358,39 @@ function MembersTable({
       <ConfirmDialog
         open={!!pending}
         onOpenChange={(o) => !o && setPending(null)}
-        destructive={pending?.kind !== "reissue"}
-        title={
-          pending?.kind === "remove"
-            ? `Remove ${pending.member.email}?`
-            : pending?.kind === "free"
-              ? `Free ${pending?.member.email}'s seat?`
-              : `Reissue ${pending?.member.email}'s key?`
-        }
-        description={
-          pending?.kind === "remove"
-            ? "Their seat is freed and their key is revoked. XQuery drops to the free tier on their machine within about 4 hours. Their own account stays."
-            : pending?.kind === "free"
-              ? "Their key is revoked and the seat becomes available. They stay on the team."
-              : "They get a new key by email and the current one is revoked. Use this when a key was lost or shared."
-        }
-        confirmLabel={pending?.kind === "remove" ? "Remove" : pending?.kind === "free" ? "Free seat" : "Reissue key"}
+        destructive={pending?.kind === "remove" || pending?.kind === "free"}
+        title={pending ? confirmCopy[pending.kind].title(pending.member.email) : ""}
+        description={pending ? confirmCopy[pending.kind].description : ""}
+        confirmLabel={pending ? confirmCopy[pending.kind].label : ""}
         onConfirm={runPending}
       />
     </Card>
   );
 }
+
+const confirmCopy: Record<NonNullable<PendingAction>["kind"], { title: (email: string) => string; description: string; label: string }> = {
+  remove: {
+    title: (e) => `Remove ${e}?`,
+    description:
+      "Their seat is freed and their key is revoked. XQuery drops to the free tier on their machine within about 4 hours. Their own account stays.",
+    label: "Remove",
+  },
+  free: {
+    title: (e) => `Free ${e}'s seat?`,
+    description: "Their key is revoked and the seat becomes available. They stay on the team.",
+    label: "Free seat",
+  },
+  reissue: {
+    title: (e) => `Reissue ${e}'s key?`,
+    description: "They get a new key and the current one stops working. Use this when a key was lost or shared.",
+    label: "Reissue key",
+  },
+  owner: {
+    title: (e) => `Make ${e} the owner?`,
+    description: "They get full control of the team, including deleting it. You stay on the team as an admin.",
+    label: "Transfer ownership",
+  },
+};
 
 function InvitesList({ teamId, onInvite }: { teamId: string; onInvite: () => void }) {
   const qc = useQueryClient();
@@ -396,12 +429,25 @@ function InvitesList({ teamId, onInvite }: { teamId: string; onInvite: () => voi
           <div className="min-w-0 flex-1">
             <p className="truncate font-medium">{inv.email}</p>
             <p className="text-muted-foreground text-xs">
-              Invited {formatDate(inv.createdAt)} · expires {formatDate(inv.expiresAt)} · {inv.assignSeat ? "gets a seat" : "no seat"}
+              Invited by {inv.invitedBy} on {formatDate(inv.createdAt)} · expires {formatDate(inv.expiresAt)} · {inv.assignSeat ? "gets a seat" : "no seat"}
             </p>
           </div>
           <Badge variant={roleTone[inv.role]} className="capitalize">
             {inv.role}
           </Badge>
+          {USE_MOCK && (
+            <Button
+              variant="ghost"
+              size="sm"
+              title="Preview mode: no e-mail is sent, so copy the link the invitee would get"
+              onClick={() => {
+                const link = mockInviteLink(inv.id);
+                if (link) navigator.clipboard.writeText(new URL(link, window.location.origin).toString()).then(() => toast.success("Invite link copied"));
+              }}
+            >
+              <Link2 /> Copy link
+            </Button>
+          )}
           <Button variant="ghost" size="sm" onClick={() => resend.mutate(inv.id)} disabled={resend.isPending}>
             <Send /> Resend
           </Button>
@@ -421,23 +467,29 @@ function InvitesList({ teamId, onInvite }: { teamId: string; onInvite: () => voi
 }
 
 const actionText: Record<string, string> = {
-  "team.created": "created the team",
-  "team.renamed": "renamed the team",
-  "invite.sent": "invited",
-  "invite.resent": "re-sent an invite to",
-  "invite.cancelled": "cancelled the invite for",
-  "member.joined": "joined:",
-  "member.removed": "removed",
-  "member.role_changed": "changed the role of",
-  "seat.assigned": "assigned a seat to",
-  "seat.freed": "freed the seat of",
-  "license.reissued": "reissued the key of",
+  "team.create": "created the team",
+  "team.rename": "renamed the team",
+  "team.transfer_ownership": "made the owner:",
+  "team.invite.create": "invited",
+  "team.invite.resend": "re-sent an invite to",
+  "team.invite.cancel": "cancelled the invite for",
+  "team.invite.accept": "joined the team",
+  "team.member.role": "changed the role of",
+  "team.member.plan": "changed the plan of",
+  "team.member.remove": "removed",
+  "team.seat.assign": "assigned a seat to",
+  "team.seat.free": "freed the seat of",
+  "license.issue": "issued a key for",
 };
+
+const targetText = (e: AuditEvent) => (e.target?.type === "team" ? "" : (e.target?.email ?? e.target?.name ?? ""));
 
 function AuditLog({ teamId }: { teamId: string }) {
   const { data, isLoading } = useQuery({ queryKey: qk.audit(teamId), queryFn: () => api.audit(teamId) });
   function exportCsv() {
-    const rows = [["time", "actor", "action", "target"], ...(data?.events ?? []).map((e) => [e.at, e.actor.email, e.action, e.target])];
+    const url = api.auditCsvUrl(teamId);
+    if (url) return window.location.assign(url);
+    const rows = [["time", "actor", "action", "target"], ...(data?.events ?? []).map((e) => [e.at, e.actor?.email ?? "XQuery", e.action, targetText(e)])];
     const csv = rows.map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
@@ -464,9 +516,9 @@ function AuditLog({ teamId }: { teamId: string }) {
               <li key={e.id} className="relative text-sm">
                 <span className="border-background bg-primary absolute top-1.5 -left-[1.82rem] size-2.5 rounded-full border-2" />
                 <p>
-                  <span className="font-medium">{e.actor.email}</span>{" "}
+                  <span className="font-medium">{e.actor?.email ?? "XQuery"}</span>{" "}
                   <span className="text-muted-foreground">{actionText[e.action] ?? e.action}</span>{" "}
-                  <span className="font-medium">{e.target}</span>
+                  <span className="font-medium">{targetText(e)}</span>
                 </p>
                 <p className="text-muted-foreground text-xs">{formatDate(e.at, { dateStyle: "medium", timeStyle: "short" })}</p>
               </li>
@@ -480,8 +532,50 @@ function AuditLog({ teamId }: { teamId: string }) {
   );
 }
 
-function TeamSettings({ teamId, name }: { teamId: string; name: string }) {
+function TeamSettings({ teamId, name, role }: { teamId: string; name: string; role: Role }) {
   const qc = useQueryClient();
+  const router = useRouter();
+  const me = useMe();
+  const [confirm, setConfirm] = useState<"delete" | "leave" | null>(null);
+  const leaveOrDelete = async () => {
+    try {
+      if (confirm === "delete") await api.deleteTeam(teamId);
+      else if (me.data) await api.removeMember(teamId, me.data.user.id);
+      toast.success(confirm === "delete" ? "Team deleted" : "You left the team");
+      await qc.invalidateQueries({ queryKey: qk.me });
+      router.replace("/account");
+    } catch (e) {
+      toast.error(errText(e, "That didn't work. Try again."));
+    }
+  };
+  const danger = (
+    <Card className="border-destructive/30">
+      <CardHeader>
+        <CardTitle>{role === "owner" ? "Delete team" : "Leave team"}</CardTitle>
+        <CardDescription>
+          {role === "owner"
+            ? "Revokes every team key and removes all members. To keep the team, make someone else the owner first."
+            : "Your team seat is freed and its key stops working. Your own free key is not affected."}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Button variant="destructive" onClick={() => setConfirm(role === "owner" ? "delete" : "leave")}>
+          {role === "owner" ? <Trash2 /> : <LogOut />}
+          {role === "owner" ? "Delete team" : "Leave team"}
+        </Button>
+      </CardContent>
+      <ConfirmDialog
+        open={!!confirm}
+        onOpenChange={(o) => !o && setConfirm(null)}
+        destructive
+        title={confirm === "delete" ? `Delete ${name}?` : `Leave ${name}?`}
+        description={confirm === "delete" ? "This can't be undone." : "An admin can invite you again later."}
+        typeToConfirm={confirm === "delete" ? name : undefined}
+        confirmLabel={confirm === "delete" ? "Delete team" : "Leave team"}
+        onConfirm={leaveOrDelete}
+      />
+    </Card>
+  );
   const [value, setValue] = useState(name);
   const save = useMutation({
     mutationFn: () => api.renameTeam(teamId, value.trim()),
@@ -492,6 +586,7 @@ function TeamSettings({ teamId, name }: { teamId: string; name: string }) {
     },
     onError: (e) => toast.error(errText(e, "Couldn't rename the team.")),
   });
+  if (role === "member") return <div className="grid gap-6">{danger}</div>;
   return (
     <div className="grid gap-6">
       <Card>
@@ -521,6 +616,7 @@ function TeamSettings({ teamId, name }: { teamId: string; name: string }) {
           <CardDescription>Coming soon: verify your domain so anyone who signs up with it joins this team automatically.</CardDescription>
         </CardHeader>
       </Card>
+      {role === "owner" && danger}
     </div>
   );
 }
@@ -539,12 +635,10 @@ function InviteDialog({ teamId, open, onOpenChange }: { teamId: string; open: bo
 
   const send = useMutation({
     mutationFn: () => api.invite(teamId, { emails: parsed, role, assignSeat }),
-    onSuccess: ({ invites }) => {
-      toast.success(
-        invites.length
-          ? `Sent ${invites.length} invite${invites.length > 1 ? "s" : ""}`
-          : "Those people are already invited or on the team.",
-      );
+    onSuccess: ({ invites, skipped }) => {
+      const skippedText = skipped.length ? `Skipped ${skipped.map((s) => s.email).join(", ")} (already invited or on the team).` : undefined;
+      if (invites.length) toast.success(`Sent ${invites.length} invite${invites.length > 1 ? "s" : ""}`, { description: skippedText });
+      else toast.info(skippedText ?? "Nothing to send.");
       qc.invalidateQueries({ queryKey: ["team", teamId] });
       setEmails("");
       onOpenChange(false);

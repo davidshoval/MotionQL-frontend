@@ -15,6 +15,7 @@ export function ConfirmDialog({
   confirmLabel,
   destructive,
   typeToConfirm,
+  input,
   onConfirm,
 }: {
   open: boolean;
@@ -24,11 +25,13 @@ export function ConfirmDialog({
   confirmLabel: string;
   destructive?: boolean;
   typeToConfirm?: string;
-  onConfirm: () => Promise<unknown>;
+  /** Ask for a value (such as the password) and pass it to onConfirm. */
+  input?: { label: string; type?: string; autoComplete?: string };
+  onConfirm: (value: string) => Promise<unknown>;
 }) {
   const [busy, setBusy] = useState(false);
   const [typed, setTyped] = useState("");
-  const blocked = !!typeToConfirm && typed.trim() !== typeToConfirm;
+  const blocked = typeToConfirm ? typed.trim() !== typeToConfirm : input ? !typed : false;
   return (
     <Dialog
       open={open}
@@ -52,6 +55,20 @@ export function ConfirmDialog({
             <Input id="confirm-word" value={typed} onChange={(e) => setTyped(e.target.value)} autoComplete="off" />
           </div>
         )}
+        {input && (
+          <div className="grid gap-2">
+            <label htmlFor="confirm-input" className="text-sm text-muted-foreground">
+              {input.label}
+            </label>
+            <Input
+              id="confirm-input"
+              type={input.type ?? "text"}
+              autoComplete={input.autoComplete ?? "off"}
+              value={typed}
+              onChange={(e) => setTyped(e.target.value)}
+            />
+          </div>
+        )}
         <DialogFooter>
           <Button variant="ghost" onClick={() => onOpenChange(false)} disabled={busy}>
             Cancel
@@ -62,7 +79,7 @@ export function ConfirmDialog({
             onClick={async () => {
               setBusy(true);
               try {
-                await onConfirm();
+                await onConfirm(typed);
                 onOpenChange(false);
                 setTyped("");
               } finally {

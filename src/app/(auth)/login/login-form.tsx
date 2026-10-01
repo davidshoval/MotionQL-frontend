@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FormError, FormField } from "@/components/app/form-field";
 import { PasswordInput } from "@/components/app/password-input";
-import { OAuthButtons } from "@/components/app/oauth-buttons";
 
 export function LoginForm() {
   const router = useRouter();
@@ -47,7 +46,6 @@ export function LoginForm() {
         <h1 className="text-3xl font-semibold tracking-tight">Welcome back</h1>
         <p className="text-muted-foreground mt-2">Sign in to get your key and downloads.</p>
       </div>
-      <OAuthButtons next={next} />
       <form onSubmit={handleSubmit(onSubmit)} noValidate className="grid gap-4">
         <FormError message={error?.message} />
         {error?.unverified && (

@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { ArrowRight, Download, Loader2, Lock, ShieldCheck } from "lucide-react";
-import { api, ApiError, type OS, type ReleaseFile } from "@/lib/api";
+import { ArrowRight, Download, Lock, ShieldCheck } from "lucide-react";
+import type { OS, ReleaseFile } from "@/lib/api";
 import { useMe, useRelease } from "@/lib/api/hooks";
-import { detectOS, fileLabel, osLabel } from "@/lib/os";
+import { detectOS, fileLabel, osLabel, sortFiles, startDownload } from "@/lib/os";
 import { cn, formatBytes, formatDate } from "@/lib/utils";
 import { site } from "@/lib/site";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,7 @@ import { Tooltip } from "@/components/ui/tooltip";
 function OsGlyph({ os, className }: { os: OS; className?: string }) {
   // Simple neutral glyphs; we don't ship third-party logos.
   const d = {
-    mac: "M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.8-.9-3-.9C6.9 7.3 5.4 8.2 4.6 9.7c-1.7 2.9-.4 7.2 1.2 9.5.8 1.1 1.7 2.4 2.9 2.4 1.2 0 1.6-.8 3-.8s1.8.8 3 .8c1.3 0 2.1-1.2 2.8-2.3.9-1.3 1.3-2.6 1.3-2.7 0 0-2.5-1-2.4-4zM14.1 5.8c.6-.8 1.1-1.9 1-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2.1-.5 2.7-1.3z",
+    macos: "M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.8-.9-3-.9C6.9 7.3 5.4 8.2 4.6 9.7c-1.7 2.9-.4 7.2 1.2 9.5.8 1.1 1.7 2.4 2.9 2.4 1.2 0 1.6-.8 3-.8s1.8.8 3 .8c1.3 0 2.1-1.2 2.8-2.3.9-1.3 1.3-2.6 1.3-2.7 0 0-2.5-1-2.4-4zM14.1 5.8c.6-.8 1.1-1.9 1-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2.1-.5 2.7-1.3z",
     windows: "M3 5.5 10.5 4.5v7H3zM11.5 4.4 21 3v8.5h-9.5zM3 12.5h7.5v7L3 18.5zM11.5 12.5H21V21l-9.5-1.4z",
     linux:
       "M12 3c-2 0-3.2 1.7-3.2 4 0 1.3.3 2.2-.6 3.6-.9 1.4-2.6 3.4-2.6 5.6 0 .8.2 1.4.5 1.9-.6.4-1.1 1-1.1 1.6 0 1 1.4 1.3 3 1.3 1 0 1.8-.3 2.4-.7.5.1 1 .2 1.6.2s1.1-.1 1.6-.2c.6.4 1.4.7 2.4.7 1.6 0 3-.3 3-1.3 0-.6-.5-1.2-1.1-1.6.3-.5.5-1.1.5-1.9 0-2.2-1.7-4.2-2.6-5.6-.9-1.4-.6-2.3-.6-3.6 0-2.3-1.2-4-3.2-4z",
@@ -32,21 +32,12 @@ export function DownloadPanel() {
   const { data: me, isLoading: meLoading } = useMe();
   const { data: release, isLoading, isError } = useRelease();
   const [os, setOs] = useState<OS | null>(null);
-  const [busy, setBusy] = useState<string | null>(null);
   // eslint-disable-next-line react-hooks/set-state-in-effect -- the visitor's OS is only known in the browser
   useEffect(() => setOs(detectOS()), []);
 
-  async function download(f: ReleaseFile) {
-    setBusy(f.id);
-    try {
-      const { url } = await api.downloadLink(f.id);
-      window.location.assign(url);
-      toast.success(`Downloading ${f.name}`, { description: "Next: open XQuery, go to Settings → License and paste your key." });
-    } catch (e) {
-      toast.error(e instanceof ApiError ? e.message : "Download failed. Please try again.");
-    } finally {
-      setBusy(null);
-    }
+  function download(f: ReleaseFile) {
+    startDownload(f);
+    toast.success(`Downloading ${f.name}`, { description: "Next: open XQuery, go to Settings → License and paste your key." });
   }
 
   if (isLoading || meLoading) {
@@ -73,15 +64,15 @@ export function DownloadPanel() {
     );
   }
 
-  const order: OS[] = os ? [os, ...(["mac", "windows", "linux"] as OS[]).filter((o) => o !== os)] : ["mac", "windows", "linux"];
+  const order: OS[] = os ? [os, ...(["macos", "windows", "linux"] as OS[]).filter((o) => o !== os)] : ["macos", "windows", "linux"];
 
   return (
     <div className="space-y-8">
       <p className="text-muted-foreground text-center text-sm">
-        Version <span className="text-foreground font-mono">{release.version}</span> · released {formatDate(release.releasedAt)} ·{" "}
-        <Link href={release.notesUrl} className="text-primary hover:underline">
+        Version <span className="text-foreground font-mono">{release.version}</span> · released {formatDate(release.publishedAt)} ·{" "}
+        <a href={release.releaseNotesUrl} className="text-primary hover:underline">
           release notes
-        </Link>
+        </a>
       </p>
 
       {!me && (
@@ -104,7 +95,7 @@ export function DownloadPanel() {
 
       <div className="grid gap-4 md:grid-cols-3">
         {order.map((o, idx) => {
-          const files = release.files.filter((f) => f.os === o);
+          const files = sortFiles(release.files.filter((f) => f.os === o));
           const recommended = idx === 0 && os === o;
           return (
             <div
@@ -127,20 +118,20 @@ export function DownloadPanel() {
               </div>
               <ul className="mt-6 flex flex-1 flex-col gap-2">
                 {files.map((f, i) => (
-                  <li key={f.id}>
+                  <li key={f.name}>
                     <Button
                       className="w-full justify-between"
                       variant={recommended && i === 0 ? "default" : "secondary"}
-                      disabled={!me || busy !== null}
+                      disabled={!me}
                       onClick={() => download(f)}
                     >
                       <span className="flex items-center gap-2">
-                        {busy === f.id ? <Loader2 className="animate-spin" /> : <Download />}
+                        <Download />
                         {fileLabel(f)}
                       </span>
                       <span className="text-xs opacity-70">{formatBytes(f.size)}</span>
                     </Button>
-                    <Tooltip content={<span className="font-mono break-all">SHA-256 {f.sha256}</span>}>
+                    <Tooltip content={<span className="font-mono break-all">{f.sha256 ? `SHA-256 ${f.sha256}` : "Checksum in SHA256SUMS.txt"}</span>}>
                       <p className="text-muted-foreground mt-1 cursor-help truncate px-3 font-mono text-[10.5px]">{f.name}</p>
                     </Tooltip>
                   </li>

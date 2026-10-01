@@ -27,6 +27,7 @@ export function LicenseCard({ license }: { license: License }) {
   const pct = Math.min(100, Math.max(0, (days / total) * 100));
   const active = license.status === "active";
   const expiringSoon = active && days <= 30;
+  const personal = license.source === "free";
 
   const renew = useMutation({
     mutationFn: () => api.renewLicense(),
@@ -55,15 +56,16 @@ export function LicenseCard({ license }: { license: License }) {
                 {license.status === "active" && <Badge variant="success">Active</Badge>}
                 {license.status === "expired" && <Badge variant="warning">Expired</Badge>}
                 {license.status === "revoked" && <Badge variant="destructive">Revoked</Badge>}
+                {license.status === "replaced" && <Badge variant="secondary">Replaced</Badge>}
               </div>
               <p className="text-muted-foreground text-sm">
-                {license.team ? `Managed by ${license.team.name}` : "Personal license"} · {license.seats} seat
+                {license.team ? `Managed by ${license.team.name}` : personal ? "Personal license" : "Issued by XQuery"} · {license.seats} seat
               </p>
             </div>
           </div>
           <div className="text-right">
             <p className="text-muted-foreground text-sm">
-              {active ? "Valid until" : license.status === "revoked" ? "Revoked on" : "Expired on"}
+              {active ? "Valid until" : license.status === "revoked" ? "Revoked on" : license.status === "replaced" ? "Was valid until" : "Expired on"}
             </p>
             <p className="font-medium">{formatDate(license.status === "revoked" ? license.revokedAt : license.expiresAt)}</p>
           </div>
@@ -93,7 +95,7 @@ export function LicenseCard({ license }: { license: License }) {
               {show ? <EyeOff /> : <Eye />}
               {show ? "Hide" : "Show"}
             </Button>
-            {!license.team && active && (
+            {personal && active && (
               <Button variant="ghost" size="sm" onClick={() => setConfirmReissue(true)}>
                 <RotateCcw /> Reissue
               </Button>
@@ -101,7 +103,7 @@ export function LicenseCard({ license }: { license: License }) {
           </div>
         </div>
 
-        {!license.team && (expiringSoon || license.status === "expired") && (
+        {personal && (expiringSoon || license.status === "expired") && (
           <div className="border-primary/30 bg-primary/[0.06] relative mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border p-4">
             <p className="flex items-center gap-2 text-sm">
               <Sparkles className="text-primary size-4" /> Renew free for another 12 months.
@@ -118,7 +120,7 @@ export function LicenseCard({ license }: { license: License }) {
         open={confirmReissue}
         onOpenChange={setConfirmReissue}
         title="Reissue your license key?"
-        description="You'll get a new key, and the current one stops working in XQuery within a few hours. Use this if your key was shared or leaked."
+        description="You'll get a new key with the same end date, and the current one stops working in XQuery within a few hours. Use this if your key was shared or leaked."
         confirmLabel="Reissue key"
         onConfirm={async () => {
           try {

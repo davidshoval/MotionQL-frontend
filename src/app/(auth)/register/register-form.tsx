@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FormError, FormField } from "@/components/app/form-field";
 import { PasswordInput } from "@/components/app/password-input";
-import { OAuthButtons } from "@/components/app/oauth-buttons";
 
 export function RegisterForm() {
   const router = useRouter();
@@ -50,7 +49,6 @@ export function RegisterForm() {
         <h1 className="text-3xl font-semibold tracking-tight">Create your account</h1>
         <p className="text-muted-foreground mt-2">Free forever, with a Pro license for your first year.</p>
       </div>
-      <OAuthButtons next={next} />
       <form onSubmit={handleSubmit(onSubmit)} noValidate className="grid gap-4">
         <FormError message={error} />
         <FormField id="name" label="Full name" error={errors.name?.message}>

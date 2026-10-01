@@ -6,10 +6,10 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ArrowRight, Download, Loader2, MonitorDown, Plus, Settings2, Users } from "lucide-react";
+import { ArrowRight, Download, KeyRound, Loader2, Mail, MonitorDown, Plus, Settings2, Users } from "lucide-react";
 import { api, ApiError, type OS } from "@/lib/api";
 import { qk, useLicenses, useMe, useRelease } from "@/lib/api/hooks";
-import { detectOS, fileLabel, osLabel } from "@/lib/os";
+import { detectOS, fileLabel, osLabel, sortFiles, startDownload } from "@/lib/os";
 import { formatBytes } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -34,6 +34,18 @@ export default function AccountPage() {
         <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Hi {firstName} 👋</h1>
         <p className="text-muted-foreground mt-2">Your license, downloads and teams, all in one place.</p>
       </div>
+
+      {me.pendingInvites.length > 0 && (
+        <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-primary/30 bg-primary/[0.06] px-5 py-4 text-sm">
+          <Mail className="size-4 text-primary" />
+          {me.pendingInvites.map((i) => (
+            <span key={i.id}>
+              <span className="font-medium">{i.invitedBy}</span> invited you to <span className="font-medium">{i.teamName}</span>.
+            </span>
+          ))}
+          <span className="text-muted-foreground">Open the link in the invitation e-mail to join.</span>
+        </div>
+      )}
 
       <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
         <div className="grid content-start gap-6">
@@ -70,6 +82,7 @@ export default function AccountPage() {
       )}
 
       <Profile />
+      <ChangePassword />
       <DangerZone />
     </div>
   );
@@ -119,10 +132,9 @@ function Activate() {
 function QuickDownload() {
   const { data: release, isLoading } = useRelease();
   const [os, setOs] = useState<OS | null>(null);
-  const [busy, setBusy] = useState(false);
   // eslint-disable-next-line react-hooks/set-state-in-effect -- the visitor's OS is only known in the browser
   useEffect(() => setOs(detectOS()), []);
-  const file = release?.files.find((f) => f.os === (os ?? "mac"));
+  const file = release && sortFiles(release.files.filter((f) => f.os === (os ?? "macos")))[0];
 
   return (
     <Card className="overflow-hidden">
@@ -136,21 +148,8 @@ function QuickDownload() {
         {isLoading || !file ? (
           <Skeleton className="h-10 rounded-full" />
         ) : (
-          <Button
-            disabled={busy}
-            onClick={async () => {
-              setBusy(true);
-              try {
-                const { url } = await api.downloadLink(file.id);
-                window.location.assign(url);
-              } catch (e) {
-                toast.error(e instanceof ApiError ? e.message : "Download failed. Try again.");
-              } finally {
-                setBusy(false);
-              }
-            }}
-          >
-            {busy ? <Loader2 className="animate-spin" /> : <Download />}
+          <Button onClick={() => startDownload(file)}>
+            <Download />
             {osLabel[file.os]} · {fileLabel(file)}
             <span className="opacity-70">{formatBytes(file.size)}</span>
           </Button>
@@ -188,7 +187,7 @@ function TeamsCard() {
               <Badge variant="secondary" className="capitalize">
                 {t.role}
               </Badge>
-              {t.seats.used}/{t.seats.limit} seats
+              {t.hasSeat ? "Pro seat" : "No seat"}
             </span>
           </Link>
         ))}
@@ -245,6 +244,56 @@ function Profile() {
   );
 }
 
+function ChangePassword() {
+  const [current, setCurrent] = useState("");
+  const [next, setNext] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <KeyRound className="size-5 text-primary" /> Password
+        </CardTitle>
+        <CardDescription>Changing it signs you out everywhere else.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form
+          className="grid gap-4 sm:grid-cols-[1fr_1fr_auto] sm:items-start"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            if (next.length < 10) return setErrors({ newPassword: "Use at least 10 characters" });
+            setBusy(true);
+            setErrors({});
+            try {
+              await api.changePassword(current, next);
+              setCurrent("");
+              setNext("");
+              toast.success("Password changed");
+            } catch (err) {
+              if (err instanceof ApiError && err.fields) setErrors(err.fields);
+              else toast.error(err instanceof ApiError ? err.message : "Couldn't change your password.");
+            } finally {
+              setBusy(false);
+            }
+          }}
+        >
+          <FormField id="pw-current" label="Current password" error={errors.currentPassword}>
+            <Input id="pw-current" type="password" autoComplete="current-password" value={current} onChange={(e) => setCurrent(e.target.value)} />
+          </FormField>
+          <FormField id="pw-new" label="New password" error={errors.newPassword}>
+            <Input id="pw-new" type="password" autoComplete="new-password" value={next} onChange={(e) => setNext(e.target.value)} />
+          </FormField>
+          <Button type="submit" variant="secondary" className="sm:mt-6" disabled={busy || !current || !next}>
+            {busy && <Loader2 className="animate-spin" />}
+            Change
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
+  );
+}
+
 function DangerZone() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
@@ -273,14 +322,15 @@ function DangerZone() {
         title="Delete your account?"
         description="This can't be undone. Your license keys stop working and you leave every team."
         confirmLabel="Delete account"
-        typeToConfirm="DELETE"
-        onConfirm={async () => {
+        input={{ label: "Enter your password to confirm", type: "password", autoComplete: "current-password" }}
+        onConfirm={async (password) => {
           try {
-            await api.deleteMe();
+            await api.deleteMe(password);
             qc.clear();
             router.push("/");
           } catch (e) {
-            toast.error(e instanceof ApiError ? e.message : "Couldn't delete your account.");
+            const msg = e instanceof ApiError ? (e.fields?.password ?? e.message) : "Couldn't delete your account.";
+            toast.error(msg);
           }
         }}
       />
