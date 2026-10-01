@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { Brain, Palette, BarChart3, RefreshCw, Users, Zap, Building, CheckCircle, Factory, DollarSign } from "lucide-react";
+import { Brain, Palette, BarChart3, RefreshCw, Zap, Building, CheckCircle, Factory, DollarSign } from "lucide-react";
 
 const Features = () => {
   const features = [

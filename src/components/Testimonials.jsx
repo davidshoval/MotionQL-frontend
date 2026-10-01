@@ -133,7 +133,7 @@ const Testimonials = ({ onDownloadClick }) => {
                       </blockquote>
                       <div className="flex items-center">
                         <Avatar className="w-12 h-12 mr-4">
-                          <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${testimonial.name}`} />
+                          <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${testimonial.name}`} alt={testimonial.name} />
                           <AvatarFallback className="bg-primary text-primary-foreground font-semibold">
                             {testimonial.avatar}
                           </AvatarFallback>
