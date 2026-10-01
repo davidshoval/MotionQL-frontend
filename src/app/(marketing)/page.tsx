@@ -10,6 +10,7 @@ import { SectionHeading } from "@/components/marketing/section-heading";
 import { CompareTable } from "@/components/marketing/compare-table";
 import { PricingCards } from "@/components/marketing/pricing-cards";
 import { Steps } from "@/components/marketing/steps";
+import { Showcase } from "@/components/marketing/showcase";
 import { DemoVideo } from "@/components/marketing/demo-video";
 import { Faq } from "@/components/marketing/faq";
 import { Cta } from "@/components/marketing/cta";
@@ -22,6 +23,7 @@ export default function HomePage() {
       <Hero />
       <WorksWith />
       <Switchers />
+      <Showcase />
       <DemoVideo />
       <Bento />
       <AiSection />
