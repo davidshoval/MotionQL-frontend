@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <title>XQuery</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0FA37F"/>
+      <stop offset="0.55" stop-color="#0B6E6A"/>
+      <stop offset="1" stop-color="#10254A"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.22"/>
+      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="lens" gradientUnits="userSpaceOnUse" x1="300" y1="300" x2="740" y2="740">
+      <stop offset="0" stop-color="#B9F6D8"/>
+      <stop offset="1" stop-color="#5EE0A8"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#04121F" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Tile: 824px on the 1024 grid (macOS icon margins), continuous-corner radius. -->
+  <rect x="100" y="100" width="824" height="824" rx="186" fill="url(#bg)"/>
+  <rect x="100" y="100" width="824" height="824" rx="186" fill="url(#shine)"/>
+
+  <g filter="url(#shadow)" stroke-linecap="round" fill="none">
+    <!-- "/" stroke of the X -->
+    <line x1="706" y1="318" x2="318" y2="706" stroke="#FFFFFF" stroke-width="116"/>
+    <!-- "\" stroke: a query lens whose handle completes the X -->
+    <circle cx="432" cy="432" r="118" stroke="url(#lens)" stroke-width="72"/>
+    <line x1="532" y1="532" x2="706" y2="706" stroke="url(#lens)" stroke-width="116"/>
+  </g>
+  <!-- Lens glint -->
+  <path d="M372 404 A70 70 0 0 1 432 362" stroke="#FFFFFF" stroke-opacity="0.85" stroke-width="22" stroke-linecap="round" fill="none"/>
+</svg>
