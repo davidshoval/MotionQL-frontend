@@ -4,11 +4,11 @@ services:
   - type: web
     name: xquery-website
     runtime: node
-    # "free" sleeps after 15 minutes without traffic; use "starter" or above for the live site.
+    # "free" sleeps after 15 minutes without traffic; "starter" stays awake.
     plan: free
     region: frankfurt
     branch: main
-    buildCommand: npm ci && npm run build
+    buildCommand: npm ci --include=dev && npm run build
     startCommand: npm start
     healthCheckPath: /
     autoDeploy: true
