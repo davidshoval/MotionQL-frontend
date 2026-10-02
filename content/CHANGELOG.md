@@ -60,7 +60,7 @@ First general-availability release of the MotionQL desktop app for macOS (arm64,
 - Signed effective policies applied by desktops as a floor, including offline.
 - Hash-chained, signed and verifiable audit log with desktop event forwarding, export and SIEM forwarding (webhook, syslog over TLS).
 - PostgreSQL or SQLite; Docker image running non-root on a read-only filesystem; CLI for keys, audit, users and SCIM tokens.
-- Optional read-only web viewer (`XQ_WEB_VIEWER=true`) at `/web/`: shared items with version history, team policy, and the audit log with filters, verification and export, behind the same SSO and roles. Its sessions are read-only on the server.
+- Optional read-only web viewer (`MOTIONQL_WEB_VIEWER=true`) at `/web/`: shared items with version history, team policy, and the audit log with filters, verification and export, behind the same SSO and roles. Its sessions are read-only on the server.
 
 ### Platform
 

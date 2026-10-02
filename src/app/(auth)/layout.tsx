@@ -43,7 +43,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           <div className="border-border bg-background/70 mt-12 rounded-2xl border p-5 font-mono text-[12px] shadow-2xl backdrop-blur">
             <p className="text-muted-foreground">Settings → License</p>
             <p className="border-border bg-foreground/[0.04] text-primary mt-3 truncate rounded-lg border px-3 py-2">
-              MQ1.eyJsaWNlbnNlSWQiOiJsaWNfMDFKOVoi…
+              MQL1.eyJsaWNlbnNlSWQiOiJsaWNfMDFKOVoi…
             </p>
             <p className="text-success mt-3 flex items-center gap-2">
               <Check className="size-3.5" /> Pro · valid until next year

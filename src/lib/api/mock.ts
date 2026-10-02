@@ -100,7 +100,7 @@ function issueKey(db: DB, user: StoredUser, team: StoredTeam | null, expiresAt?:
   const lic: StoredLicense = {
     userId: user.id,
     licenseId: payload.licenseId,
-    key: `MQ1.${b64url(JSON.stringify(payload))}.${sig}`,
+    key: `MQL1.${b64url(JSON.stringify(payload))}.${sig}`,
     edition: "pro",
     features: [],
     customer: payload.customer,
