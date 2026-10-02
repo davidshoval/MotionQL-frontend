@@ -6,7 +6,6 @@ export const site = {
   description:
     "XQuery is a fast, secure desktop IDE for MongoDB, Atlas and every Mongo-compatible database. Visual queries, aggregation, SQL, compare and sync, migration, and a private AI assistant. Free Pro license for a year.",
   releasesUrl: "https://github.com/davidshoval/Xquery.io-releases/releases/latest",
-  demoVideoId: "kcwrXAxooik",
   supportEmail: "support@xquery.io",
   securityEmail: "security@xquery.io",
 };
