@@ -19,12 +19,12 @@ export function Cta() {
             Your next query deserves a better IDE.
           </h2>
           <p className="text-muted-foreground mx-auto mt-6 max-w-xl text-lg">
-            Create a free account, download XQuery, and paste your Pro key. You&apos;ll be querying in under two minutes.
+            Create a free account, download MotionQL, and paste your Pro key. You&apos;ll be querying in under two minutes.
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button asChild size="lg" className="h-13 px-8 text-base">
               <Link href="/register">
-                Get XQuery free <ArrowRight />
+                Get MotionQL free <ArrowRight />
               </Link>
             </Button>
             <Button asChild size="lg" variant="ghost" className="h-13 px-6 text-base">

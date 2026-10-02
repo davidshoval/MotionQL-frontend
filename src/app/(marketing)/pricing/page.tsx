@@ -6,7 +6,7 @@ import { Cta } from "@/components/marketing/cta";
 
 export const metadata: Metadata = {
   title: "Pricing",
-  description: "XQuery is free. Get a free Pro license for 12 months when you create an account, and free team seats for now.",
+  description: "MotionQL is free. Get a free Pro license for 12 months when you create an account, and free team seats for now.",
 };
 
 export default function PricingPage() {
@@ -20,7 +20,7 @@ export default function PricingPage() {
       <section className="container-page py-8">
         <PricingCards />
         <p className="text-muted-foreground mt-8 text-center text-sm">
-          Need volume licensing, a signed agreement or invoicing? Write to support@xquery.io.
+          Need volume licensing, a signed agreement or invoicing? Write to support@motionql.com.
         </p>
       </section>
       <Faq />

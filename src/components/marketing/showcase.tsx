@@ -86,7 +86,7 @@ export function Showcase({ heading = true }: { heading?: boolean }) {
         <SectionHeading
           eyebrow="Product tour"
           title="The real app, not a mockup"
-          description="Every screen below is XQuery running against a sample shop database."
+          description="Every screen below is MotionQL running against a sample shop database."
         />
       )}
       <Reveal className={cn("grid gap-6 lg:grid-cols-[220px_1fr]", heading && "mt-14")}>
@@ -131,7 +131,7 @@ export function Showcase({ heading = true }: { heading?: boolean }) {
                 >
                   <Image
                     src={`/screens/dark-${s.id}.webp`}
-                    alt={`${s.title} in XQuery`}
+                    alt={`${s.title} in MotionQL`}
                     fill
                     sizes="(min-width: 1024px) 960px, 100vw"
                     className="hidden object-cover object-top dark:block"
@@ -139,7 +139,7 @@ export function Showcase({ heading = true }: { heading?: boolean }) {
                   />
                   <Image
                     src={`/screens/light-${s.id}.webp`}
-                    alt={`${s.title} in XQuery`}
+                    alt={`${s.title} in MotionQL`}
                     fill
                     sizes="(min-width: 1024px) 960px, 100vw"
                     className="object-cover object-top dark:hidden"

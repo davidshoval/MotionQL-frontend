@@ -71,7 +71,7 @@ function useTyping(text: string, speed = 32) {
   return state.text === text ? text.slice(0, state.n) : "";
 }
 
-/** A coded, animated replica of the XQuery collection tab. Crisp at any size and in both themes. */
+/** A coded, animated replica of the MotionQL collection tab. Crisp at any size and in both themes. */
 export function ProductWindow({ className }: { className?: string }) {
   const [scene, setScene] = useState(0);
   const s = SCENES[scene];
@@ -92,7 +92,7 @@ export function ProductWindow({ className }: { className?: string }) {
         className,
       )}
       role="img"
-      aria-label="The XQuery collection tab: a filter on shop.orders returns matching documents in a table, with an index scan in 4 ms."
+      aria-label="The MotionQL collection tab: a filter on shop.orders returns matching documents in a table, with an index scan in 4 ms."
     >
       {/* Title bar */}
       <div className="flex h-10 items-center gap-3 border-b border-white/[0.07] bg-white/[0.02] px-4">
@@ -101,7 +101,7 @@ export function ProductWindow({ className }: { className?: string }) {
           <span className="size-3 rounded-full bg-[#febc2e]" />
           <span className="size-3 rounded-full bg-[#28c840]" />
         </div>
-        <div className="flex-1 text-center text-[12px] text-slate-400">XQuery — Production cluster</div>
+        <div className="flex-1 text-center text-[12px] text-slate-400">MotionQL — Production cluster</div>
         <span className="rounded-md bg-rose-500/15 px-1.5 py-0.5 font-mono text-[10px] text-rose-300 ring-1 ring-rose-400/25">prod</span>
       </div>
 

@@ -31,7 +31,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <div className="flex min-h-dvh flex-col">
       <header className="border-border bg-background/75 sticky top-0 z-40 border-b backdrop-blur-xl">
         <div className="container-page flex h-16 items-center gap-6">
-          <Link href="/" aria-label="XQuery home">
+          <Link href="/" aria-label="MotionQL home">
             <Logo />
           </Link>
           <nav className="hidden items-center gap-1 sm:flex" aria-label="Account">

@@ -18,6 +18,7 @@ export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/$/, ""
 /** With no API URL configured (local dev, preview deploys) the site runs on an in-browser mock backend. */
 export const USE_MOCK = !API_URL || process.env.NEXT_PUBLIC_API_MOCK === "1";
 
+// "xq_csrf" is the backend cookie name; it keeps the pre-rename "xq" prefix on purpose.
 function csrfToken() {
   if (typeof document === "undefined") return undefined;
   return document.cookie

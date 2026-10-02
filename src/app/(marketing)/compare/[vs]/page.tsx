@@ -15,7 +15,7 @@ const pages = {
     name: "Studio 3T",
     title: "The Studio 3T alternative that's free for real work",
     description:
-      "XQuery covers the Studio 3T workflows you rely on: visual queries, IntelliShell, SQL, Compare & Sync, SQL migration, masking and scheduled tasks. Get a free Pro license for a year, with no license server to check in with.",
+      "MotionQL covers the Studio 3T workflows you rely on: visual queries, IntelliShell, SQL, Compare & Sync, SQL migration, masking and scheduled tasks. Get a free Pro license for a year, with no license server to check in with.",
     reasons: [
       {
         t: "No per-seat bill",
@@ -49,7 +49,7 @@ const pages = {
     reasons: [
       {
         t: "SQL, when you think in SQL",
-        d: "Write SELECT with joins and GROUP BY; XQuery translates it into a find or aggregation you can keep.",
+        d: "Write SELECT with joins and GROUP BY; MotionQL translates it into a find or aggregation you can keep.",
       },
       {
         t: "Compare and sync collections",
@@ -76,7 +76,7 @@ export async function generateMetadata({ params }: PageProps<"/compare/[vs]">): 
   const { vs } = await params;
   const p = pages[vs as Slug];
   if (!p) return {};
-  return { title: `XQuery vs ${p.name}`, description: p.description };
+  return { title: `MotionQL vs ${p.name}`, description: p.description };
 }
 
 export default async function VsPage({ params }: PageProps<"/compare/[vs]">) {
@@ -85,11 +85,11 @@ export default async function VsPage({ params }: PageProps<"/compare/[vs]">) {
   if (!p) notFound();
   return (
     <>
-      <PageHero eyebrow={`XQuery vs ${p.name}`} title={p.title} description={p.description}>
+      <PageHero eyebrow={`MotionQL vs ${p.name}`} title={p.title} description={p.description}>
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
           <Button asChild size="lg">
             <Link href="/register">
-              Get XQuery free <ArrowRight />
+              Get MotionQL free <ArrowRight />
             </Link>
           </Button>
           <Button asChild size="lg" variant="secondary">

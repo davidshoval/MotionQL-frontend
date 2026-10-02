@@ -1,13 +1,13 @@
 > **Template — have this reviewed by a qualified lawyer in your jurisdiction before publishing. Remove this line and fill every [FIELD] listed in legal/README.md before release.**
 
-# XQuery Privacy Policy
+# MotionQL Privacy Policy
 
 **Effective [EFFECTIVE DATE]**
 
-This policy explains what personal data **Shoval Real Estate Holdings LLC** ("**we**", "**us**") collects in connection with the XQuery desktop application (the "**App**"), the self-hosted XQuery Team Server, our website at https://xquery.io, purchases, license activation and support, how we use it, and your rights.
+This policy explains what personal data **Shoval Real Estate Holdings LLC** ("**we**", "**us**") collects in connection with the MotionQL desktop application (the "**App**"), the self-hosted MotionQL Team Server, our website at https://motionql.com, purchases, license activation and support, how we use it, and your rights.
 
-**Controller:** Shoval Real Estate Holdings LLC, [ADDRESS]. Contact: privacy@xquery.io.
-**Data protection officer (if appointed):** We have not appointed a data protection officer because we are not required to. Privacy questions go to privacy@xquery.io.
+**Controller:** Shoval Real Estate Holdings LLC, [ADDRESS]. Contact: privacy@motionql.com.
+**Data protection officer (if appointed):** We have not appointed a data protection officer because we are not required to. Privacy questions go to privacy@motionql.com.
 **EU representative (Art. 27 GDPR, if required):** [EU REPRESENTATIVE NAME AND ADDRESS]
 **UK representative (Art. 27 UK GDPR, if required):** [UK REPRESENTATIVE NAME AND ADDRESS]
 
@@ -32,7 +32,7 @@ The App stores the following **only on your device**, in your user profile folde
 - saved connections and their settings;
 - database, SSH and proxy passwords, SSH key passphrases, TLS key passwords, AWS secret keys and session tokens, OIDC tokens, AI API keys, SQL source passwords and Team Server tokens, **encrypted with your operating system's secure storage** (macOS Keychain, Windows DPAPI, or a Linux secret service). Key and certificate files are referenced by their path on your device, not copied;
 - settings, keyboard shortcuts, query history, snippets, dashboards and scheduled tasks;
-- **document version history**: when you create, edit or delete a document in XQuery, the App keeps copies of up to 50 earlier versions of that document on your device so you can revert. These copies can contain whatever personal data the document contains. They are stored in the App's data folder without additional encryption, so protect your device (for example with full-disk encryption) and delete the data folder when you no longer need it;
+- **document version history**: when you create, edit or delete a document in MotionQL, the App keeps copies of up to 50 earlier versions of that document on your device so you can revert. These copies can contain whatever personal data the document contains. They are stored in the App's data folder without additional encryption, so protect your device (for example with full-disk encryption) and delete the data folder when you no longer need it;
 - a **local audit log** of write operations and security events (who, what, when, which connection and database, and whether it succeeded). Credentials are removed from audit entries.
 
 We do not have access to this data. It is not sent to us.
@@ -46,7 +46,7 @@ The App connects to:
 | Your database servers, SSH servers and proxies | When you connect | Whatever the database protocol requires, including your credentials, directly to that server |
 | Your identity provider (MongoDB OIDC, Team Server SSO) | When you sign in | Standard OpenID Connect sign-in in your system browser |
 | The AI provider you configure (Google Gemini or an OpenAI-compatible endpoint) | Only when you use an AI feature on a connection where AI is allowed | See section 2.3 |
-| Our product service (`api.xquery.io` by default, or a server your administrator configures) | Notice list: about every 4 hours. Usage record: at most once a day, only if you allowed usage statistics. Neither in offline mode | Notice list: nothing about you (no identifier, cookie or body). Usage record: see section 2.8 |
+| Our product service (`api.motionql.com` by default, or a server your administrator configures) | Notice list: about every 4 hours. Usage record: at most once a day, only if you allowed usage statistics. Neither in offline mode | Notice list: nothing about you (no identifier, cookie or body). Usage record: see section 2.8 |
 | The update server (our GitHub Releases page by default, or a server your administrator configures) | When checking for updates, unless turned off | Standard HTTPS request headers including your IP address, the App version and platform in the request, as needed to find the right update |
 | Your organization's Team Server | Only if you sign in to one | Your sign-in, your organization's shared items, and your local audit events |
 | Our crash-report service (or your organization's) | Only if you opt in | See section 2.4 |
@@ -130,7 +130,7 @@ The Website uses only cookies that are strictly necessary to operate it (for exa
 
 ## 5. Team Server
 
-If your organization runs the XQuery Team Server, **your organization is the controller** of the data in it (user accounts, roles, sign-in and audit events, shared items). The Team Server runs on infrastructure your organization chooses; we do not host it or have access to it. Contact your organization's administrator about that data.
+If your organization runs the MotionQL Team Server, **your organization is the controller** of the data in it (user accounts, roles, sign-in and audit events, shared items). The Team Server runs on infrastructure your organization chooses; we do not host it or have access to it. Contact your organization's administrator about that data.
 
 ## 6. Who we share data with
 
@@ -153,11 +153,11 @@ We share personal data only with:
 | [WEBSITE HOSTING PROVIDER] | Hosting of the Website, customer accounts, license issuing and the product service, and their logs | [LOCATION] | [SAFEGUARD] |
 | GitHub, Inc. | Hosting of release downloads and update metadata | United States | EU-US Data Privacy Framework / SCCs |
 
-We keep this list current at https://xquery.io/legal/subprocessors and notify business customers who have signed our DPA of changes as described there.
+We keep this list current at https://motionql.com/legal/subprocessors and notify business customers who have signed our DPA of changes as described there.
 
 ## 8. International transfers
 
-We are based in the United States. Some of our service providers are located outside the European Economic Area, the United Kingdom or your country. Where we transfer personal data from the EEA or UK to a country without an adequacy decision, we use the European Commission's Standard Contractual Clauses (and the UK International Data Transfer Addendum) or another lawful transfer mechanism, together with additional safeguards where needed. You can ask us for a copy at privacy@xquery.io.
+We are based in the United States. Some of our service providers are located outside the European Economic Area, the United Kingdom or your country. Where we transfer personal data from the EEA or UK to a country without an adequacy decision, we use the European Commission's Standard Contractual Clauses (and the UK International Data Transfer Addendum) or another lawful transfer mechanism, together with additional safeguards where needed. You can ask us for a copy at privacy@motionql.com.
 
 ## 9. Security
 
@@ -175,7 +175,7 @@ If you are a California resident, you have the right to know what personal infor
 
 ### 10.3 How to exercise your rights
 
-Write to privacy@xquery.io. We will verify your request (usually by confirming it from the email address on your account) and respond within the period the law requires (one month under GDPR, 45 days under CCPA, extendable where permitted). For data held only on your device by the App, you control it directly: see "Uninstall and data locations" in the [Installation Guide](../docs/INSTALLATION.md#uninstalling).
+Write to privacy@motionql.com. We will verify your request (usually by confirming it from the email address on your account) and respond within the period the law requires (one month under GDPR, 45 days under CCPA, extendable where permitted). For data held only on your device by the App, you control it directly: see "Uninstall and data locations" in the [Installation Guide](../docs/INSTALLATION.md#uninstalling).
 
 ## 11. Children
 
@@ -187,4 +187,4 @@ We will post updates to this policy with a new effective date. If a change is ma
 
 ## 13. Contact
 
-Shoval Real Estate Holdings LLC, [ADDRESS] · privacy@xquery.io
+Shoval Real Estate Holdings LLC, [ADDRESS] · privacy@motionql.com

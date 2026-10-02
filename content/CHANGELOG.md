@@ -1,10 +1,10 @@
 # Changelog
 
-All notable changes to XQuery are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and XQuery uses [Semantic Versioning](https://semver.org/).
+All notable changes to MotionQL are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and MotionQL uses [Semantic Versioning](https://semver.org/).
 
 ## [1.0.0] — [RELEASE DATE]
 
-First general-availability release of the XQuery desktop app for macOS (arm64, x64), Windows (x64) and Linux (x64), and of the self-hosted XQuery Team Server.
+First general-availability release of the MotionQL desktop app for macOS (arm64, x64), Windows (x64) and Linux (x64), and of the self-hosted MotionQL Team Server.
 
 ### Connections and authentication
 
@@ -24,7 +24,7 @@ First general-availability release of the XQuery desktop app for macOS (arm64, x
 ### Data movement and transformation
 
 - Import and export: JSON, JSON Lines, CSV, BSON, Excel and SQL `INSERT`; column mapping and typing; insert, upsert, replace and merge modes; streamed jobs with progress and cancel.
-- Copy collections; dump and restore in mongodump layout with optional gzip, or as one `mongodump --archive` file that mongorestore reads (and XQuery restores archives from mongodump, gzipped or not).
+- Copy collections; dump and restore in mongodump layout with optional gzip, or as one `mongodump --archive` file that mongorestore reads (and MotionQL restores archives from mongodump, gzipped or not).
 - Data Compare & Sync with field-level diffs, dry-run preview, selective sync and conflict policies.
 - SQL Migration from PostgreSQL, MySQL, MariaDB, SQL Server and Oracle, with reference/embed relationships, preview and progress.
 - Data Model: ER diagrams of a database with fields, keys and relationships inferred from field names, DBRefs, views and matching values; editable layout, relationships, cardinality and notes; export to PNG, SVG, Mermaid and JSON.

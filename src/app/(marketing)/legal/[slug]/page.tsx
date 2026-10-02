@@ -36,7 +36,7 @@ export default async function LegalPage({ params }: PageProps<"/legal/[slug]">) 
     <section className="container-page max-w-3xl pt-36 pb-16">
       {draft && (
         <p className="border-warning/30 bg-warning/10 text-warning mb-10 rounded-2xl border px-5 py-4 text-sm">
-          Draft: this document is being finalized and may change before XQuery&apos;s public release.
+          Draft: this document is being finalized and may change before MotionQL&apos;s public release.
         </p>
       )}
       <MarkdownDoc source={body} />

@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-/** The XQuery mark: the X whose back stroke is a query lens (same drawing as the app icon). */
+/** The MotionQL mark: the X whose back stroke is a query lens (same drawing as the app icon). */
 export function LogoMark({ className }: { className?: string }) {
   return (
     <svg viewBox="100 100 824 824" className={cn("size-7", className)} aria-hidden>
@@ -29,9 +29,7 @@ export function Logo({ className }: { className?: string }) {
   return (
     <span className={cn("inline-flex items-center gap-2.5 font-semibold tracking-tight", className)}>
       <LogoMark />
-      <span className="text-[17px]">
-        XQuery<span className="text-muted-foreground">.io</span>
-      </span>
+      <span className="text-[17px]">MotionQL</span>
     </span>
   );
 }

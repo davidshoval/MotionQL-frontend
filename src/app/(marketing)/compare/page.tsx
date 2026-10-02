@@ -7,9 +7,9 @@ import { Cta } from "@/components/marketing/cta";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "XQuery vs Studio 3T vs MongoDB Compass",
+  title: "MotionQL vs Studio 3T vs MongoDB Compass",
   description:
-    "A side-by-side comparison of XQuery, Studio 3T and MongoDB Compass: querying, SQL, compare and sync, migration, masking, AI and licensing.",
+    "A side-by-side comparison of MotionQL, Studio 3T and MongoDB Compass: querying, SQL, compare and sync, migration, masking, AI and licensing.",
 };
 
 export default function ComparePage() {
@@ -17,7 +17,7 @@ export default function ComparePage() {
     <>
       <PageHero
         eyebrow="Compare"
-        title="XQuery vs Studio 3T vs Compass"
+        title="MotionQL vs Studio 3T vs Compass"
         description="Studio 3T's power features and Compass's price, in one app. Here is how the three line up, feature by feature."
       >
         <div className="mt-8 flex flex-wrap justify-center gap-3">

@@ -54,7 +54,7 @@ export function CompareTable({ columns = ["studio3t", "compass"] }: { columns?: 
                 aria-hidden
               />
               <span className="relative inline-flex items-center gap-2 font-semibold">
-                <LogoMark className="size-5" /> XQuery
+                <LogoMark className="size-5" /> MotionQL
               </span>
             </th>
             {columns.map((c) => (
@@ -90,7 +90,7 @@ export function CompareTable({ columns = ["studio3t", "compass"] }: { columns?: 
                 <td className="relative px-5 py-3.5 text-center">
                   <div className="bg-primary/[0.03] absolute inset-x-2 inset-y-0" aria-hidden />
                   <span className="relative">
-                    <Cell mark={r.xquery} highlight />
+                    <Cell mark={r.motionql} highlight />
                   </span>
                 </td>
                 {columns.map((c) => (
@@ -105,7 +105,7 @@ export function CompareTable({ columns = ["studio3t", "compass"] }: { columns?: 
       </table>
       <p className="border-border text-muted-foreground border-t px-5 py-4 text-xs leading-relaxed">
         Based on each vendor&apos;s public documentation as of October 2026. Editions and features change; if something here is out of date,
-        tell us at support@xquery.io and we&apos;ll fix it.
+        tell us at support@motionql.com and we&apos;ll fix it.
       </p>
     </div>
   );

@@ -319,7 +319,7 @@ export function Bento() {
       <SectionHeading
         eyebrow="One app, every job"
         title="From first query to production migration"
-        description="XQuery covers the full life of a MongoDB project, so you stop switching between a GUI, a shell, a migration tool and a pile of scripts."
+        description="MotionQL covers the full life of a MongoDB project, so you stop switching between a GUI, a shell, a migration tool and a pile of scripts."
       />
       <div className="mt-16 grid grid-cols-1 gap-4 md:grid-cols-6">
         <Tile
@@ -343,7 +343,7 @@ export function Bento() {
           className="md:col-span-2"
           icon={FileCode2}
           title="SQL Query"
-          body="Write SELECT with joins and GROUP BY. XQuery translates it to a find or an aggregation."
+          body="Write SELECT with joins and GROUP BY. MotionQL translates it to a find or an aggregation."
           delay={0.05}
         >
           <SqlVisual />

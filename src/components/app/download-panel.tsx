@@ -37,7 +37,7 @@ export function DownloadPanel() {
 
   function download(f: ReleaseFile) {
     startDownload(f);
-    toast.success(`Downloading ${f.name}`, { description: "Next: open XQuery, go to Settings → License and paste your key." });
+    toast.success(`Downloading ${f.name}`, { description: "Next: open MotionQL, go to Settings → License and paste your key." });
   }
 
   if (isLoading || meLoading) {

@@ -29,7 +29,7 @@ export default function HomePage() {
       <section className="container-page py-28">
         <SectionHeading
           eyebrow="Compare"
-          title="How XQuery stacks up"
+          title="How MotionQL stacks up"
           description="The features you'd pay for elsewhere, side by side with Studio 3T and MongoDB Compass."
         />
         <div className="mt-14">
@@ -62,7 +62,7 @@ export default function HomePage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
-            name: "XQuery",
+            name: "MotionQL",
             applicationCategory: "DeveloperApplication",
             operatingSystem: "macOS, Windows, Linux",
             description: site.description,

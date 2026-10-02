@@ -37,7 +37,7 @@ export function Header() {
             : "border-transparent",
         )}
       >
-        <Link href="/" aria-label="XQuery home" className="shrink-0 pl-1">
+        <Link href="/" aria-label="MotionQL home" className="shrink-0 pl-1">
           <Logo />
         </Link>
 
@@ -69,7 +69,7 @@ export function Header() {
           )}
           <Button asChild size="sm" className="hidden sm:inline-flex">
             <Link href={me ? "/download" : "/register"}>
-              {me ? "Download" : "Get XQuery free"}
+              {me ? "Download" : "Get MotionQL free"}
               <ArrowRight />
             </Link>
           </Button>

@@ -10,8 +10,8 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "XQuery: the modern MongoDB IDE",
-    template: "%s · XQuery",
+    default: "MotionQL: the modern MongoDB IDE",
+    template: "%s · MotionQL",
   },
   description: site.description,
   keywords: [
@@ -27,12 +27,12 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     type: "website",
-    siteName: "XQuery",
-    title: "XQuery: the modern MongoDB IDE",
+    siteName: "MotionQL",
+    title: "MotionQL: the modern MongoDB IDE",
     description: site.description,
     url: site.url,
   },
-  twitter: { card: "summary_large_image", title: "XQuery: the modern MongoDB IDE", description: site.description },
+  twitter: { card: "summary_large_image", title: "MotionQL: the modern MongoDB IDE", description: site.description },
 };
 
 export const viewport: Viewport = {

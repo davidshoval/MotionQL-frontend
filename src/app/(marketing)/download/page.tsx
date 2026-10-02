@@ -4,7 +4,7 @@ import { DownloadPanel } from "@/components/app/download-panel";
 
 export const metadata: Metadata = {
   title: "Download",
-  description: "Download XQuery for macOS, Windows and Linux.",
+  description: "Download MotionQL for macOS, Windows and Linux.",
 };
 
 export default function DownloadPage() {
@@ -12,7 +12,7 @@ export default function DownloadPage() {
     <>
       <PageHero
         eyebrow="Download"
-        title="Get XQuery"
+        title="Get MotionQL"
         description="For macOS (Apple Silicon and Intel), Windows and Linux. Requires MongoDB 4.4 or later."
       />
       <section className="container-page py-8">

@@ -48,7 +48,7 @@ export function AcceptInvite() {
       <p className="text-muted-foreground">
         {inv
           ? `${inv.invitedBy} invited ${inv.email} to join as ${inv.role === "admin" ? "an admin" : "a member"}${inv.assignSeat ? ", with a Pro seat" : ""}.`
-          : "Join your team on XQuery to get your own Pro key, managed by your team admin."}
+          : "Join your team on MotionQL to get your own Pro key, managed by your team admin."}
       </p>
       <FormError
         message={

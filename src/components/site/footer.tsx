@@ -13,10 +13,10 @@ const columns = [
     ],
   },
   {
-    title: "Switch to XQuery",
+    title: "Switch to MotionQL",
     links: [
-      { href: "/compare/studio-3t", label: "XQuery vs Studio 3T" },
-      { href: "/compare/compass", label: "XQuery vs Compass" },
+      { href: "/compare/studio-3t", label: "MotionQL vs Studio 3T" },
+      { href: "/compare/compass", label: "MotionQL vs Compass" },
       { href: "/compare", label: "Full comparison" },
     ],
   },
@@ -67,8 +67,8 @@ export function Footer() {
         ))}
       </div>
       <div className="container-page border-border text-muted-foreground flex flex-col gap-2 border-t py-6 text-xs sm:flex-row sm:justify-between">
-        <p>© {new Date().getFullYear()} XQuery. All rights reserved.</p>
-        <p>MongoDB is a trademark of MongoDB, Inc. XQuery is not affiliated with MongoDB, Inc. or 3T Software Labs.</p>
+        <p>© {new Date().getFullYear()} MotionQL. All rights reserved.</p>
+        <p>MongoDB is a trademark of MongoDB, Inc. MotionQL is not affiliated with MongoDB, Inc. or 3T Software Labs.</p>
       </div>
     </footer>
   );

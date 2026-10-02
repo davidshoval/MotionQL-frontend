@@ -32,7 +32,7 @@ export function LicenseCard({ license }: { license: License }) {
   const renew = useMutation({
     mutationFn: () => api.renewLicense(),
     onSuccess: () => {
-      toast.success("Renewed for another year. Paste the new key into XQuery.");
+      toast.success("Renewed for another year. Paste the new key into MotionQL.");
       qc.invalidateQueries({ queryKey: qk.licenses });
     },
     onError: (e) => toast.error(e instanceof ApiError ? e.message : "Couldn't renew. Try again."),
@@ -52,14 +52,14 @@ export function LicenseCard({ license }: { license: License }) {
             </span>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-xl font-semibold tracking-tight">XQuery {editionName[license.edition]}</h2>
+                <h2 className="text-xl font-semibold tracking-tight">MotionQL {editionName[license.edition]}</h2>
                 {license.status === "active" && <Badge variant="success">Active</Badge>}
                 {license.status === "expired" && <Badge variant="warning">Expired</Badge>}
                 {license.status === "revoked" && <Badge variant="destructive">Revoked</Badge>}
                 {license.status === "replaced" && <Badge variant="secondary">Replaced</Badge>}
               </div>
               <p className="text-muted-foreground text-sm">
-                {license.team ? `Managed by ${license.team.name}` : personal ? "Personal license" : "Issued by XQuery"} · {license.seats} seat
+                {license.team ? `Managed by ${license.team.name}` : personal ? "Personal license" : "Issued by MotionQL"} · {license.seats} seat
               </p>
             </div>
           </div>
@@ -87,7 +87,7 @@ export function LicenseCard({ license }: { license: License }) {
             <CopyButton
               value={license.key}
               label="Copy key"
-              toastText="Key copied. Paste it in XQuery → Settings → License."
+              toastText="Key copied. Paste it in MotionQL → Settings → License."
               size="sm"
               disabled={!active}
             />
@@ -120,12 +120,12 @@ export function LicenseCard({ license }: { license: License }) {
         open={confirmReissue}
         onOpenChange={setConfirmReissue}
         title="Reissue your license key?"
-        description="You'll get a new key with the same end date, and the current one stops working in XQuery within a few hours. Use this if your key was shared or leaked."
+        description="You'll get a new key with the same end date, and the current one stops working in MotionQL within a few hours. Use this if your key was shared or leaked."
         confirmLabel="Reissue key"
         onConfirm={async () => {
           try {
             await api.reissueLicense(license.licenseId);
-            toast.success("New key issued. Paste it into XQuery.");
+            toast.success("New key issued. Paste it into MotionQL.");
             await qc.invalidateQueries({ queryKey: qk.licenses });
           } catch (e) {
             toast.error(e instanceof ApiError ? e.message : "Couldn't reissue. Try again.");

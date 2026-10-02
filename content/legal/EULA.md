@@ -1,6 +1,6 @@
 > **Template — have this reviewed by a qualified lawyer in your jurisdiction before publishing. Remove this line and fill every [FIELD] listed in legal/README.md before release.**
 
-# XQuery End User License Agreement
+# MotionQL End User License Agreement
 
 **Version:** 1.0.0 · **Effective:** [EFFECTIVE DATE]
 
@@ -14,8 +14,8 @@ If you and we have signed a separate written agreement that covers the Software 
 
 ## 1. Definitions
 
-- **"Software"** means the XQuery desktop application for macOS, Windows and Linux, including its updates, documentation, and any license keys we provide. It does not include Third-Party Components (section 9) or Third-Party Services (section 11).
-- **"Team Server"** means the self-hosted XQuery Team Server software. Its use is governed by the Terms of Service and the Order, and by this Agreement to the extent it applies to software you install.
+- **"Software"** means the MotionQL desktop application for macOS, Windows and Linux, including its updates, documentation, and any license keys we provide. It does not include Third-Party Components (section 9) or Third-Party Services (section 11).
+- **"Team Server"** means the self-hosted MotionQL Team Server software. Its use is governed by the Terms of Service and the Order, and by this Agreement to the extent it applies to software you install.
 - **"Edition"** means the version of the Software you are licensed for: **Free** (no License Key), **Trial**, **Pro** or **Enterprise**, as stated in your Order or License Key. Editions differ in features and permitted use.
 - **"Licensed Features"** means the features that need a Trial or a License Key. In version 1.0 these are: SQL Migration, Data Masking, the Tasks scheduler, Atlas management, and Team Server integration. All other features of the Software are "**Free Features**".
 - **"Order"** means an order form, online checkout, quote, invoice or subscription confirmation through which you purchase a license from us or an authorized reseller.
@@ -120,9 +120,9 @@ Except as expressly permitted by this Agreement or by mandatory law, you must no
 
 ## 9. Open-source and third-party components
 
-9.1 The Software includes software components licensed by third parties under open-source licenses ("**Third-Party Components**"), including Electron and Chromium. A list of these components and their licenses is provided in the THIRD_PARTY_NOTICES file that accompanies the Software and is available from https://xquery.io. The Electron and Chromium notices can also be opened in the app from Settings → About → Open third-party licenses.
+9.1 The Software includes software components licensed by third parties under open-source licenses ("**Third-Party Components**"), including Electron and Chromium. A list of these components and their licenses is provided in the THIRD_PARTY_NOTICES file that accompanies the Software and is available from https://motionql.com. The Electron and Chromium notices can also be opened in the app from Settings → About → Open third-party licenses.
 
-9.2 Your use of each Third-Party Component is governed by its own license. Nothing in this Agreement restricts rights you have under those licenses. Where an open-source license requires us to make source code available, we will do so as described in the notices file or on request to support@xquery.io.
+9.2 Your use of each Third-Party Component is governed by its own license. Nothing in this Agreement restricts rights you have under those licenses. Where an open-source license requires us to make source code available, we will do so as described in the notices file or on request to support@motionql.com.
 
 ## 10. Enterprise controls
 
@@ -196,10 +196,10 @@ If you are a government entity, the Software is "commercial computer software" a
 
 17.7 **Force majeure.** Neither party is liable for delay or failure caused by events beyond its reasonable control, other than payment obligations.
 
-17.8 **Notices.** Notices to us: Shoval Real Estate Holdings LLC, [ADDRESS], with a copy to legal@xquery.io. Notices to you: the email address in your Order or account.
+17.8 **Notices.** Notices to us: Shoval Real Estate Holdings LLC, [ADDRESS], with a copy to legal@motionql.com. Notices to you: the email address in your Order or account.
 
 17.9 **Language.** This Agreement is written in English. If it is translated, the English version prevails, to the extent permitted by law.
 
 ---
 
-Contact: Shoval Real Estate Holdings LLC · [ADDRESS] · support@xquery.io · https://xquery.io
+Contact: Shoval Real Estate Holdings LLC · [ADDRESS] · support@motionql.com · https://motionql.com

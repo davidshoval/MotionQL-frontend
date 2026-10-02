@@ -10,7 +10,7 @@ export function Faq() {
         align="left"
         eyebrow="FAQ"
         title="Questions, answered"
-        description="Can't find what you need? Write to support@xquery.io."
+        description="Can't find what you need? Write to support@motionql.com."
       />
       <Reveal>
         <Accordion type="single" collapsible defaultValue="0">

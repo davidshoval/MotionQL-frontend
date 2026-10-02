@@ -79,7 +79,7 @@ export function LoginForm() {
         </Button>
       </form>
       <p className="text-muted-foreground text-center text-sm">
-        New to XQuery?{" "}
+        New to MotionQL?{" "}
         <Link
           href={`/register${next !== "/account" ? `?next=${encodeURIComponent(next)}` : ""}`}
           className="text-foreground font-medium hover:underline"
