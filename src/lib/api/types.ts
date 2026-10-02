@@ -1,4 +1,4 @@
-// Shapes returned by the backend API (Xquery.io-backend, docs/API.md). Dates are ISO strings.
+// Shapes returned by the backend API (motionql-backend, docs/API.md). Dates are ISO strings.
 
 export type Edition = "pro" | "enterprise" | "trial";
 export type Role = "owner" | "admin" | "member";

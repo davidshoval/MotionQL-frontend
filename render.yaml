@@ -18,7 +18,7 @@ services:
         value: "22"
       - key: NEXT_TELEMETRY_DISABLED
         value: "1"
-      # Backend base URL: the "xquery-api" Render service from Xquery.io-backend (pre-rename names, kept).
+      # Backend base URL: the "xquery-api" Render service from motionql-backend (its Render name and URL predate the rename and are kept).
       # Switch to https://api.motionql.com once that custom domain is live. Remove it to run on demo data.
       - key: NEXT_PUBLIC_API_URL
         value: https://xquery-api.onrender.com

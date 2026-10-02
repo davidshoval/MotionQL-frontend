@@ -32,9 +32,8 @@ export function RegisterForm() {
     setError(null);
     try {
       const res = await api.register({ name: v.name, email: v.email, password: v.password, company: v.company || undefined });
-      // sessionStorage keys keep the pre-rename "xq" prefix on purpose.
-      if (res.devVerifyToken) sessionStorage.setItem("xq-dev-verify", res.devVerifyToken);
-      sessionStorage.setItem("xq-next", next);
+      if (res.devVerifyToken) sessionStorage.setItem("mq-dev-verify", res.devVerifyToken);
+      sessionStorage.setItem("mq-next", next);
       router.push(`/verify-email?email=${encodeURIComponent(v.email)}`);
     } catch (e) {
       if (e instanceof ApiError) {

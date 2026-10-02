@@ -31,9 +31,9 @@ function Confirm({ token }: { token: string }) {
       .then(async () => {
         await qc.invalidateQueries({ queryKey: qk.me });
         setState("done");
-        const next = safeNext(sessionStorage.getItem("xq-next"));
-        sessionStorage.removeItem("xq-next");
-        sessionStorage.removeItem("xq-dev-verify");
+        const next = safeNext(sessionStorage.getItem("mq-next"));
+        sessionStorage.removeItem("mq-next");
+        sessionStorage.removeItem("mq-dev-verify");
         setTimeout(() => router.push(next), 1400);
       })
       .catch((e) => setState({ error: e instanceof ApiError ? e.message : "We couldn't verify this link." }));
@@ -71,7 +71,7 @@ function CheckInbox({ email }: { email: string }) {
   const [sending, setSending] = useState(false);
   const [devToken, setDevToken] = useState<string | null>(null);
   // eslint-disable-next-line react-hooks/set-state-in-effect -- read the preview token stored by the register form
-  useEffect(() => setDevToken(USE_MOCK ? sessionStorage.getItem("xq-dev-verify") : null), []);
+  useEffect(() => setDevToken(USE_MOCK ? sessionStorage.getItem("mq-dev-verify") : null), []);
 
   async function resend() {
     setSending(true);

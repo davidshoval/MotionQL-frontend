@@ -1,5 +1,5 @@
 // In-browser stand-in for the backend, used when NEXT_PUBLIC_API_URL is not set.
-// It follows docs/API.md in Xquery.io-backend (backend repo name, unchanged) and keeps its data in localStorage, so the whole flow
+// It follows docs/API.md in motionql-backend and keeps its data in localStorage, so the whole flow
 // (register, verify, key, team admin) can be clicked through on a preview deploy.
 // Keys it issues are clearly fake and will not activate the app.
 import { ApiError } from "./client";
@@ -36,8 +36,7 @@ interface DB {
   tokens: { token: string; userId: string; kind: "verify" | "reset" }[];
 }
 
-// Keeps the pre-rename "xq" prefix on purpose: renaming it would wipe existing demo data in browsers.
-const KEY = "xq-mock-db-v2";
+const KEY = "mq-mock-db-v2";
 const DAY = 86_400_000;
 const empty = (): DB => ({ users: [], session: null, licenses: [], teams: [], members: [], invites: [], audit: [], tokens: [] });
 
@@ -101,7 +100,7 @@ function issueKey(db: DB, user: StoredUser, team: StoredTeam | null, expiresAt?:
   const lic: StoredLicense = {
     userId: user.id,
     licenseId: payload.licenseId,
-    key: `XQ1.${b64url(JSON.stringify(payload))}.${sig}`,
+    key: `MQ1.${b64url(JSON.stringify(payload))}.${sig}`,
     edition: "pro",
     features: [],
     customer: payload.customer,

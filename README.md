@@ -16,7 +16,7 @@ npm run dev                  # http://localhost:3000
 
 With `NEXT_PUBLIC_API_URL` empty, the site runs on a **mock backend** (`src/lib/api/mock.ts`) that stores accounts, keys and teams in your browser's localStorage. You can click through the whole flow (register, verify with the preview link, copy a sample key, create a team, invite, free seats, reissue keys) without a server. Sample keys will not activate the app.
 
-Point `NEXT_PUBLIC_API_URL` at the backend (`Xquery.io-backend`) to use the real API. The backend must allow this origin with credentials (CORS), since the session is an httpOnly cookie.
+Point `NEXT_PUBLIC_API_URL` at the backend (`motionql-backend`) to use the real API. The backend must allow this origin with credentials (CORS), since the session is an httpOnly cookie.
 
 ```sh
 npm run lint
@@ -48,7 +48,7 @@ content/               CHANGELOG.md and legal documents, copied from the app rep
 
 ## API contract
 
-Every call the site makes is listed in `src/lib/api/index.ts` (`Api` interface) with shapes in `src/lib/api/types.ts`. Errors are `{ "error": { "code", "message", "fields?" } }`. Auth is a session cookie set by the API; the client sends `credentials: "include"` and echoes an `xq_csrf` cookie as `X-CSRF-Token` when present.
+Every call the site makes is listed in `src/lib/api/index.ts` (`Api` interface) with shapes in `src/lib/api/types.ts`. Errors are `{ "error": { "code", "message", "fields?" } }`. Auth is a session cookie set by the API; the client sends `credentials: "include"` and echoes an `mq_csrf` cookie as `X-CSRF-Token` when present.
 
 ## Content to update before launch
 

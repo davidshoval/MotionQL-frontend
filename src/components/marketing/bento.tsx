@@ -127,7 +127,7 @@ function SqlVisual() {
 
 function DiffVisual() {
   const lines = [
-    { s: " ", t: '  "sku": "XQ-2041",', c: "" },
+    { s: " ", t: '  "sku": "MQ-2041",', c: "" },
     { s: "-", t: '  "price": 49.00,', c: "bg-destructive/10 text-destructive" },
     { s: "+", t: '  "price": 44.10,', c: "bg-success/10 text-success" },
     { s: "+", t: '  "onSale": true,', c: "bg-success/10 text-success" },

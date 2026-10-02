@@ -1,5 +1,5 @@
 // Marketing copy that more than one page uses. Feature facts come from the app's own docs
-// (Xquery.io-Platform README, CHANGELOG 1.0.0, docs/FAQ.md, docs/LICENSING.md).
+// (motionql-platform README, CHANGELOG 1.0.0, docs/FAQ.md, docs/LICENSING.md).
 
 export type Mark = "yes" | "no" | "partial" | "paid" | string;
 
