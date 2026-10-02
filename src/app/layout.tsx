@@ -7,6 +7,9 @@ import "./globals.css";
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
+// Set explicitly (not via an opengraph-image file) so the alt text is emitted under Turbopack too.
+const ogImage = { url: "/og-image.png", width: 1200, height: 630, alt: "MotionQL: the modern MongoDB GUI, free" };
+
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
@@ -31,8 +34,9 @@ export const metadata: Metadata = {
     title: "MotionQL: the modern MongoDB IDE",
     description: site.description,
     url: site.url,
+    images: [ogImage],
   },
-  twitter: { card: "summary_large_image", title: "MotionQL: the modern MongoDB IDE", description: site.description },
+  twitter: { card: "summary_large_image", title: "MotionQL: the modern MongoDB IDE", description: site.description, images: [ogImage] },
 };
 
 export const viewport: Viewport = {
