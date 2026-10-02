@@ -1,5 +1,5 @@
 // In-browser stand-in for the backend, used when NEXT_PUBLIC_API_URL is not set.
-// It follows docs/API.md in Xquery.io-backend and keeps its data in localStorage, so the whole flow
+// It follows docs/API.md in motionql-backend and keeps its data in localStorage, so the whole flow
 // (register, verify, key, team admin) can be clicked through on a preview deploy.
 // Keys it issues are clearly fake and will not activate the app.
 import { ApiError } from "./client";
@@ -36,7 +36,7 @@ interface DB {
   tokens: { token: string; userId: string; kind: "verify" | "reset" }[];
 }
 
-const KEY = "xq-mock-db-v2";
+const KEY = "mq-mock-db-v2";
 const DAY = 86_400_000;
 const empty = (): DB => ({ users: [], session: null, licenses: [], teams: [], members: [], invites: [], audit: [], tokens: [] });
 
@@ -100,7 +100,7 @@ function issueKey(db: DB, user: StoredUser, team: StoredTeam | null, expiresAt?:
   const lic: StoredLicense = {
     userId: user.id,
     licenseId: payload.licenseId,
-    key: `XQ1.${b64url(JSON.stringify(payload))}.${sig}`,
+    key: `MQL1.${b64url(JSON.stringify(payload))}.${sig}`,
     edition: "pro",
     features: [],
     customer: payload.customer,
@@ -197,20 +197,20 @@ const RELEASE: Release = {
   publishedAt: "2026-10-01T00:00:00.000Z",
   releaseNotesUrl: "/changelog",
   files: [
-    ["XQuery-1.0.0-arm64.dmg", "macos", "arm64", "dmg", 148_897_792],
-    ["XQuery-1.0.0-x64.dmg", "macos", "x64", "dmg", 154_140_672],
-    ["XQuery-Setup-1.0.0.exe", "windows", "x64", "exe", 112_197_632],
-    ["XQuery-1.0.0-x64.msi", "windows", "x64", "msi", 118_489_088],
-    ["XQuery-1.0.0-x86_64.AppImage", "linux", "x64", "appimage", 160_432_128],
-    ["xquery_1.0.0_amd64.deb", "linux", "x64", "deb", 104_857_600],
-    ["xquery-1.0.0.x86_64.rpm", "linux", "x64", "rpm", 105_906_176],
+    ["MotionQL-1.0.0-arm64.dmg", "macos", "arm64", "dmg", 148_897_792],
+    ["MotionQL-1.0.0-x64.dmg", "macos", "x64", "dmg", 154_140_672],
+    ["MotionQL-Setup-1.0.0.exe", "windows", "x64", "exe", 112_197_632],
+    ["MotionQL-1.0.0-x64.msi", "windows", "x64", "msi", 118_489_088],
+    ["MotionQL-1.0.0-x86_64.AppImage", "linux", "x64", "appimage", 160_432_128],
+    ["motionql_1.0.0_amd64.deb", "linux", "x64", "deb", 104_857_600],
+    ["motionql-1.0.0.x86_64.rpm", "linux", "x64", "rpm", 105_906_176],
   ].map(([name, os, arch, kind, size]) => ({
     name,
     os,
     arch,
     kind,
     size,
-    url: "https://github.com/davidshoval/Xquery.io-releases/releases/latest",
+    url: "https://github.com/davidshoval/motionql-releases/releases/latest",
   })) as Release["files"],
 };
 

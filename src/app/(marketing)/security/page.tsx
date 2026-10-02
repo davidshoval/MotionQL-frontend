@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 export const metadata: Metadata = {
   title: "Security",
   description:
-    "How XQuery protects your databases and credentials: process isolation, OS keychain encryption, enforced read-only connections, offline licensing and a private AI assistant.",
+    "How MotionQL protects your databases and credentials: process isolation, OS keychain encryption, enforced read-only connections, offline licensing and a private AI assistant.",
 };
 
 const flow = [
@@ -25,14 +25,14 @@ const flow = [
     t: "App core",
     d: "Runs every database call, enforces read-only, AI and script policies, and holds secrets encrypted with your OS keychain.",
   },
-  { icon: Database, t: "Your database", d: "XQuery connects straight from your computer. Nothing is proxied through us." },
+  { icon: Database, t: "Your database", d: "MotionQL connects straight from your computer. Nothing is proxied through us." },
 ];
 
 const promises = [
   {
     icon: Lock,
     t: "We never receive your data",
-    d: "No documents, queries, connection settings or credentials ever reach XQuery's servers.",
+    d: "No documents, queries, connection settings or credentials ever reach MotionQL's servers.",
   },
   {
     icon: KeyRound,
@@ -57,7 +57,7 @@ export default function SecurityPage() {
       <PageHero
         eyebrow="Security"
         title="Built for production databases"
-        description="XQuery is designed so that a mistake in the UI can't become a write to production, and so your credentials never leave your machine."
+        description="MotionQL is designed so that a mistake in the UI can't become a write to production, and so your credentials never leave your machine."
       />
       <section className="container-page py-12">
         <SectionHeading

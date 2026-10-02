@@ -5,7 +5,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
- * Design tokens. Brand colours come from the XQuery app icon:
+ * Design tokens. Brand colours come from the MotionQL app icon:
  * emerald #0FA37F -> teal #0B6E6A -> navy #10254A, with a mint lens #5EE0A8.
  * The site is dark-first; light mode redefines the same tokens.
  */

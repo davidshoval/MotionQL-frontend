@@ -2,6 +2,7 @@
 # NEXT_PUBLIC_* values are baked in at build time, so redeploy after changing them.
 services:
   - type: web
+    # Keep the pre-rename service name: changing it makes Render create a new service.
     name: xquery-website
     runtime: node
     # "free" sleeps after 15 minutes without traffic; "starter" stays awake.
@@ -17,9 +18,10 @@ services:
         value: "22"
       - key: NEXT_TELEMETRY_DISABLED
         value: "1"
-      # Backend base URL: the "xquery-api" Render service from Xquery.io-backend.
-      # Switch to https://api.xquery.io once that custom domain is live. Remove it to run on demo data.
+      # Backend base URL: the "xquery-api" Render service from motionql-backend (its Render name and URL predate the rename and are kept).
+      # Switch to https://api.motionql.com once that custom domain is live. Remove it to run on demo data.
       - key: NEXT_PUBLIC_API_URL
         value: https://xquery-api.onrender.com
+      # Canonical URL. The service also stays reachable at https://xquery-website.onrender.com.
       - key: NEXT_PUBLIC_SITE_URL
-        value: https://xquery.io
+        value: https://motionql.com

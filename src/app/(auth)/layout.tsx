@@ -15,7 +15,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="grid min-h-dvh lg:grid-cols-[1fr_1.05fr]">
       <div className="flex flex-col px-6 py-8 sm:px-12">
-        <Link href="/" aria-label="XQuery home" className="w-fit">
+        <Link href="/" aria-label="MotionQL home" className="w-fit">
           <Logo />
         </Link>
         <main className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center py-12">{children}</main>
@@ -43,7 +43,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           <div className="border-border bg-background/70 mt-12 rounded-2xl border p-5 font-mono text-[12px] shadow-2xl backdrop-blur">
             <p className="text-muted-foreground">Settings → License</p>
             <p className="border-border bg-foreground/[0.04] text-primary mt-3 truncate rounded-lg border px-3 py-2">
-              XQ1.eyJsaWNlbnNlSWQiOiJsaWNfMDFKOVoi…
+              MQL1.eyJsaWNlbnNlSWQiOiJsaWNfMDFKOVoi…
             </p>
             <p className="text-success mt-3 flex items-center gap-2">
               <Check className="size-3.5" /> Pro · valid until next year

@@ -9,7 +9,7 @@ export interface RegisterInput {
   company?: string;
 }
 
-/** Every call the website makes to the backend (docs/API.md in Xquery.io-backend). The mock implements the same interface. */
+/** Every call the website makes to the backend (docs/API.md in motionql-backend). The mock implements the same interface. */
 export interface Api {
   register(input: RegisterInput): Promise<{ user: User; devVerifyToken?: string }>;
   verifyEmail(token: string): Promise<{ user: User }>;

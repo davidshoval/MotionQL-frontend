@@ -372,7 +372,7 @@ const confirmCopy: Record<NonNullable<PendingAction>["kind"], { title: (email: s
   remove: {
     title: (e) => `Remove ${e}?`,
     description:
-      "Their seat is freed and their key is revoked. XQuery drops to the free tier on their machine within about 4 hours. Their own account stays.",
+      "Their seat is freed and their key is revoked. MotionQL drops to the free tier on their machine within about 4 hours. Their own account stays.",
     label: "Remove",
   },
   free: {
@@ -489,11 +489,11 @@ function AuditLog({ teamId }: { teamId: string }) {
   function exportCsv() {
     const url = api.auditCsvUrl(teamId);
     if (url) return window.location.assign(url);
-    const rows = [["time", "actor", "action", "target"], ...(data?.events ?? []).map((e) => [e.at, e.actor?.email ?? "XQuery", e.action, targetText(e)])];
+    const rows = [["time", "actor", "action", "target"], ...(data?.events ?? []).map((e) => [e.at, e.actor?.email ?? "MotionQL", e.action, targetText(e)])];
     const csv = rows.map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
-    a.download = "xquery-team-audit.csv";
+    a.download = "motionql-team-audit.csv";
     a.click();
     URL.revokeObjectURL(a.href);
   }
@@ -516,7 +516,7 @@ function AuditLog({ teamId }: { teamId: string }) {
               <li key={e.id} className="relative text-sm">
                 <span className="border-background bg-primary absolute top-1.5 -left-[1.82rem] size-2.5 rounded-full border-2" />
                 <p>
-                  <span className="font-medium">{e.actor?.email ?? "XQuery"}</span>{" "}
+                  <span className="font-medium">{e.actor?.email ?? "MotionQL"}</span>{" "}
                   <span className="text-muted-foreground">{actionText[e.action] ?? e.action}</span>{" "}
                   <span className="font-medium">{targetText(e)}</span>
                 </p>

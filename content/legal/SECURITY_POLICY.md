@@ -1,10 +1,10 @@
 > **Template — have this reviewed by a qualified lawyer in your jurisdiction before publishing. Remove this line and fill every [FIELD] listed in legal/README.md before release.**
 
-# XQuery Security Policy and Vulnerability Disclosure
+# MotionQL Security Policy and Vulnerability Disclosure
 
 **Effective [EFFECTIVE DATE]**
 
-**Shoval Real Estate Holdings LLC** ("**we**") takes the security of XQuery seriously. This policy explains which versions we support, how to report a vulnerability, what you can expect from us, and the rules for good-faith research.
+**Shoval Real Estate Holdings LLC** ("**we**") takes the security of MotionQL seriously. This policy explains which versions we support, how to report a vulnerability, what you can expect from us, and the rules for good-faith research.
 
 ---
 
@@ -14,10 +14,10 @@ We fix security issues in the latest minor release of the current major version.
 
 | Product | Version | Security fixes |
 |---|---|---|
-| XQuery desktop app | 1.0.x (latest) | Yes |
-| XQuery desktop app | Pre-releases (beta channel) | Fixed in the next pre-release and the next stable release |
-| XQuery Team Server | Latest release | Yes |
-| XQuery Team Server | Previous minor release | Yes, for **90 days** after the next minor release |
+| MotionQL desktop app | 1.0.x (latest) | Yes |
+| MotionQL desktop app | Pre-releases (beta channel) | Fixed in the next pre-release and the next stable release |
+| MotionQL Team Server | Latest release | Yes |
+| MotionQL Team Server | Previous minor release | Yes, for **90 days** after the next minor release |
 
 When a new major version is released, the previous major version receives security fixes for **12 months**.
 
@@ -25,7 +25,7 @@ Please update to the latest release before reporting, and tell us which version 
 
 ## 2. How to report a vulnerability
 
-**Email:** security@xquery.io
+**Email:** security@motionql.com
 
 Please **do not** open a public issue, post on forums or social media, or contact support through normal channels for security issues.
 
@@ -56,11 +56,11 @@ We do not currently run a paid bug bounty.
 
 **In scope:**
 
-- the XQuery desktop app (macOS, Windows, Linux) as distributed by us, including its installers and the update mechanism;
-- the XQuery Team Server, including its API, SSO and SCIM endpoints, policy signing and audit chain;
+- the MotionQL desktop app (macOS, Windows, Linux) as distributed by us, including its installers and the update mechanism;
+- the MotionQL Team Server, including its API, SSO and SCIM endpoints, policy signing and audit chain;
 - the Team Server client SDK;
 - our release infrastructure's integrity (for example, a way to get an unsigned or tampered build accepted by the updater);
-- https://xquery.io and https://xquery.io/account.
+- https://motionql.com and https://motionql.com/account.
 
 Examples of issues we especially want to hear about:
 
@@ -73,12 +73,12 @@ Examples of issues we especially want to hear about:
 
 **Out of scope:**
 
-- vulnerabilities in databases, AI providers, identity providers or other third-party services you connect XQuery to (report those to the vendor);
+- vulnerabilities in databases, AI providers, identity providers or other third-party services you connect MotionQL to (report those to the vendor);
 - attacks that require an already-compromised device or administrator access on the user's machine or the Team Server host (the product's threat model treats these as out of scope; see the [Security Whitepaper](../docs/SECURITY_WHITEPAPER.md));
 - missing hardening that has no demonstrable security impact, such as missing headers on static marketing pages;
 - denial-of-service through volumetric traffic, and findings from automated scanners without a demonstrated impact;
 - social engineering of our staff or customers, and physical attacks;
-- vulnerabilities in third-party dependencies without a demonstrated exploit path in XQuery (please still tell us; we track them through our normal dependency updates);
+- vulnerabilities in third-party dependencies without a demonstrated exploit path in MotionQL (please still tell us; we track them through our normal dependency updates);
 - the "Allow invalid certificates" and "Allow invalid hostnames" TLS options, which are explicitly unsafe opt-ins.
 
 ## 5. Safe harbor
@@ -97,19 +97,19 @@ If a third party brings legal action against you for research that followed this
 
 ## 6. Our security practices
 
-A summary of how XQuery is built and released securely (process isolation, encrypted secret storage, main-process policy enforcement, signed updates, CodeQL, Dependabot, `npm audit`, SBOMs and build-provenance attestations) is in the [Security Whitepaper](../docs/SECURITY_WHITEPAPER.md).
+A summary of how MotionQL is built and released securely (process isolation, encrypted secret storage, main-process policy enforcement, signed updates, CodeQL, Dependabot, `npm audit`, SBOMs and build-provenance attestations) is in the [Security Whitepaper](../docs/SECURITY_WHITEPAPER.md).
 
 ## 7. security.txt
 
-We publish the following at `https://xquery.io/.well-known/security.txt` (RFC 9116). A template is kept in the repository at [`docs/.well-known/security.txt`](../docs/.well-known/security.txt).
+We publish the following at `https://motionql.com/.well-known/security.txt` (RFC 9116). A template is kept in the repository at [`docs/.well-known/security.txt`](../docs/.well-known/security.txt).
 
 ```text
-Contact: mailto:security@xquery.io
+Contact: mailto:security@motionql.com
 Expires: 2027-09-30T00:00:00.000Z
-Acknowledgments: https://xquery.io/security/hall-of-fame
+Acknowledgments: https://motionql.com/security/hall-of-fame
 Preferred-Languages: en
-Canonical: https://xquery.io/.well-known/security.txt
-Policy: https://xquery.io/security-policy
+Canonical: https://motionql.com/.well-known/security.txt
+Policy: https://motionql.com/security-policy
 ```
 
 Sign the file with the PGP key above (`gpg --clearsign security.txt`) and renew it before the `Expires` date.

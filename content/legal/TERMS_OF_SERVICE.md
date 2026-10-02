@@ -1,12 +1,12 @@
 > **Template — have this reviewed by a qualified lawyer in your jurisdiction before publishing. Remove this line and fill every [FIELD] listed in legal/README.md before release.**
 
-# XQuery Terms of Service
+# MotionQL Terms of Service
 
 **Effective [EFFECTIVE DATE]**
 
-These Terms of Service (the "**Terms**") govern your purchase of XQuery licenses and subscriptions, your use of our website at https://xquery.io (the "**Website**"), your customer account (if any), support services, and your license to the self-hosted XQuery Team Server. They are an agreement between you and **Shoval Real Estate Holdings LLC**, [ADDRESS] ("**we**", "**us**").
+These Terms of Service (the "**Terms**") govern your purchase of MotionQL licenses and subscriptions, your use of our website at https://motionql.com (the "**Website**"), your customer account (if any), support services, and your license to the self-hosted MotionQL Team Server. They are an agreement between you and **Shoval Real Estate Holdings LLC**, [ADDRESS] ("**we**", "**us**").
 
-Use of the XQuery desktop application itself is governed by the [End User License Agreement](./EULA.md) (the "**EULA**"). Capitalized terms not defined here have the meaning given in the EULA. If these Terms and the EULA conflict about the desktop application, the EULA prevails; for everything else, these Terms prevail. A signed agreement between you and us overrides both where they conflict.
+Use of the MotionQL desktop application itself is governed by the [End User License Agreement](./EULA.md) (the "**EULA**"). Capitalized terms not defined here have the meaning given in the EULA. If these Terms and the EULA conflict about the desktop application, the EULA prevails; for everything else, these Terms prevail. A signed agreement between you and us overrides both where they conflict.
 
 ---
 
@@ -38,7 +38,7 @@ Use of the XQuery desktop application itself is governed by the [End User Licens
 
 3.1 **Term.** A subscription starts on the date in the Order and lasts for the term stated (for example monthly or annually).
 
-3.2 **Automatic renewal.** Unless the Order says otherwise, subscriptions renew automatically for the same term length at our then-current prices, unless either party gives notice of non-renewal at least **30 days** before the end of the term (or, for monthly plans, before the next billing date). We will notify you of any price increase at least **30 days** before it takes effect. You can turn off automatic renewal in your account at https://xquery.io/account or by writing to support@xquery.io.
+3.2 **Automatic renewal.** Unless the Order says otherwise, subscriptions renew automatically for the same term length at our then-current prices, unless either party gives notice of non-renewal at least **30 days** before the end of the term (or, for monthly plans, before the next billing date). We will notify you of any price increase at least **30 days** before it takes effect. You can turn off automatic renewal in your account at https://motionql.com/account or by writing to support@motionql.com.
 
 3.3 **Adding users.** You can add Authorized Users during a term. Additional users are charged pro rata for the remainder of the term and renew with the subscription.
 
@@ -50,7 +50,7 @@ Use of the XQuery desktop application itself is governed by the [End User Licens
 
 4.1 **Trial first.** We offer a 14-day trial so you can evaluate the Software before buying.
 
-4.2 **Refund window.** If you are not satisfied, you may request a full refund within **30 days** of your first purchase of a given subscription (not of renewals), by writing to support@xquery.io. After a refund, the related License Key is revoked.
+4.2 **Refund window.** If you are not satisfied, you may request a full refund within **30 days** of your first purchase of a given subscription (not of renewals), by writing to support@motionql.com. After a refund, the related License Key is revoked.
 
 4.3 **Consumers in the EU/UK.** If you are a consumer in the European Union or the United Kingdom, you have a statutory right to withdraw from a purchase within 14 days. Because the Software is digital content supplied immediately, you acknowledge at checkout that, by requesting immediate delivery of the License Key, you lose that withdrawal right once delivery begins, to the extent permitted by law. The refund window in section 4.2 still applies.
 
@@ -68,7 +68,7 @@ Use of the XQuery desktop application itself is governed by the [End User Licens
 
 6.1 **Use of the Website.** You may use the Website to learn about, try and buy our products, and to manage your account. You must not misuse it, including by attempting to gain unauthorized access, interfering with its operation, scraping it in a way that places an unreasonable load on it, or uploading malicious code.
 
-6.2 **Account security.** You are responsible for keeping your account credentials confidential and for activity in your account. Tell us promptly at security@xquery.io if you suspect unauthorized access.
+6.2 **Account security.** You are responsible for keeping your account credentials confidential and for activity in your account. Tell us promptly at security@motionql.com if you suspect unauthorized access.
 
 6.3 **Content.** The Website content is owned by us or our licensors. You may view and print it for your own use in connection with our products.
 
@@ -86,7 +86,7 @@ Use of the XQuery desktop application itself is governed by the [End User Licens
 
 ## 8. Team Server license
 
-8.1 **Grant.** If your Order includes the XQuery Team Server, we grant you, during the term of your Order, a non-exclusive, non-transferable, non-sublicensable license to install and run the Team Server software on infrastructure you or your hosting provider operate, for use by your Authorized Users, up to the number of users stated in the Order.
+8.1 **Grant.** If your Order includes the MotionQL Team Server, we grant you, during the term of your Order, a non-exclusive, non-transferable, non-sublicensable license to install and run the Team Server software on infrastructure you or your hosting provider operate, for use by your Authorized Users, up to the number of users stated in the Order.
 
 8.2 **Self-hosted.** You host and operate the Team Server. You are responsible for its infrastructure, configuration, security (including TLS certificates, identity provider settings, master encryption keys and backups), availability and the data stored in it. We do not have access to your Team Server unless you give it to us.
 
@@ -144,4 +144,4 @@ We may update these Terms. We will post the updated Terms on the Website with a 
 
 15.3 **Assignment, entire agreement, severability, waiver, force majeure and notices.** EULA sections 17.3 to 17.9 apply to these Terms.
 
-15.4 **Contact.** Shoval Real Estate Holdings LLC, [ADDRESS] · Sales: sales@xquery.io · Support: support@xquery.io · Legal: legal@xquery.io · https://xquery.io
+15.4 **Contact.** Shoval Real Estate Holdings LLC, [ADDRESS] · Sales: sales@motionql.com · Support: support@motionql.com · Legal: legal@motionql.com · https://motionql.com

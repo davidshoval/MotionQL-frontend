@@ -25,7 +25,7 @@ import { Badge } from "@/components/ui/badge";
 export const metadata: Metadata = {
   title: "Features",
   description:
-    "Every XQuery feature: connections, query builder, IntelliShell, aggregation, SQL, import/export, compare and sync, migration, schema tools, admin, tasks, dashboards, AI and teams.",
+    "Every MotionQL feature: connections, query builder, IntelliShell, aggregation, SQL, import/export, compare and sync, migration, schema tools, admin, tasks, dashboards, AI and teams.",
 };
 
 const groups: {

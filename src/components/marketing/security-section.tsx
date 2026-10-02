@@ -18,7 +18,7 @@ const points = [
   {
     icon: Eye,
     t: "No data leaves your machine",
-    d: "XQuery talks straight to your database. We never receive documents, queries, connection settings or credentials.",
+    d: "MotionQL talks straight to your database. We never receive documents, queries, connection settings or credentials.",
   },
   {
     icon: ScrollText,
@@ -60,7 +60,7 @@ export function SecuritySection() {
         <Reveal>
           <Button asChild variant="secondary">
             <Link href="/security">
-              How XQuery keeps you safe <ArrowRight />
+              How MotionQL keeps you safe <ArrowRight />
             </Link>
           </Button>
         </Reveal>

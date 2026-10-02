@@ -29,7 +29,7 @@ export function Hero() {
             className="group border-border bg-foreground/[0.04] text-muted-foreground hover:border-primary/40 hover:text-foreground inline-flex items-center gap-2 rounded-full border py-1 pr-3 pl-1 text-[13px] backdrop-blur transition"
           >
             <span className="bg-primary text-primary-foreground rounded-full px-2 py-0.5 text-[11px] font-semibold">New</span>
-            XQuery 1.0 is here. Pro is free for your first year
+            MotionQL 1.0 is here. Pro is free for your first year
             <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
           </Link>
         </motion.div>

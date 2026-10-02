@@ -108,7 +108,7 @@ function NoLicense({ hasPast }: { hasPast: boolean }) {
 }
 
 function Activate() {
-  const steps = ["Install and open XQuery", "Go to Settings → License", "Paste your key and click Activate"];
+  const steps = ["Install and open MotionQL", "Go to Settings → License", "Paste your key and click Activate"];
   return (
     <Card>
       <CardHeader>
@@ -140,7 +140,7 @@ function QuickDownload() {
     <Card className="overflow-hidden">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <MonitorDown className="text-primary size-5" /> Download XQuery
+          <MonitorDown className="text-primary size-5" /> Download MotionQL
         </CardTitle>
         <CardDescription>{release ? `Version ${release.version}` : "Latest version"}</CardDescription>
       </CardHeader>
@@ -303,7 +303,7 @@ function DangerZone() {
       <CardHeader>
         <CardTitle>Delete account</CardTitle>
         <CardDescription>
-          Deletes your account and revokes your keys. XQuery on your computer keeps working on the free tier.
+          Deletes your account and revokes your keys. MotionQL on your computer keeps working on the free tier.
         </CardDescription>
       </CardHeader>
       <CardContent>

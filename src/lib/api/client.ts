@@ -22,8 +22,8 @@ function csrfToken() {
   if (typeof document === "undefined") return undefined;
   return document.cookie
     .split("; ")
-    .find((c) => c.startsWith("xq_csrf="))
-    ?.slice("xq_csrf=".length);
+    .find((c) => c.startsWith("mq_csrf="))
+    ?.slice("mq_csrf=".length);
 }
 
 export type HttpMethod = "GET" | "POST" | "PATCH" | "DELETE";
