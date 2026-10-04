@@ -52,7 +52,7 @@ const groups: { title: string; items: Item[] }[] = [
     items: [
       {
         q: "Which operating systems are supported?",
-        a: "macOS 12 or later on Apple silicon and Intel, and Windows 10 or 11 (64-bit). A Linux release is on the roadmap. MotionQL works with MongoDB 4.4 and later, including Atlas, replica sets and sharded clusters, plus Amazon DocumentDB, Azure Cosmos DB for MongoDB and FerretDB within the features those services implement.",
+        a: "macOS 12 or later on Apple silicon and Intel, and Windows 10 or 11 (64-bit). Linux (AppImage and deb) arrives with the next release, for 64-bit x86 desktops. MotionQL works with MongoDB 4.4 and later, including Atlas, replica sets and sharded clusters, plus Amazon DocumentDB, Azure Cosmos DB for MongoDB and FerretDB within the features those services implement.",
         more: { href: "/docs/install", label: "System requirements" },
       },
       {
@@ -89,7 +89,7 @@ const groups: { title: string; items: Item[] }[] = [
       },
       {
         q: "How do I get a free Gemini API key for the AI assistant?",
-        a: "Go to Google AI Studio at aistudio.google.com/app/apikey, sign in with your Google account and click Create API key. Copy the key, then in MotionQL open Settings → AI, choose Google Gemini, paste it and click Save, then Test connection. Google's free tier has per-minute and per-day rate limits that vary by model, and under Google's terms, content sent through unpaid services may be used to improve Google's products and read by human reviewers. Check Google's rate limits page and Gemini API terms before relying on it.",
+        a: "Go to Google AI Studio at aistudio.google.com/app/apikey, sign in with your Google account and click Create API key. Copy the key, then in MotionQL open Settings → AI, choose Google Gemini, paste it and click Save, then Test connection. Google's free tier has per-minute and per-day rate limits that vary by model. Under Google's Gemini API terms, content sent to unpaid services is used to improve Google's products and may be read by human reviewers, so Google asks you not to send sensitive, confidential or personal information on the free tier. Paid usage isn't used that way.",
         more: { href: "/docs/ai-mcp#get-a-free-gemini-api-key", label: "Step-by-step guide" },
       },
     ],

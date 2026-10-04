@@ -44,7 +44,7 @@ export const vendors: Record<string, Vendor> = {
     reasons: [
       {
         t: "Actively developed",
-        d: "MotionQL is in active development (1.0.1 shipped in October 2026) and supports MongoDB 4.4 and later, with signed installers and automatic updates you can turn off by policy.",
+        d: "MotionQL is in active development (1.0.1 shipped in October 2026) and supports MongoDB 4.4 and later. Its installers are not yet code-signed, so the OS warns on first launch.",
       },
       {
         t: "A shell that feels familiar",

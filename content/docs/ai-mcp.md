@@ -27,8 +27,8 @@ Treat the key like a password. If it leaks, delete it in AI Studio and create a 
 
 **Before you rely on the free tier, know its limits:**
 
-- **Rate limits.** The free tier allows a limited number of requests per minute and per day, and the limits differ by model. When you hit one, requests fail until the limit resets. Google publishes the current numbers on its [rate limits page](https://ai.google.dev/gemini-api/docs/rate-limits); they change from time to time, so check there rather than relying on a number here.
-- **How Google may use your prompts.** Under the [Gemini API terms](https://ai.google.dev/gemini-api/terms), content sent through **unpaid** services may be used by Google to improve its products, and may be read by human reviewers. Paid usage is handled differently. Read the terms, and don't use the free tier for anything you wouldn't want reviewed.
+- **Rate limits.** The free tier limits requests per minute, input tokens per minute and requests per day. Limits differ by model and apply per Google Cloud project, not per key, and the daily quota resets at midnight Pacific time. When you hit a limit, requests fail until it resets. Google publishes the current numbers on its [rate limits page](https://ai.google.dev/gemini-api/docs/rate-limits); they change from time to time, so check there rather than relying on a number here.
+- **How Google may use your prompts.** Under the [Gemini API Additional Terms of Service](https://ai.google.dev/gemini-api/terms), Google uses content sent to **unpaid** services (including the free quota) and the responses to provide, improve and develop its products, and human reviewers may read it. Google asks you not to send sensitive, confidential or personal information to unpaid services. On the paid tier, Google doesn't use your prompts or responses to improve its products.
 
 MotionQL keeps what it sends small (see below): field names, types and query shapes, not your documents. Your company may still have rules about which AI services you can use; follow them.
 

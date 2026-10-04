@@ -23,7 +23,7 @@ const platforms = {
     title: "The MongoDB GUI for Mac",
     metaTitle: "MongoDB GUI for Mac (Apple Silicon and Intel)",
     description:
-      "MotionQL is a fast MongoDB IDE for macOS, with builds for Apple Silicon and Intel. Signed and notarized, with secrets kept in your macOS Keychain.",
+      "MotionQL is a fast MongoDB IDE for macOS, with builds for Apple Silicon and Intel, and secrets kept in your macOS Keychain.",
     requirements: [
       "macOS 12 Monterey or later",
       "Apple Silicon (arm64) or Intel (x64): separate builds for each",
@@ -33,18 +33,19 @@ const platforms = {
     ],
     details: [
       {
-        t: "Signed and notarized",
-        d: "Builds are signed with a Developer ID and notarized by Apple. Every release ships SHA-256 checksums.",
+        // The current builds are not code-signed yet (owner decision, October 2026); see /docs/install.
+        t: "Not yet code-signed",
+        d: "macOS asks you to confirm the first launch in System Settings → Privacy & Security (Open Anyway). Every release ships SHA-256 checksums so you can verify the file.",
       },
       { t: "Keychain for secrets", d: "Passwords, keys and tokens are encrypted with the macOS Keychain and never shown in the UI." },
       { t: "Drag to install", d: "Open the .dmg for your Mac and drag MotionQL to Applications." },
       {
-        t: "Updates that check the signature",
-        d: "In-app updates replace the app in place only when signed by the same Developer ID. Turn them off by policy if you manage Macs centrally.",
+        t: "Updating",
+        d: "In-app updates need signed builds, so for now you install new versions from the download page. Your connections and settings are kept.",
       },
       {
         t: "Works with your MDM",
-        d: "Deploy the notarized app from the .dmg or .zip with Jamf, Kandji or Intune, plus a machine-wide policy.json.",
+        d: "Deploy the app from the .dmg or .zip with Jamf, Kandji or Intune, plus a machine-wide policy.json.",
       },
       { t: "Background tasks", d: "Scheduled tasks can run while the app is closed through a per-user LaunchAgent (Pro)." },
     ],
@@ -66,7 +67,10 @@ const platforms = {
         t: "Three ways to install",
         d: "An installer (per user without admin rights, or for all users), a per-machine MSI, or a portable build with no install.",
       },
-      { t: "Authenticode-signed", d: "Installers are signed, and in-app updates check that the update comes from the same publisher." },
+      {
+        t: "Not yet code-signed",
+        d: "SmartScreen warns on first run: click More info, then Run anyway. Every release ships SHA-256 checksums so you can verify the file.",
+      },
       {
         t: "Silent installs",
         d: "The installer accepts /S, /allusers and /D=, and the MSI installs with msiexec /qn for Intune, Configuration Manager or Group Policy.",

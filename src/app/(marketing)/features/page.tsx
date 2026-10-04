@@ -206,7 +206,7 @@ const groups: {
       <PlatformsText key="platforms" variant="long" />,
       "MongoDB 4.4 and later: Community, Enterprise and Atlas",
       "Amazon DocumentDB, Azure Cosmos DB for MongoDB and FerretDB",
-      "Signed installers and automatic updates you can turn off by policy",
+      "SHA-256 checksums with every release (installers are not yet code-signed)",
     ],
   },
 ];
