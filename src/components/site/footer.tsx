@@ -10,6 +10,7 @@ const columns = [
       { href: "/download", label: "Download" },
       { href: "/pricing", label: "Pricing" },
       { href: "/changelog", label: "Changelog" },
+      { href: "/tools", label: "Free MongoDB tools" },
     ],
   },
   {

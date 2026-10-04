@@ -15,5 +15,6 @@ export const nav = [
   { href: "/compare", label: "Compare" },
   { href: "/security", label: "Security" },
   { href: "/pricing", label: "Pricing" },
+  { href: "/tools", label: "Tools" },
   { href: "/changelog", label: "Changelog" },
 ];
