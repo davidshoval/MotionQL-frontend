@@ -28,7 +28,8 @@ export interface Vendor {
   sources: { label: string; url: string }[];
 }
 
-const platformsMotionql = "macOS and Windows (Linux coming soon)";
+/** Static fallback for MotionQL's platforms; the table swaps in the release-aware wording (PlatformsText). */
+export const platformsMotionql = "macOS and Windows, Linux coming soon";
 
 export const vendors: Record<string, Vendor> = {
   // Sources:
@@ -156,7 +157,7 @@ export const vendors: Record<string, Vendor> = {
       },
       { feature: "Platforms", motionql: platformsMotionql, them: "Windows, macOS and Linux" },
     ],
-    fit: "NoSQLBooster has a long track record as a JavaScript-centric MongoDB IDE and runs on Linux today. If you live in its shell and already own a license, it remains a solid choice.",
+    fit: "NoSQLBooster has a long track record as a JavaScript-centric MongoDB IDE on Windows, macOS and Linux. If you live in its shell and already own a license, it remains a solid choice.",
     sources: [
       { label: "NoSQLBooster: compare editions", url: "https://nosqlbooster.com/compareEditions" },
       { label: "NoSQLBooster downloads", url: "https://www.nosqlbooster.com/downloads" },
@@ -344,7 +345,8 @@ export const vendors: Record<string, Vendor> = {
   //   SQL mode, task manager for import/export, AI assistant, collection compare, GridFS, index manager, query
   //   profiler, RBAC dashboard, charts/dashboards; "macOS on both Intel and Apple Silicon, Windows, and Linux as .deb
   //   or .rpm"; "Your data never leaves your machine")
-  // https://visualeaf.com/download (free Community Edition, "14 day free professional trial included")
+  // https://visualeaf.com/download (free Community Edition, "14 day free professional trial included"; Linux .deb
+  //   for ARM64 and .rpm for x64)
   // https://github.com/sozocode/VisuaLeaf (vendor README: Community "Core features, single connection"; preview data
   //   at every stage of the aggregation designer)
   visualeaf: {
@@ -398,7 +400,7 @@ export const vendors: Record<string, Vendor> = {
       },
       { feature: "Platforms", motionql: platformsMotionql, them: "macOS, Windows and Linux (.deb, .rpm)" },
     ],
-    fit: "VisuaLeaf is a capable visual MongoDB GUI with a free Community Edition, and it ships Linux packages today. If you need Linux now, or prefer its interface, it is a good option.",
+    fit: "VisuaLeaf is a capable visual MongoDB GUI with a free Community Edition, and it ships Linux packages as .rpm for x64 and .deb for ARM64. If you need one of those, or prefer its interface, it is a good option.",
     sources: [
       { label: "visualeaf.com", url: "https://visualeaf.com/" },
       { label: "VisuaLeaf download", url: "https://visualeaf.com/download" },

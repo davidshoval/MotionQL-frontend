@@ -1,20 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, Check, Clock } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { PageHero } from "@/components/marketing/page-hero";
 import { SectionHeading } from "@/components/marketing/section-heading";
 import { Reveal } from "@/components/marketing/reveal";
 import { ScreenFrame } from "@/components/marketing/screen-frame";
 import { Cta } from "@/components/marketing/cta";
-import { Badge } from "@/components/ui/badge";
+import { LinuxDownload } from "@/components/app/linux-download";
 import { Button } from "@/components/ui/button";
 import { features } from "@/lib/features";
 import { pageMetadata } from "@/lib/seo";
 
 /**
  * Platform landing pages. Requirements and install details come from the desktop app's docs/INSTALLATION.md
- * (repo xquery.io-platform). Linux builds are not published yet, so that page has no download link.
+ * (repo xquery.io-platform). The Linux page asks the latest release whether Linux installers exist (LinuxDownload)
+ * and shows "coming soon" with no download link until they do, so its static copy is written to fit both states.
  */
 const platforms = {
   mac: {
@@ -23,7 +24,6 @@ const platforms = {
     metaTitle: "MongoDB GUI for Mac (Apple Silicon and Intel)",
     description:
       "MotionQL is a fast MongoDB IDE for macOS, with builds for Apple Silicon and Intel. Signed and notarized, with secrets kept in your macOS Keychain.",
-    available: true,
     requirements: [
       "macOS 12 Monterey or later",
       "Apple Silicon (arm64) or Intel (x64): separate builds for each",
@@ -55,7 +55,6 @@ const platforms = {
     metaTitle: "MongoDB GUI for Windows 10 and 11",
     description:
       "MotionQL is a fast MongoDB IDE for Windows 10 and 11. Install per user without admin rights, per machine with the MSI, or run the portable build.",
-    available: true,
     requirements: [
       "Windows 10 or 11, 64-bit (x64)",
       "4 GB RAM minimum, 8 GB recommended for large result sets",
@@ -88,8 +87,7 @@ const platforms = {
     title: "The MongoDB GUI for Linux",
     metaTitle: "MongoDB GUI for Linux",
     description:
-      "MotionQL for Linux is coming soon. Until then, it runs on macOS and Windows, with the same features, connections and free Pro license.",
-    available: false,
+      "MotionQL for Linux comes as an x86_64 AppImage and a .deb package, with the same features, connections and free Pro license as on macOS and Windows.",
     requirements: [
       "64-bit x86 (x64) desktop distribution with a graphical session",
       "A Secret Service provider such as GNOME Keyring or KWallet to store passwords",
@@ -103,12 +101,12 @@ const platforms = {
       },
       {
         t: "Secrets in your keyring",
-        d: "Passwords and keys will be encrypted with your Secret Service provider, never stored in plain text.",
+        d: "Passwords and keys are encrypted with your Secret Service provider, never stored in plain text.",
       },
-      { t: "Background tasks", d: "Scheduled tasks are designed to run through a systemd user timer while the app is closed." },
+      { t: "Background tasks", d: "Scheduled tasks can run while the app is closed through a systemd user timer (Pro)." },
       {
-        t: "Your license carries over",
-        d: "A Pro key you get today works on any operating system, so nothing changes when Linux arrives.",
+        t: "One license everywhere",
+        d: "Your Pro key works on any operating system, so you can move between Linux, macOS and Windows.",
       },
     ],
   },
@@ -146,12 +144,10 @@ export default async function PlatformPage({ params }: PageProps<"/download/[pla
 
   return (
     <>
-      <PageHero
-        eyebrow={p.available ? `MotionQL for ${p.os}` : `MotionQL for ${p.os} · coming soon`}
-        title={p.title}
-        description={p.description}
-      >
-        {p.available ? (
+      <PageHero eyebrow={`MotionQL for ${p.os}`} title={p.title} description={p.description}>
+        {platform === "linux" ? (
+          <LinuxDownload />
+        ) : (
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
             <Button asChild size="lg">
               <Link href="/download">
@@ -161,25 +157,6 @@ export default async function PlatformPage({ params }: PageProps<"/download/[pla
             <Button asChild size="lg" variant="secondary">
               <Link href="/register?next=/download">Create a free account</Link>
             </Button>
-          </div>
-        ) : (
-          <div className="mt-10 flex flex-col items-center gap-4">
-            <Badge variant="warning" className="px-3 py-1 text-sm">
-              <Clock /> Coming soon. No Linux download is available yet.
-            </Badge>
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <Button asChild size="lg">
-                <Link href="/download/mac">
-                  Get it for macOS <ArrowRight />
-                </Link>
-              </Button>
-              <Button asChild size="lg" variant="secondary">
-                <Link href="/download/windows">Get it for Windows</Link>
-              </Button>
-              <Button asChild size="lg" variant="ghost">
-                <Link href="/changelog">Follow the changelog</Link>
-              </Button>
-            </div>
           </div>
         )}
       </PageHero>
@@ -192,7 +169,7 @@ export default async function PlatformPage({ params }: PageProps<"/download/[pla
 
       <section className="container-page grid gap-10 py-16 lg:grid-cols-[1fr_1.4fr]">
         <Reveal>
-          <h2 className="text-2xl font-semibold tracking-tight">{p.available ? "System requirements" : "What it will need"}</h2>
+          <h2 className="text-2xl font-semibold tracking-tight">System requirements</h2>
           <ul className="mt-6 space-y-3">
             {p.requirements.map((r) => (
               <li key={r} className="text-muted-foreground flex gap-3 text-[15px] leading-relaxed">
@@ -214,7 +191,7 @@ export default async function PlatformPage({ params }: PageProps<"/download/[pla
 
       <section className="container-page py-16">
         <SectionHeading
-          title={p.available ? `Everything MotionQL does, on ${p.os}` : "What you'll get on Linux"}
+          title={`Everything MotionQL does, on ${p.os}`}
           description="The same features on every platform. A few to start with:"
         />
         <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -243,7 +220,6 @@ export default async function PlatformPage({ params }: PageProps<"/download/[pla
               {i > 0 && " and "}
               <Link href={`/download/${k}`} className="text-primary hover:underline">
                 {platforms[k].os}
-                {!platforms[k].available && " (coming soon)"}
               </Link>
             </span>
           ))}

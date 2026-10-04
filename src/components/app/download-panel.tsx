@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { ArrowRight, Download, Lock, ShieldCheck } from "lucide-react";
 import type { OS, ReleaseFile } from "@/lib/api";
 import { useMe, useRelease } from "@/lib/api/hooks";
-import { detectOS, fileLabel, osLabel, sortFiles, startDownload } from "@/lib/os";
+import { detectOS, fileLabel, linuxInstallers, osLabel, sortFiles, startDownload } from "@/lib/os";
 import { cn, formatBytes, formatDate } from "@/lib/utils";
 import { site } from "@/lib/site";
 import { Button } from "@/components/ui/button";
@@ -95,7 +95,7 @@ export function DownloadPanel() {
 
       <div className="grid gap-4 md:grid-cols-3">
         {order.map((o, idx) => {
-          const files = sortFiles(release.files.filter((f) => f.os === o));
+          const files = o === "linux" ? linuxInstallers(release.files) : sortFiles(release.files.filter((f) => f.os === o));
           const recommended = idx === 0 && os === o;
           return (
             <div

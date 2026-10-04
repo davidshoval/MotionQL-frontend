@@ -17,3 +17,15 @@ export const nav = [
   { href: "/pricing", label: "Pricing" },
   { href: "/changelog", label: "Changelog" },
 ];
+
+/**
+ * Platform wording. Static pages (metadata, structured data) use `withoutLinux` until Linux installers ship;
+ * client components pick the right one from the latest release (see PlatformsText).
+ */
+export const platformsText = {
+  short: { withLinux: "macOS, Windows and Linux", withoutLinux: "macOS and Windows, Linux coming soon" },
+  long: {
+    withLinux: "macOS (Apple Silicon and Intel), Windows and Linux (AppImage and .deb)",
+    withoutLinux: "macOS (Apple Silicon and Intel) and Windows, with Linux coming soon",
+  },
+} as const;

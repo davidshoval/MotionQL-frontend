@@ -64,7 +64,8 @@ export default function HomePage() {
             "@type": "SoftwareApplication",
             name: "MotionQL",
             applicationCategory: "DeveloperApplication",
-            operatingSystem: "macOS, Windows, Linux",
+            // Add Linux once its installers are published (see platformsText in lib/site.ts).
+            operatingSystem: "macOS, Windows",
             description: site.description,
             url: site.url,
             offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

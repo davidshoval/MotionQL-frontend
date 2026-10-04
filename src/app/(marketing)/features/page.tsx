@@ -22,6 +22,7 @@ import { Reveal } from "@/components/marketing/reveal";
 import { SpotlightCard } from "@/components/marketing/spotlight-card";
 import { Cta } from "@/components/marketing/cta";
 import { Badge } from "@/components/ui/badge";
+import { PlatformsText } from "@/components/app/platforms-text";
 import { features } from "@/lib/features";
 
 export const metadata: Metadata = {
@@ -35,7 +36,7 @@ const groups: {
   icon: React.ComponentType<{ className?: string }>;
   title: string;
   tier?: "Pro" | "Enterprise";
-  items: string[];
+  items: React.ReactNode[];
 }[] = [
   {
     id: "connections",
@@ -202,7 +203,7 @@ const groups: {
     icon: Building2,
     title: "Platforms",
     items: [
-      "macOS (Apple Silicon and Intel), Windows and Linux (AppImage, deb, rpm)",
+      <PlatformsText key="platforms" variant="long" />,
       "MongoDB 4.4 and later: Community, Enterprise and Atlas",
       "Amazon DocumentDB, Azure Cosmos DB for MongoDB and FerretDB",
       "Signed installers and automatic updates you can turn off by policy",
@@ -269,8 +270,8 @@ export default function FeaturesPage() {
                 )}
               </div>
               <ul className="mt-6 space-y-3">
-                {g.items.map((it) => (
-                  <li key={it} className="text-muted-foreground flex gap-3 text-[15px] leading-relaxed">
+                {g.items.map((it, i) => (
+                  <li key={i} className="text-muted-foreground flex gap-3 text-[15px] leading-relaxed">
                     <span className="bg-primary/70 mt-2.5 size-1.5 shrink-0 rounded-full" />
                     {it}
                   </li>

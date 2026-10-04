@@ -530,7 +530,7 @@ MotionQL --cli tasks import task.json`,
       { t: "Run log", d: "Every run is recorded as success, partial, failed or skipped, with how it started." },
       {
         t: "Runs while the app is closed",
-        d: "An optional background runner uses launchd on macOS and Task Scheduler on Windows, only while you are signed in.",
+        d: "An optional background runner uses launchd on macOS, Task Scheduler on Windows and a systemd user timer on Linux, only while you are signed in.",
       },
       {
         t: "Command line",

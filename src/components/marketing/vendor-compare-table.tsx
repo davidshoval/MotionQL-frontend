@@ -1,4 +1,5 @@
-import type { VendorRow } from "@/lib/compare-vendors";
+import { platformsMotionql, type VendorRow } from "@/lib/compare-vendors";
+import { PlatformsText } from "@/components/app/platforms-text";
 import { LogoMark } from "@/components/site/logo";
 import { Tooltip } from "@/components/ui/tooltip";
 import { Cell } from "./compare-table";
@@ -48,7 +49,13 @@ export function VendorCompareTable({
               <td className="relative px-5 py-3.5 text-center">
                 <div className="bg-primary/[0.03] absolute inset-x-2 inset-y-0" aria-hidden />
                 <span className="relative">
-                  <Cell mark={r.motionql} highlight />
+                  {r.motionql === platformsMotionql ? (
+                    <span className="text-primary text-[13px] leading-snug font-medium">
+                      <PlatformsText />
+                    </span>
+                  ) : (
+                    <Cell mark={r.motionql} highlight />
+                  )}
                 </span>
               </td>
               <td className="px-5 py-3.5 text-center">

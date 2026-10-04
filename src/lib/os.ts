@@ -31,3 +31,8 @@ export function sortFiles(files: ReleaseFile[]) {
 export function startDownload(f: ReleaseFile) {
   window.location.assign(f.url);
 }
+
+/** Linux installers in a release (AppImage and .deb, plus .rpm if one is ever published). */
+export function linuxInstallers(files: ReleaseFile[]) {
+  return sortFiles(files.filter((f) => f.os === "linux" && (f.kind === "appimage" || f.kind === "deb" || f.kind === "rpm")));
+}
