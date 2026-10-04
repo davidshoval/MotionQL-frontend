@@ -8,6 +8,9 @@ const columns = [
     links: [
       { href: "/features", label: "Features" },
       { href: "/download", label: "Download" },
+      { href: "/download/mac", label: "MongoDB GUI for Mac" },
+      { href: "/download/windows", label: "MongoDB GUI for Windows" },
+      { href: "/download/linux", label: "MongoDB GUI for Linux" },
       { href: "/pricing", label: "Pricing" },
       { href: "/changelog", label: "Changelog" },
     ],
@@ -17,7 +20,9 @@ const columns = [
     links: [
       { href: "/compare/studio-3t", label: "MotionQL vs Studio 3T" },
       { href: "/compare/compass", label: "MotionQL vs Compass" },
-      { href: "/compare", label: "Full comparison" },
+      { href: "/compare/robo-3t", label: "MotionQL vs Robo 3T" },
+      { href: "/compare/visualeaf", label: "MotionQL vs VisuaLeaf" },
+      { href: "/compare", label: "All comparisons" },
     ],
   },
   {
