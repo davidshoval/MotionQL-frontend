@@ -60,11 +60,6 @@ const items: Item[] = [
     status: "planned",
     body: "Code-signed macOS and Windows builds, so no security warning on first launch, and updates installed from inside the app.",
   },
-  {
-    title: "Translations",
-    status: "planned",
-    body: "The app and documentation in more languages than English.",
-  },
 ];
 
 const statusMeta: Record<Status, { label: string; icon: typeof LoaderCircle; variant: "default" | "secondary" }> = {

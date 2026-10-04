@@ -49,7 +49,6 @@ We'd rather you hear the gaps from us:
 - **No Linux build in 1.0.** Linux (AppImage and deb) arrives with the next release, as an x64 AppImage and a `.deb` package.
 - **No in-app updates yet**, because they require signed builds. Download new versions from the site.
 - **MongoDB only.** Connecting to SQL databases as first-class targets is on the roadmap; today, SQL databases are a source for SQL Migration.
-- **English only.** Translations are planned.
 
 ## Try it
 
