@@ -8,6 +8,9 @@ import { SectionHeading } from "@/components/marketing/section-heading";
 import { Reveal } from "@/components/marketing/reveal";
 import { Cta } from "@/components/marketing/cta";
 import { Button } from "@/components/ui/button";
+import { VendorCompareTable } from "@/components/marketing/vendor-compare-table";
+import { vendors, type Vendor } from "@/lib/compare-vendors";
+import { pageMetadata } from "@/lib/seo";
 
 const pages = {
   "studio-3t": {
@@ -68,20 +71,24 @@ const pages = {
 
 type Slug = keyof typeof pages;
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
-  return Object.keys(pages).map((vs) => ({ vs }));
+  return [...Object.keys(pages), ...Object.keys(vendors)].map((vs) => ({ vs }));
 }
 
 export async function generateMetadata({ params }: PageProps<"/compare/[vs]">): Promise<Metadata> {
   const { vs } = await params;
-  const p = pages[vs as Slug];
+  const p = pages[vs as Slug] ?? vendors[vs];
   if (!p) return {};
-  return { title: `MotionQL vs ${p.name}`, description: p.description };
+  return pageMetadata({ title: `MotionQL vs ${p.name}`, description: p.description, path: `/compare/${vs}` });
 }
 
 export default async function VsPage({ params }: PageProps<"/compare/[vs]">) {
   const { vs } = await params;
-  const p = pages[vs as Slug];
+  const legacy = pages[vs as Slug];
+  const vendor: Vendor | undefined = legacy ? undefined : vendors[vs];
+  const p = legacy ?? vendor;
   if (!p) notFound();
   return (
     <>
@@ -98,7 +105,7 @@ export default async function VsPage({ params }: PageProps<"/compare/[vs]">) {
         </div>
       </PageHero>
       <section className="container-page py-16">
-        <SectionHeading title={`Why people switch from ${p.name}`} />
+        <SectionHeading title={legacy ? `Why people switch from ${p.name}` : "What you get with MotionQL"} />
         <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {p.reasons.map((r, i) => (
             <Reveal key={r.t} delay={(i % 3) * 0.06} className="border-border bg-card/50 rounded-3xl border p-7">
@@ -112,8 +119,18 @@ export default async function VsPage({ params }: PageProps<"/compare/[vs]">) {
       <section className="container-page py-16">
         <SectionHeading title="Feature by feature" />
         <div className="mt-12">
-          <CompareTable columns={[p.column]} />
+          {legacy ? (
+            <CompareTable columns={[legacy.column]} />
+          ) : (
+            vendor && <VendorCompareTable name={vendor.name} rows={vendor.rows} sources={vendor.sources} />
+          )}
         </div>
+        {vendor && (
+          <Reveal className="border-border bg-card/50 mx-auto mt-10 max-w-3xl rounded-3xl border p-7">
+            <h3 className="font-semibold tracking-tight">When {vendor.name} may suit you better</h3>
+            <p className="text-muted-foreground mt-2 text-[15px] leading-relaxed">{vendor.fit}</p>
+          </Reveal>
+        )}
       </section>
       <Cta />
     </>
