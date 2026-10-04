@@ -8,10 +8,17 @@ export const site = {
   releasesUrl: "https://github.com/davidshoval/motionql-releases/releases/latest",
   supportEmail: "support@motionql.com",
   securityEmail: "security@motionql.com",
+  /** General contact address shown on /support. */
+  contactEmail: "hello@motionql.com",
+  /** Response goal for support email, in business days. */
+  supportResponseDays: 2,
+  /** Community chat (Discord or similar). Hidden everywhere while empty. */
+  communityUrl: process.env.NEXT_PUBLIC_COMMUNITY_URL ?? "",
 };
 
 export const nav = [
   { href: "/features", label: "Features" },
+  { href: "/docs", label: "Docs" },
   { href: "/compare", label: "Compare" },
   { href: "/security", label: "Security" },
   { href: "/pricing", label: "Pricing" },
