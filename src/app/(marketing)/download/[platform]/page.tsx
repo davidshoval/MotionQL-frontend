@@ -55,7 +55,7 @@ const platforms = {
     title: "The MongoDB GUI for Windows",
     metaTitle: "MongoDB GUI for Windows 10 and 11",
     description:
-      "MotionQL is a fast MongoDB IDE for Windows 10 and 11. Install per user without admin rights, per machine with the MSI, or run the portable build.",
+      "MotionQL is a fast MongoDB IDE for Windows 10 and 11. Install per user without admin rights, for all users, or run the portable build.",
     requirements: [
       "Windows 10 or 11, 64-bit (x64)",
       "4 GB RAM minimum, 8 GB recommended for large result sets",
@@ -65,7 +65,7 @@ const platforms = {
     details: [
       {
         t: "Three ways to install",
-        d: "An installer (per user without admin rights, or for all users), a per-machine MSI, or a portable build with no install.",
+        d: "An installer (per user without admin rights, or for all users) or a portable build with no install.",
       },
       {
         t: "Not yet code-signed",
@@ -73,12 +73,12 @@ const platforms = {
       },
       {
         t: "Silent installs",
-        d: "The installer accepts /S, /allusers and /D=, and the MSI installs with msiexec /qn for Intune, Configuration Manager or Group Policy.",
+        d: "The installer accepts /S for a silent install, /allusers and /D= for the folder, so it can be pushed with Intune, Configuration Manager or a script.",
       },
       { t: "Your profile protects secrets", d: "Passwords, keys and tokens are encrypted with your Windows user profile (DPAPI)." },
       {
         t: "Central control",
-        d: "A machine-wide policy.json can turn off updates or AI, or force read-only hosts. IT can deploy updates through the MSI.",
+        d: "A machine-wide policy.json can turn off updates or AI, or force read-only hosts. IT can deploy new versions with the silent installer.",
       },
       {
         t: "Background tasks",
