@@ -13,6 +13,7 @@ const columns = [
       { href: "/download/linux", label: "MongoDB GUI for Linux" },
       { href: "/pricing", label: "Pricing" },
       { href: "/changelog", label: "Changelog" },
+      { href: "/tools", label: "Free MongoDB tools" },
     ],
   },
   {

@@ -4,6 +4,7 @@ import { features } from "@/lib/features";
 import { vendors } from "@/lib/compare-vendors";
 import { docPages } from "@/lib/docs";
 import { blogPosts } from "@/lib/blog";
+import { TOOLS } from "@/lib/tools/registry";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const paths = [
@@ -29,6 +30,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/faq",
     "/roadmap",
     "/support",
+    "/tools",
+    ...TOOLS.map((t) => `/tools/${t.slug}`),
   ];
   return paths.map((p) => ({ url: `${site.url}${p}`, changeFrequency: "weekly", priority: p === "" ? 1 : 0.7 }));
 }

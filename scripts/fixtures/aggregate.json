@@ -1,0 +1,301 @@
+{
+  "explainVersion": "1",
+  "stages": [
+    {
+      "$cursor": {
+        "queryPlanner": {
+          "namespace": "w_tools_explain.orders",
+          "indexFilterSet": false,
+          "parsedQuery": {
+            "cust": {
+              "$eq": "c7"
+            }
+          },
+          "queryHash": "80863DC0",
+          "planCacheKey": "80863DC0",
+          "optimizationTimeMillis": {
+            "$numberInt": "0"
+          },
+          "maxIndexedOrSolutionsReached": false,
+          "maxIndexedAndSolutionsReached": false,
+          "maxScansToExplodeReached": false,
+          "winningPlan": {
+            "stage": "PROJECTION_SIMPLE",
+            "transformBy": {
+              "status": {
+                "$numberInt": "1"
+              },
+              "_id": {
+                "$numberInt": "0"
+              }
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "cust": {
+                  "$eq": "c7"
+                }
+              },
+              "direction": "forward"
+            }
+          },
+          "rejectedPlans": []
+        },
+        "executionStats": {
+          "executionSuccess": true,
+          "nReturned": {
+            "$numberInt": "20"
+          },
+          "executionTimeMillis": {
+            "$numberInt": "4"
+          },
+          "totalKeysExamined": {
+            "$numberInt": "0"
+          },
+          "totalDocsExamined": {
+            "$numberInt": "5000"
+          },
+          "executionStages": {
+            "stage": "PROJECTION_SIMPLE",
+            "nReturned": {
+              "$numberInt": "20"
+            },
+            "executionTimeMillisEstimate": {
+              "$numberInt": "0"
+            },
+            "works": {
+              "$numberInt": "5001"
+            },
+            "advanced": {
+              "$numberInt": "20"
+            },
+            "needTime": {
+              "$numberInt": "4980"
+            },
+            "needYield": {
+              "$numberInt": "0"
+            },
+            "saveState": {
+              "$numberInt": "6"
+            },
+            "restoreState": {
+              "$numberInt": "6"
+            },
+            "isEOF": {
+              "$numberInt": "1"
+            },
+            "transformBy": {
+              "status": {
+                "$numberInt": "1"
+              },
+              "_id": {
+                "$numberInt": "0"
+              }
+            },
+            "inputStage": {
+              "stage": "COLLSCAN",
+              "filter": {
+                "cust": {
+                  "$eq": "c7"
+                }
+              },
+              "nReturned": {
+                "$numberInt": "20"
+              },
+              "executionTimeMillisEstimate": {
+                "$numberInt": "0"
+              },
+              "works": {
+                "$numberInt": "5001"
+              },
+              "advanced": {
+                "$numberInt": "20"
+              },
+              "needTime": {
+                "$numberInt": "4980"
+              },
+              "needYield": {
+                "$numberInt": "0"
+              },
+              "saveState": {
+                "$numberInt": "6"
+              },
+              "restoreState": {
+                "$numberInt": "6"
+              },
+              "isEOF": {
+                "$numberInt": "1"
+              },
+              "direction": "forward",
+              "docsExamined": {
+                "$numberInt": "5000"
+              }
+            }
+          }
+        }
+      },
+      "nReturned": {
+        "$numberLong": "20"
+      },
+      "executionTimeMillisEstimate": {
+        "$numberLong": "4"
+      }
+    },
+    {
+      "$group": {
+        "_id": "$status",
+        "n": {
+          "$sum": {
+            "$const": {
+              "$numberInt": "1"
+            }
+          }
+        }
+      },
+      "maxAccumulatorMemoryUsageBytes": {
+        "n": {
+          "$numberLong": "192"
+        }
+      },
+      "totalOutputDataSizeBytes": {
+        "$numberLong": "490"
+      },
+      "usedDisk": false,
+      "spills": {
+        "$numberLong": "0"
+      },
+      "spilledDataStorageSize": {
+        "$numberLong": "0"
+      },
+      "numBytesSpilledEstimate": {
+        "$numberLong": "0"
+      },
+      "spilledRecords": {
+        "$numberLong": "0"
+      },
+      "nReturned": {
+        "$numberLong": "2"
+      },
+      "executionTimeMillisEstimate": {
+        "$numberLong": "4"
+      }
+    },
+    {
+      "$sort": {
+        "sortKey": {
+          "n": {
+            "$numberInt": "-1"
+          }
+        }
+      },
+      "totalDataSizeSortedBytesEstimate": {
+        "$numberLong": "506"
+      },
+      "usedDisk": false,
+      "spills": {
+        "$numberLong": "0"
+      },
+      "spilledDataStorageSize": {
+        "$numberLong": "0"
+      },
+      "nReturned": {
+        "$numberLong": "2"
+      },
+      "executionTimeMillisEstimate": {
+        "$numberLong": "4"
+      }
+    }
+  ],
+  "serverInfo": {
+    "host": "vm",
+    "port": {
+      "$numberInt": "27017"
+    },
+    "version": "7.0.43",
+    "gitVersion": "ef5a7d3480b59feae13d564376129fc4ceee6177"
+  },
+  "serverParameters": {
+    "internalQueryFacetBufferSizeBytes": {
+      "$numberInt": "104857600"
+    },
+    "internalQueryFacetMaxOutputDocSizeBytes": {
+      "$numberInt": "104857600"
+    },
+    "internalLookupStageIntermediateDocumentMaxSizeBytes": {
+      "$numberInt": "104857600"
+    },
+    "internalDocumentSourceGroupMaxMemoryBytes": {
+      "$numberInt": "104857600"
+    },
+    "internalQueryMaxBlockingSortMemoryUsageBytes": {
+      "$numberInt": "104857600"
+    },
+    "internalQueryProhibitBlockingMergeOnMongoS": {
+      "$numberInt": "0"
+    },
+    "internalQueryMaxAddToSetBytes": {
+      "$numberInt": "104857600"
+    },
+    "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": {
+      "$numberInt": "104857600"
+    },
+    "internalQueryFrameworkControl": "forceClassicEngine"
+  },
+  "command": {
+    "aggregate": "orders",
+    "pipeline": [
+      {
+        "$match": {
+          "cust": "c7"
+        }
+      },
+      {
+        "$group": {
+          "_id": "$status",
+          "n": {
+            "$sum": {
+              "$numberInt": "1"
+            }
+          }
+        }
+      },
+      {
+        "$sort": {
+          "n": {
+            "$numberInt": "-1"
+          }
+        }
+      }
+    ],
+    "cursor": {},
+    "$db": "w_tools_explain"
+  },
+  "ok": {
+    "$numberInt": "1"
+  },
+  "$clusterTime": {
+    "clusterTime": {
+      "$timestamp": {
+        "t": 1791122578,
+        "i": 5006
+      }
+    },
+    "signature": {
+      "hash": {
+        "$binary": {
+          "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+          "subType": "00"
+        }
+      },
+      "keyId": {
+        "$numberLong": "0"
+      }
+    }
+  },
+  "operationTime": {
+    "$timestamp": {
+      "t": 1791122578,
+      "i": 5006
+    }
+  }
+}
