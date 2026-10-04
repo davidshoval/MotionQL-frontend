@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import {
   ArrowLeftRight,
   Building2,
@@ -21,6 +22,7 @@ import { Reveal } from "@/components/marketing/reveal";
 import { SpotlightCard } from "@/components/marketing/spotlight-card";
 import { Cta } from "@/components/marketing/cta";
 import { Badge } from "@/components/ui/badge";
+import { features } from "@/lib/features";
 
 export const metadata: Metadata = {
   title: "Features",
@@ -228,6 +230,29 @@ export default function FeaturesPage() {
           ))}
         </nav>
       </PageHero>
+      <section className="container-page py-12" aria-labelledby="feature-pages">
+        <h2 id="feature-pages" className="text-muted-foreground text-center font-mono text-[11px] tracking-[0.14em] uppercase">
+          Explore a feature in depth
+        </h2>
+        <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {features.map((f) => (
+            <li key={f.slug}>
+              <Link
+                href={`/features/${f.slug}`}
+                className="border-border bg-card/50 hover:border-primary/40 hover:bg-primary/[0.04] flex h-full items-center gap-3 rounded-2xl border px-4 py-3 text-[14.5px] transition"
+              >
+                <f.icon className="text-primary size-4 shrink-0" />
+                <span className="flex-1">{f.name}</span>
+                {f.tier && (
+                  <Badge variant={f.tier === "Pro" ? "default" : "violet"} className="text-[10px]">
+                    {f.tier}
+                  </Badge>
+                )}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
       <section className="container-page grid gap-4 py-12 md:grid-cols-2">
         {groups.map((g, i) => (
           <Reveal key={g.id} delay={(i % 2) * 0.06}>
