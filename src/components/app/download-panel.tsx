@@ -116,6 +116,14 @@ export function DownloadPanel() {
                   {recommended && <p className="text-primary text-xs">Recommended for your computer</p>}
                 </div>
               </div>
+              {files.length === 0 && (
+                <p className="text-muted-foreground mt-6 flex-1 text-sm">
+                  Coming soon.{" "}
+                  <Link href={`/download/${o === "macos" ? "mac" : o}`} className="text-primary hover:underline">
+                    Learn more
+                  </Link>
+                </p>
+              )}
               <ul className="mt-6 flex flex-1 flex-col gap-2">
                 {files.map((f, i) => (
                   <li key={f.name}>
