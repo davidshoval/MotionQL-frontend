@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { api, ApiError } from "./index";
+import { linuxInstallers } from "@/lib/os";
 
 export const qk = {
   me: ["me"] as const,
@@ -36,4 +37,14 @@ export function useLicenses(enabled = true) {
 
 export function useRelease() {
   return useQuery({ queryKey: qk.release, queryFn: () => api.latestRelease(), staleTime: 10 * 60_000, retry: 1 });
+}
+
+/**
+ * Whether the latest release has Linux installers. Same lookup as the download panel; `available` stays false
+ * while loading or when the lookup fails, so pages fall back to "coming soon" rather than a broken link.
+ */
+export function useLinuxRelease() {
+  const { data: release, isLoading, isError } = useRelease();
+  const files = release ? linuxInstallers(release.files) : [];
+  return { release, files, available: files.length > 0, isLoading, isError };
 }

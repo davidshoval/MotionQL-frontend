@@ -1,10 +1,24 @@
+import Link from "next/link";
 import { Download, KeyRound, UserPlus } from "lucide-react";
 import { SectionHeading } from "./section-heading";
 import { Reveal } from "./reveal";
+import { PlatformsText } from "@/components/app/platforms-text";
 
 const steps = [
   { icon: UserPlus, t: "Create your free account", d: "Email and password. Verify your address and your Pro key is ready." },
-  { icon: Download, t: "Download for your OS", d: "macOS (Apple Silicon and Intel), Windows and Linux. Signed installers with checksums." },
+  {
+    icon: Download,
+    t: "Download for your OS",
+    d: (
+      <>
+        <PlatformsText variant="long" />. Installers aren&apos;t code-signed yet;{" "}
+        <Link href="/docs/install#about-the-security-warnings" className="text-primary hover:underline">
+          see how to open them
+        </Link>
+        .
+      </>
+    ),
+  },
   { icon: KeyRound, t: "Paste your key", d: "Settings → License → Activate. Verified offline, so it works behind any firewall." },
 ];
 

@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { LogoMark } from "@/components/site/logo";
 import { Tooltip } from "@/components/ui/tooltip";
 
-function Cell({ mark, highlight }: { mark: Mark; highlight?: boolean }) {
+export function Cell({ mark, highlight }: { mark: Mark; highlight?: boolean }) {
   if (mark === "yes")
     return (
       <span

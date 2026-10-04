@@ -1,0 +1,283 @@
+{
+  "explainVersion": "1",
+  "queryPlanner": {
+    "namespace": "w_tools_explain.orders",
+    "indexFilterSet": false,
+    "parsedQuery": {
+      "$and": [
+        {
+          "status": {
+            "$eq": "A"
+          }
+        },
+        {
+          "qty": {
+            "$lt": {
+              "$numberInt": "30"
+            }
+          }
+        }
+      ]
+    },
+    "queryHash": "F6C78C45",
+    "planCacheKey": "824A678A",
+    "optimizationTimeMillis": {
+      "$numberInt": "0"
+    },
+    "maxIndexedOrSolutionsReached": false,
+    "maxIndexedAndSolutionsReached": false,
+    "maxScansToExplodeReached": false,
+    "winningPlan": {
+      "stage": "FETCH",
+      "inputStage": {
+        "stage": "IXSCAN",
+        "keyPattern": {
+          "status": {
+            "$numberInt": "1"
+          },
+          "createdAt": {
+            "$numberInt": "-1"
+          },
+          "qty": {
+            "$numberInt": "1"
+          }
+        },
+        "indexName": "status_1_createdAt_-1_qty_1",
+        "isMultiKey": false,
+        "multiKeyPaths": {
+          "status": [],
+          "createdAt": [],
+          "qty": []
+        },
+        "isUnique": false,
+        "isSparse": false,
+        "isPartial": false,
+        "indexVersion": {
+          "$numberInt": "2"
+        },
+        "direction": "forward",
+        "indexBounds": {
+          "status": [
+            "[\"A\", \"A\"]"
+          ],
+          "createdAt": [
+            "[MaxKey, MinKey]"
+          ],
+          "qty": [
+            "[-inf.0, 30)"
+          ]
+        }
+      }
+    },
+    "rejectedPlans": []
+  },
+  "executionStats": {
+    "executionSuccess": true,
+    "nReturned": {
+      "$numberInt": "400"
+    },
+    "executionTimeMillis": {
+      "$numberInt": "4"
+    },
+    "totalKeysExamined": {
+      "$numberInt": "1251"
+    },
+    "totalDocsExamined": {
+      "$numberInt": "400"
+    },
+    "executionStages": {
+      "stage": "FETCH",
+      "nReturned": {
+        "$numberInt": "400"
+      },
+      "executionTimeMillisEstimate": {
+        "$numberInt": "0"
+      },
+      "works": {
+        "$numberInt": "1251"
+      },
+      "advanced": {
+        "$numberInt": "400"
+      },
+      "needTime": {
+        "$numberInt": "850"
+      },
+      "needYield": {
+        "$numberInt": "0"
+      },
+      "saveState": {
+        "$numberInt": "1"
+      },
+      "restoreState": {
+        "$numberInt": "1"
+      },
+      "isEOF": {
+        "$numberInt": "1"
+      },
+      "docsExamined": {
+        "$numberInt": "400"
+      },
+      "alreadyHasObj": {
+        "$numberInt": "0"
+      },
+      "inputStage": {
+        "stage": "IXSCAN",
+        "nReturned": {
+          "$numberInt": "400"
+        },
+        "executionTimeMillisEstimate": {
+          "$numberInt": "0"
+        },
+        "works": {
+          "$numberInt": "1251"
+        },
+        "advanced": {
+          "$numberInt": "400"
+        },
+        "needTime": {
+          "$numberInt": "850"
+        },
+        "needYield": {
+          "$numberInt": "0"
+        },
+        "saveState": {
+          "$numberInt": "1"
+        },
+        "restoreState": {
+          "$numberInt": "1"
+        },
+        "isEOF": {
+          "$numberInt": "1"
+        },
+        "keyPattern": {
+          "status": {
+            "$numberInt": "1"
+          },
+          "createdAt": {
+            "$numberInt": "-1"
+          },
+          "qty": {
+            "$numberInt": "1"
+          }
+        },
+        "indexName": "status_1_createdAt_-1_qty_1",
+        "isMultiKey": false,
+        "multiKeyPaths": {
+          "status": [],
+          "createdAt": [],
+          "qty": []
+        },
+        "isUnique": false,
+        "isSparse": false,
+        "isPartial": false,
+        "indexVersion": {
+          "$numberInt": "2"
+        },
+        "direction": "forward",
+        "indexBounds": {
+          "status": [
+            "[\"A\", \"A\"]"
+          ],
+          "createdAt": [
+            "[MaxKey, MinKey]"
+          ],
+          "qty": [
+            "[-inf.0, 30)"
+          ]
+        },
+        "keysExamined": {
+          "$numberInt": "1251"
+        },
+        "seeks": {
+          "$numberInt": "851"
+        },
+        "dupsTested": {
+          "$numberInt": "0"
+        },
+        "dupsDropped": {
+          "$numberInt": "0"
+        }
+      }
+    }
+  },
+  "command": {
+    "find": "orders",
+    "filter": {
+      "status": "A",
+      "qty": {
+        "$lt": {
+          "$numberInt": "30"
+        }
+      }
+    },
+    "sort": {
+      "createdAt": {
+        "$numberInt": "-1"
+      }
+    },
+    "$db": "w_tools_explain"
+  },
+  "serverInfo": {
+    "host": "vm",
+    "port": {
+      "$numberInt": "27017"
+    },
+    "version": "7.0.43",
+    "gitVersion": "ef5a7d3480b59feae13d564376129fc4ceee6177"
+  },
+  "serverParameters": {
+    "internalQueryFacetBufferSizeBytes": {
+      "$numberInt": "104857600"
+    },
+    "internalQueryFacetMaxOutputDocSizeBytes": {
+      "$numberInt": "104857600"
+    },
+    "internalLookupStageIntermediateDocumentMaxSizeBytes": {
+      "$numberInt": "104857600"
+    },
+    "internalDocumentSourceGroupMaxMemoryBytes": {
+      "$numberInt": "104857600"
+    },
+    "internalQueryMaxBlockingSortMemoryUsageBytes": {
+      "$numberInt": "104857600"
+    },
+    "internalQueryProhibitBlockingMergeOnMongoS": {
+      "$numberInt": "0"
+    },
+    "internalQueryMaxAddToSetBytes": {
+      "$numberInt": "104857600"
+    },
+    "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": {
+      "$numberInt": "104857600"
+    },
+    "internalQueryFrameworkControl": "forceClassicEngine"
+  },
+  "ok": {
+    "$numberInt": "1"
+  },
+  "$clusterTime": {
+    "clusterTime": {
+      "$timestamp": {
+        "t": 1791122578,
+        "i": 5006
+      }
+    },
+    "signature": {
+      "hash": {
+        "$binary": {
+          "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+          "subType": "00"
+        }
+      },
+      "keyId": {
+        "$numberLong": "0"
+      }
+    }
+  },
+  "operationTime": {
+    "$timestamp": {
+      "t": 1791122578,
+      "i": 5006
+    }
+  }
+}

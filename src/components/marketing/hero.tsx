@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRef } from "react";
+import { PlatformsText } from "@/components/app/platforms-text";
 import { motion, useScroll, useTransform } from "motion/react";
 import { ArrowRight, Check, Laptop, MonitorDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -80,7 +81,7 @@ export function Hero() {
           className="text-muted-foreground mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[13px]"
         >
           <li className="flex items-center gap-1.5">
-            <Laptop className="size-3.5" /> macOS, Windows and Linux
+            <Laptop className="size-3.5" /> <PlatformsText />
           </li>
           {["No credit card", "Works offline", "Your data stays on your machine"].map((t) => (
             <li key={t} className="flex items-center gap-1.5">
