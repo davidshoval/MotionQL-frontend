@@ -16,6 +16,16 @@ const columns = [
     ],
   },
   {
+    title: "Resources",
+    links: [
+      { href: "/docs", label: "Documentation" },
+      { href: "/blog", label: "Blog" },
+      { href: "/faq", label: "FAQ" },
+      { href: "/roadmap", label: "Roadmap" },
+      { href: "/support", label: "Support" },
+    ],
+  },
+  {
     title: "Switch to MotionQL",
     links: [
       { href: "/compare/studio-3t", label: "MotionQL vs Studio 3T" },
@@ -46,7 +56,7 @@ const columns = [
 export function Footer() {
   return (
     <footer className="border-border relative mt-24 border-t">
-      <div className="container-page grid gap-12 py-16 md:grid-cols-[1.4fr_repeat(4,1fr)]">
+      <div className="container-page grid gap-12 py-16 md:grid-cols-3 lg:grid-cols-[1.4fr_repeat(5,1fr)]">
         <div className="max-w-xs">
           <Logo />
           <p className="text-muted-foreground mt-4 text-sm leading-relaxed">
