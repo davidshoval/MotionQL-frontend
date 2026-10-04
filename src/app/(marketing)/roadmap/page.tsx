@@ -46,14 +46,14 @@ const items: Item[] = [
     body: "Edit database users and change passwords from Users & Roles, and preview files in the GridFS browser.",
   },
   {
+    title: "Linux release",
+    status: "in-progress",
+    body: "Linux installers for 64-bit x86 desktops, an AppImage and a .deb package, arriving with the next release.",
+  },
+  {
     title: "Interface polish",
     status: "in-progress",
     body: "A denser, more consistent interface: shared control sizes, compact toolbars and tidier dialogs.",
-  },
-  {
-    title: "Linux release",
-    status: "planned",
-    body: "Published Linux builds (AppImage, .deb and .rpm) for 64-bit x86 desktops.",
   },
   {
     title: "Signed installers and in-app updates",

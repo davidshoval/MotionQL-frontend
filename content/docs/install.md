@@ -1,4 +1,4 @@
-MotionQL is a desktop app. Installers for **macOS** and **Windows** are available today; a Linux release is [on the roadmap](/roadmap).
+MotionQL is a desktop app. Installers for **macOS** and **Windows** are available today. Linux (AppImage and deb) arrives with the next release: an x64 AppImage and a `.deb` package.
 
 ## System requirements
 

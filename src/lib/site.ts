@@ -9,7 +9,7 @@ export const site = {
   supportEmail: "support@motionql.com",
   securityEmail: "security@motionql.com",
   /** General contact address shown on /support. */
-  contactEmail: "hello@motionql.com",
+  contactEmail: "support@motionql.com",
   /** Response goal for support email, in business days. */
   supportResponseDays: 2,
   /** Community chat (Discord or similar). Hidden everywhere while empty. */

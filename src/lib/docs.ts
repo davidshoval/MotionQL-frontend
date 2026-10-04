@@ -131,10 +131,13 @@ export const docSections: DocSection[] = [
         description: "Schedule repeatable jobs, run them in the background or from scripts.",
       },
       { slug: "dashboards", title: "Dashboards", description: "Charts, metrics and tables backed by live aggregations." },
-      // The "Get a free Gemini API key" section follows Google's own pages: ai.google.dev/gemini-api/docs/api-key
-      // (create a key in AI Studio), ai.google.dev/gemini-api/docs/rate-limits (free-tier limits, per model) and
-      // ai.google.dev/gemini-api/terms (unpaid services: content may be used to improve Google products and may be
-      // read by human reviewers). Limits are not copied as numbers because Google changes them; the page links there.
+      // "Get a free Gemini API key" was checked against Google's pages on 2026-10-04:
+      // - ai.google.dev/gemini-api/terms: unpaid services' content is used "to provide, improve, and develop Google
+      //   products", "human reviewers may read, annotate, and process your API input and output", "Do not submit
+      //   sensitive, confidential, or personal information to the Unpaid Services"; paid prompts aren't used to
+      //   improve products.
+      // - ai.google.dev/gemini-api/docs/rate-limits: RPM, TPM (input) and RPD; "applied per project, not per API key";
+      //   limits vary by model; RPD resets at midnight Pacific time. Numbers aren't copied because Google changes them.
       {
         slug: "ai-mcp",
         title: "AI assistant and MCP",

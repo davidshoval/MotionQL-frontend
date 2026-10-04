@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Download, KeyRound, UserPlus } from "lucide-react";
 import { SectionHeading } from "./section-heading";
 import { Reveal } from "./reveal";
@@ -10,7 +11,11 @@ const steps = [
     t: "Download for your OS",
     d: (
       <>
-        <PlatformsText variant="long" />. Signed installers with checksums.
+        <PlatformsText variant="long" />. Installers aren&apos;t code-signed yet;{" "}
+        <Link href="/docs/install#about-the-security-warnings" className="text-primary hover:underline">
+          see how to open them
+        </Link>
+        .
       </>
     ),
   },

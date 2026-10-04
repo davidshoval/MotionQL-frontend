@@ -46,7 +46,7 @@ License keys are verified offline with a digital signature. There's no phone-hom
 We'd rather you hear the gaps from us:
 
 - **Installers aren't code-signed yet.** macOS and Windows will warn you the first time you open the app. The [install guide](/docs/install) shows the two clicks it takes, and how to check the file's checksum.
-- **No Linux release yet.** It's [on the roadmap](/roadmap).
+- **No Linux build in 1.0.** Linux (AppImage and deb) arrives with the next release, as an x64 AppImage and a `.deb` package.
 - **No in-app updates yet**, because they require signed builds. Download new versions from the site.
 - **MongoDB only.** Connecting to SQL databases as first-class targets is on the roadmap; today, SQL databases are a source for SQL Migration.
 - **English only.** Translations are planned.
