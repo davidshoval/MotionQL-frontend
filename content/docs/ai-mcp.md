@@ -39,7 +39,7 @@ MotionQL keeps what it sends small (see below): field names, types and query sha
 - **Explain a plan** and get **index advice**; **fix an error**; **debug a pipeline** stage by stage.
 - **Summarize a comparison**, **suggest masking rules**, answer **schema questions** ("which fields look like personal data?") and **suggest relationships** in SQL Migration.
 
-**Coming in the next release:** an **Ask AI** button on nearly every screen, including the chart editor and dashboards, the profiler, server monitoring, indexes, import and export, roles, the task scheduler and the SQL editor, plus **Ask AI about this screen** in the command palette. Each one suggests something you then apply; nothing runs on its own. When Gemini is busy or rate-limited, MotionQL will retry on a backup Gemini model and tell you which model answered (**Settings → AI → Backup models**).
+**On every screen:** an **Ask AI** button on nearly every screen, including the chart editor and dashboards, the profiler, server monitoring, indexes, import and export, roles, the task scheduler and the SQL editor, plus **Ask AI about this screen** in the command palette. Each one suggests something you then apply; nothing runs on its own. When Gemini is busy or rate-limited, MotionQL retries on a backup Gemini model and tell you which model answered (**Settings → AI → Backup models**).
 
 Suggestions are validated before you see them (a query must parse, and server-side JavaScript is refused when it isn't allowed), but **review them before running**.
 

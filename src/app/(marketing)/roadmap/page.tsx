@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 
 export const metadata: Metadata = {
   title: "Roadmap",
-  description: "What we're building next for MotionQL, and what shipped in 1.1: SQL databases, split panes, faster results and a Linux release.",
+  description: "What we're building next for MotionQL, and what shipped recently: AI on every screen, SQL databases, split panes, faster results and a Linux release.",
   alternates: { canonical: "/roadmap" },
 };
 
@@ -21,14 +21,14 @@ interface Item {
 // No dates on purpose: we publish what we're working on, not promises about when it ships.
 const items: Item[] = [
   {
-    title: "AI on every screen",
-    status: "in-progress",
-    body: "An Ask AI button on nearly every screen: the chart editor, dashboards, profiler, server monitoring, indexes, import and export, roles, the scheduler and the SQL editor. It suggests, you apply. Built and arriving with the next release, along with backup Gemini models for when Gemini is busy.",
-  },
-  {
     title: "Signed installers and in-app updates",
     status: "planned",
     body: "Code-signed macOS and Windows builds, so no security warning on first launch, and updates installed from inside the app.",
+  },
+  {
+    title: "AI on every screen (1.2)",
+    status: "shipped",
+    body: "An Ask AI button on nearly every screen: the chart editor, dashboards, profiler, server monitoring, indexes, import and export, roles, the scheduler and the SQL editor. It suggests, you apply. Backup Gemini models take over when Gemini is busy.",
   },
   {
     title: "SQL databases",
@@ -75,7 +75,7 @@ const items: Item[] = [
 const statusMeta: Record<Status, { label: string; icon: typeof LoaderCircle; variant: "default" | "secondary" }> = {
   "in-progress": { label: "In progress", icon: LoaderCircle, variant: "default" },
   planned: { label: "Planned", icon: CircleDashed, variant: "secondary" },
-  shipped: { label: "Shipped in 1.1", icon: CircleCheck, variant: "secondary" },
+  shipped: { label: "Shipped", icon: CircleCheck, variant: "secondary" },
 };
 
 export default function RoadmapPage() {
@@ -87,7 +87,7 @@ export default function RoadmapPage() {
         description="The features we're working on now and the ones lined up after. No dates: things ship when they're ready, and every release is in the changelog."
       />
       <section className="container-page max-w-4xl space-y-14 pb-8">
-        {(["in-progress", "planned", "shipped"] as Status[]).map((status) => {
+        {(["in-progress", "planned", "shipped"] as Status[]).filter((st) => items.some((i) => i.status === st)).map((status) => {
           const meta = statusMeta[status];
           const Icon = meta.icon;
           return (

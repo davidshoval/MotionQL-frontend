@@ -15,6 +15,15 @@ export interface BlogPost {
 
 const posts: BlogPost[] = [
   {
+    slug: "motionql-1-2-ask-ai-on-every-screen",
+    title: "MotionQL 1.2: Ask AI on every screen",
+    description:
+      "An Ask AI button on nearly every screen, from the chart editor to the SQL editor, plus backup Gemini models for when Gemini is busy.",
+    date: "2026-10-05",
+    author: "The MotionQL team",
+    tags: ["Release"],
+  },
+  {
     slug: "whats-new-in-motionql-1-1",
     title: "What's new in MotionQL 1.1",
     description:
