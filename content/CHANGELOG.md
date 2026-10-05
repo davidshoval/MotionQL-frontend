@@ -2,7 +2,38 @@
 
 All notable changes to MotionQL are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and MotionQL uses [Semantic Versioning](https://semver.org/).
 
-## [1.0.0] — [RELEASE DATE]
+## [1.1.0] — 2026-10-04
+
+### Added
+
+- SQL client for PostgreSQL, MySQL, MariaDB, SQL Server and Oracle: browse objects, run SQL, edit table rows.
+- Split panes and tab groups, with live results in every pane.
+- Real Server Monitoring (serverStatus, dbStats, top, server log) and a real explain with index suggestions in the visual Query Builder.
+- Import connections from Compass, Studio 3T and Robo 3T.
+- Edit users and change passwords; GridFS previews and drag-and-drop upload.
+- Dashboards shared through the workspace folder or the Team Server.
+- A guide to getting a free Gemini API key.
+- Linux AppImage and deb packages.
+
+### Changed
+
+- Every screen was redesigned to be more compact. Secondary panels (previews, stats, help, history, rarely used options) open and close with a button, and each screen remembers your choice. The sidebar can be hidden with Ctrl/Cmd+Alt+B.
+- Faster results: the first rows no longer wait for the document count; opening a collection, filtering, paging, aggregations and saving an edit are 1.5–8× faster. Load all opens 50,000 documents in a few seconds.
+- Lower memory: about 30% less RAM at idle and with a collection open; heavy parts load only when first used.
+
+### Fixed
+
+- Selecting rows or opening Bulk Edit no longer blanks the window.
+- Schema analysis averages and sample counts are correct; index usage dates are shown.
+- A provider picked in AI settings no longer flips back to Gemini.
+
+## [1.0.1] — 2026-10-03
+
+### Fixed
+
+- Gemini API keys with a dot (newer Google keys look like `AQ.…`) are accepted, and spaces, line breaks, zero-width characters and quotes picked up when pasting a key are removed.
+
+## [1.0.0] — 2026-10-03
 
 First general-availability release of the MotionQL desktop app for macOS (arm64, x64), Windows (x64) and Linux (x64), and of the self-hosted MotionQL Team Server.
 
@@ -65,8 +96,8 @@ First general-availability release of the MotionQL desktop app for macOS (arm64,
 ### Platform
 
 - Settings, rebindable keyboard shortcuts and a command palette; light and dark themes; accessibility improvements.
-- Auto-update over HTTPS with signature verification, stable and beta channels, no downgrades, and enterprise controls.
-- 14-day trial and offline Ed25519-signed license keys; first-run EULA acceptance.
+- Auto-update over HTTPS with signature verification, stable and beta channels, no downgrades, and enterprise controls; installers and updates are published to the public motionql-releases repository.
+- 14-day trial and offline Ed25519-signed license keys, cancelled through the signed product manifest (`revokedLicenses`); links to motionql.com to get, renew or upgrade a key; first-run EULA acceptance.
 - Opt-in crash reporting and a redacted diagnostics export.
 - Signed and notarized builds with SHA-256 checksums, a CycloneDX SBOM and build-provenance attestations; third-party notices.
 

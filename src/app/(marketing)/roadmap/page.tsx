@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CircleDashed, LoaderCircle } from "lucide-react";
+import { CircleCheck, CircleDashed, LoaderCircle } from "lucide-react";
 import { PageHero } from "@/components/marketing/page-hero";
 import { Badge } from "@/components/ui/badge";
 
 export const metadata: Metadata = {
   title: "Roadmap",
-  description: "What we're building next for MotionQL: SQL databases, split panes, a Linux release, translations and more.",
+  description: "What we're building next for MotionQL, and what shipped in 1.1: SQL databases, split panes, faster results and a Linux release.",
   alternates: { canonical: "/roadmap" },
 };
 
-type Status = "in-progress" | "planned";
+type Status = "in-progress" | "planned" | "shipped";
 
 interface Item {
   title: string;
@@ -21,50 +21,61 @@ interface Item {
 // No dates on purpose: we publish what we're working on, not promises about when it ships.
 const items: Item[] = [
   {
-    title: "SQL databases",
+    title: "AI on every screen",
     status: "in-progress",
-    body: "Connect to relational databases next to MongoDB, browse their tables and run SQL in the same app. Today, SQL databases are a source for SQL Migration only.",
-  },
-  {
-    title: "Split panes and tab groups",
-    status: "in-progress",
-    body: "Put two query tabs side by side, group tabs, and have the layout remembered per window.",
-  },
-  {
-    title: "Faster results grid",
-    status: "in-progress",
-    body: "Smoother scrolling and editing for large result sets in the table view.",
-  },
-  {
-    title: "Live server monitoring",
-    status: "in-progress",
-    body: "Server Monitoring backed by real serverStatus, dbStats and top metrics, and explain analysis in the query builder that feeds Index Review.",
-  },
-  {
-    title: "User management and GridFS previews",
-    status: "in-progress",
-    body: "Edit database users and change passwords from Users & Roles, and preview files in the GridFS browser.",
-  },
-  {
-    title: "Linux release",
-    status: "in-progress",
-    body: "Linux installers for 64-bit x86 desktops, an AppImage and a .deb package, arriving with the next release.",
-  },
-  {
-    title: "Interface polish",
-    status: "in-progress",
-    body: "A denser, more consistent interface: shared control sizes, compact toolbars and tidier dialogs.",
+    body: "An Ask AI button on nearly every screen: the chart editor, dashboards, profiler, server monitoring, indexes, import and export, roles, the scheduler and the SQL editor. It suggests, you apply. Built and arriving with the next release, along with backup Gemini models for when Gemini is busy.",
   },
   {
     title: "Signed installers and in-app updates",
     status: "planned",
     body: "Code-signed macOS and Windows builds, so no security warning on first launch, and updates installed from inside the app.",
   },
+  {
+    title: "SQL databases",
+    status: "shipped",
+    body: "PostgreSQL, MySQL, MariaDB, SQL Server and Oracle next to MongoDB: browse tables, run SQL and edit rows.",
+  },
+  {
+    title: "Split panes and tab groups",
+    status: "shipped",
+    body: "Put tabs side by side and group them, with live results in every pane.",
+  },
+  {
+    title: "Faster results",
+    status: "shipped",
+    body: "First rows no longer wait for the count, common actions are 1.5 to 8 times faster, and Load all opens 50,000 documents in a few seconds.",
+  },
+  {
+    title: "Live server monitoring",
+    status: "shipped",
+    body: "Real serverStatus, dbStats and top metrics, and a real explain with index suggestions in the query builder.",
+  },
+  {
+    title: "Import from Compass, Studio 3T and Robo 3T",
+    status: "shipped",
+    body: "Bring your saved connections over in one step.",
+  },
+  {
+    title: "User management and GridFS previews",
+    status: "shipped",
+    body: "Edit database users and change passwords, preview GridFS files and upload them by drag and drop.",
+  },
+  {
+    title: "Linux release",
+    status: "shipped",
+    body: "An AppImage and a .deb package for 64-bit x86 desktops.",
+  },
+  {
+    title: "Interface polish and lower memory",
+    status: "shipped",
+    body: "Every screen redesigned to be more compact, secondary panels that open and close, and about 30% less memory.",
+  },
 ];
 
 const statusMeta: Record<Status, { label: string; icon: typeof LoaderCircle; variant: "default" | "secondary" }> = {
   "in-progress": { label: "In progress", icon: LoaderCircle, variant: "default" },
   planned: { label: "Planned", icon: CircleDashed, variant: "secondary" },
+  shipped: { label: "Shipped in 1.1", icon: CircleCheck, variant: "secondary" },
 };
 
 export default function RoadmapPage() {
@@ -76,7 +87,7 @@ export default function RoadmapPage() {
         description="The features we're working on now and the ones lined up after. No dates: things ship when they're ready, and every release is in the changelog."
       />
       <section className="container-page max-w-4xl space-y-14 pb-8">
-        {(["in-progress", "planned"] as Status[]).map((status) => {
+        {(["in-progress", "planned", "shipped"] as Status[]).map((status) => {
           const meta = statusMeta[status];
           const Icon = meta.icon;
           return (

@@ -48,6 +48,7 @@ const groups: {
       "TLS with CA and client certificates; SSH tunnels with password or key, host-key pinning and up to four jump hosts; SOCKS5 and HTTP proxies",
       "SCRAM-SHA-256/1, X.509, LDAP, Kerberos, AWS IAM and OIDC (browser sign-in, plus workload identity for Azure, GCP and Kubernetes)",
       "Quick connect with Cmd/Ctrl+1–9, health indicator, and export/import with secrets stripped or password-encrypted",
+      "Import your connections from MongoDB Compass, Studio 3T and Robo 3T",
     ],
   },
   {
@@ -60,6 +61,7 @@ const groups: {
       "Collation, read and write concern, read preference, maxTimeMS and hint; cancel any query",
       "Explain tab, plus a COLLSCAN warning badge on slow filters, without running the query",
       "Document version history with one-click revert; copy as Extended JSON or shell",
+      "Split panes and tab groups with live results in every pane; Load all opens 50,000 documents in a few seconds",
     ],
   },
   {
@@ -92,6 +94,17 @@ const groups: {
       "Read-only SELECT with joins, grouping and ordering, translated to MongoDB find or aggregate",
       "Open and save .sql files",
       "Generate code for mongo shell, Node.js, Python, Java, C#, PHP, Ruby, Go and Rust from deterministic templates",
+    ],
+  },
+  {
+    id: "sql-databases",
+    icon: Database,
+    title: "SQL databases",
+    items: [
+      "PostgreSQL, MySQL, MariaDB, SQL Server and Oracle, with TLS and SSH tunnels",
+      "Browse schemas, tables, views, columns and indexes",
+      "SQL editor with autocomplete, a result tab per statement and per-tab transactions",
+      "Edit table rows by primary key; export to CSV, JSON or Excel",
     ],
   },
   {
@@ -134,9 +147,9 @@ const groups: {
     title: "Administration and monitoring",
     items: [
       "Index management with hidden indexes, $indexStats usage, live build progress and Index Review",
-      "Server monitoring, running operations with kill, query profiler and topology view",
-      "Users and custom roles with a privilege inspector",
-      "GridFS browser, views, transactions with dry-run, change stream viewer, oplog history",
+      "Live server monitoring from serverStatus, dbStats and top; running operations with kill, query profiler and topology view",
+      "Users and custom roles with a privilege inspector; edit users and change passwords",
+      "GridFS browser with previews and drag-and-drop upload; views, transactions with dry-run, change stream viewer, oplog history",
       "In-use encryption: CSFLE and Queryable Encryption",
     ],
   },
@@ -162,6 +175,7 @@ const groups: {
       "Once, interval, daily, weekly and cron schedules with a run log",
       "A background runner keeps tasks going while the app is closed; run them from scripts with --cli",
       "Dashboards with ten chart types on live aggregations, shared filters, present mode and PDF export",
+      "Share dashboards through the workspace folder or the Team Server",
     ],
   },
   {
@@ -172,6 +186,7 @@ const groups: {
       "Gemini, Anthropic Claude, or any OpenAI-compatible endpoint including local models, with your own key",
       "Natural language to find, aggregation and SQL; explain plans; fix errors; index advice",
       "Ask Your Database for natural-language lookups",
+      "Next release: an Ask AI button on nearly every screen, and backup Gemini models when Gemini is busy",
       "Off for every connection until you allow it. Sends schema, never document values or credentials",
     ],
   },
@@ -205,6 +220,7 @@ const groups: {
     items: [
       <PlatformsText key="platforms" variant="long" />,
       "MongoDB 4.4 and later: Community, Enterprise and Atlas",
+      "PostgreSQL, MySQL, MariaDB, SQL Server and Oracle",
       "Amazon DocumentDB, Azure Cosmos DB for MongoDB and FerretDB",
       "SHA-256 checksums with every release (installers are not yet code-signed)",
     ],

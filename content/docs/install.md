@@ -1,4 +1,4 @@
-MotionQL is a desktop app. Installers for **macOS** and **Windows** are available today. Linux (AppImage and deb) arrives with the next release: an x64 AppImage and a `.deb` package.
+MotionQL is a desktop app for **macOS** and **Windows**, and from version 1.1 for **Linux** (an x64 AppImage and a `.deb` package). The download page shows the Linux files as soon as a release includes them.
 
 ## System requirements
 
@@ -25,6 +25,21 @@ shasum -a 256 -c SHA256SUMS.txt --ignore-missing
 # Windows (PowerShell): compare the output with the line in SHA256SUMS.txt
 Get-FileHash .\MotionQL-1.0.1-win-x64.exe -Algorithm SHA256
 ```
+
+## Install on Linux
+
+**AppImage:**
+
+```sh
+chmod +x MotionQL-*-linux-x86_64.AppImage
+./MotionQL-*-linux-x86_64.AppImage
+```
+
+AppImages need FUSE 2. On Ubuntu 22.04 and later run `sudo apt install libfuse2` (Ubuntu 24.04: `libfuse2t64`). The AppImage is the Linux build that can update itself.
+
+**Debian and Ubuntu:** install the `.deb` with `sudo apt install ./MotionQL-*.deb`.
+
+MotionQL keeps passwords in your desktop's Secret Service (GNOME Keyring or KWallet). On minimal desktops, install and start one, for example `gnome-keyring`.
 
 ## About the security warnings
 

@@ -15,6 +15,15 @@ export interface BlogPost {
 
 const posts: BlogPost[] = [
   {
+    slug: "whats-new-in-motionql-1-1",
+    title: "What's new in MotionQL 1.1",
+    description:
+      "SQL databases, split panes, Linux, connection import from Compass and Studio 3T, real server monitoring, and results that arrive up to 8 times faster.",
+    date: "2026-10-05",
+    author: "The MotionQL team",
+    tags: ["Release"],
+  },
+  {
     slug: "motionql-1-0-free-studio-3t-alternative",
     title: "MotionQL 1.0: a free Studio 3T alternative",
     description:

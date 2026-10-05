@@ -114,11 +114,11 @@ export const faqs = [
   },
   {
     q: "Can I move over from Studio 3T or Compass?",
-    a: "Yes. Paste the same connection strings, or import them. MotionQL supports the same hosts and auth methods, including SRV, replica sets, sharded clusters, SSH tunnels with jump hosts, X.509, LDAP, Kerberos, AWS IAM and OIDC. Your mongosh-style commands work in IntelliShell.",
+    a: "Yes. Import your saved connections from Compass, Studio 3T or Robo 3T in one step, or paste the same connection strings. MotionQL supports the same hosts and auth methods, including SRV, replica sets, sharded clusters, SSH tunnels with jump hosts, X.509, LDAP, Kerberos, AWS IAM and OIDC. Your mongosh-style commands work in IntelliShell.",
   },
   {
     q: "Which databases does it support?",
-    a: "MongoDB 4.4 and later (Community, Enterprise and Atlas, standalone, replica sets and sharded clusters). Amazon DocumentDB, Azure Cosmos DB for MongoDB and FerretDB work through the same driver, limited to what those services implement. SQL Migration reads from PostgreSQL, MySQL, MariaDB, SQL Server and Oracle.",
+    a: "MongoDB 4.4 and later (Community, Enterprise and Atlas, standalone, replica sets and sharded clusters). Amazon DocumentDB, Azure Cosmos DB for MongoDB and FerretDB work through the same driver, limited to what those services implement. It also connects to PostgreSQL, MySQL, MariaDB, SQL Server and Oracle directly, with a SQL editor and table editing, and SQL Migration moves data from them into MongoDB.",
   },
   {
     q: "Does my data go to MotionQL?",

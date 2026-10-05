@@ -3,7 +3,8 @@
 GridFS stores large files in MongoDB as chunks. The GridFS browser lets you:
 
 - browse **buckets** and the files in them;
-- **upload** and **download** files;
+- **preview** a file without saving it first;
+- **upload** files, including by dragging them from your desktop onto the bucket, and **download** them;
 - **rename** and **delete** files.
 
 Uploads, renames and deletes are writes and are blocked on read-only connections.

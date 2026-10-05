@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import {
   ArrowLeftRight,
+  Columns2,
   BarChart3,
   CalendarClock,
   Cloud,
@@ -26,7 +27,8 @@ import {
  * One page per MotionQL feature, served at /features/[slug].
  *
  * Every statement here comes from the desktop app's own docs or code (repo xquery.io-platform):
- * docs/USER_GUIDE.md, CHANGELOG.md 1.0.0, and the files named next to each entry. Licensing tiers come from
+ * docs/USER_GUIDE.md, CHANGELOG.md 1.0.0 and 1.1.0, and the files named next to each entry. Items marked "next release" are
+ * merged in the app (PR #58) but not yet in a published installer. Licensing tiers come from
  * src/main/licensing/features.ts (Pro: migration, masking, tasks, atlas; Enterprise: team).
  */
 
@@ -96,6 +98,10 @@ export const features: Feature[] = [
       {
         t: "Read-only that really is",
         d: "Blocks inserts, updates, deletes, drops, index changes, imports, sync, $out and $merge (even inside explain). Enforced in the main process, not by hiding buttons.",
+      },
+      {
+        t: "Bring your connections",
+        d: "Import saved connections from MongoDB Compass, Studio 3T and Robo 3T in one step. MotionQL finds their files on your computer and keeps any passwords in your keychain.",
       },
       {
         t: "Organized and labelled",
@@ -408,15 +414,89 @@ export const features: Feature[] = [
       caption: "The winning plan as a tree, with index use, documents examined and time.",
     },
     capabilities: [
+      {
+        t: "Live server monitoring",
+        d: "Operations per second, connections, network, memory, WiredTiger cache and queued reads and writes from serverStatus, plus dbStats and the busiest collections. Pause any time.",
+      },
+      {
+        t: "Explain in the query builder",
+        d: "See keys and documents examined, server time and the winning plan for the query you're building, with index suggestions.",
+      },
       { t: "Visual explain", d: "The winning plan as a tree with index use, documents examined and execution time." },
       { t: "Explain anywhere", d: "From the collection tab, IntelliShell or the aggregation editor." },
       { t: "Query profiler", d: "Set the profiling level and slow-operation threshold, review slow operations and clear profiling data." },
-      { t: "Server monitoring", d: "Live server metrics for the connection." },
       { t: "Running operations", d: "List current operations and kill one (blocked on read-only connections)." },
       { t: "Topology", d: "Replica set members and roles, and the shards of a sharded cluster." },
       { t: "AI plan advice", d: "On connections that allow AI, get an explanation of the plan and index advice." },
     ],
     related: ["index-management", "visual-query-builder", "aggregation-pipeline-builder"],
+  },
+  {
+    // CHANGELOG 1.1.0; USER_GUIDE "SQL databases"
+    slug: "sql-databases",
+    name: "SQL databases",
+    title: "PostgreSQL, MySQL, SQL Server and Oracle in the same app",
+    metaTitle: "SQL client for PostgreSQL, MySQL, MariaDB, SQL Server and Oracle",
+    summary:
+      "Connect to PostgreSQL, MySQL, MariaDB, SQL Server and Oracle next to your MongoDB connections. Browse tables, run SQL with autocomplete, and edit rows safely.",
+    icon: Database,
+    snippet: {
+      label: "Run the statement under the cursor",
+      code: "Ctrl/Cmd+Shift+Enter",
+    },
+    capabilities: [
+      {
+        t: "Five engines",
+        d: "PostgreSQL, MySQL, MariaDB, SQL Server and Oracle, with TLS and SSH tunnels. Passwords stay encrypted in your OS keychain.",
+      },
+      { t: "Browse", d: "Schemas, tables and views, with each table's columns and indexes in the sidebar." },
+      {
+        t: "SQL editor",
+        d: "Autocomplete for tables, views and columns, one result tab per statement, run the selection or the statement under the cursor, and cancel.",
+      },
+      {
+        t: "Edit table rows",
+        d: "Filter and sort a table, change cells or set them to NULL, and save. Each change is matched by primary key to exactly one row, or nothing is saved.",
+      },
+      {
+        t: "Transactions per tab",
+        d: "Each editor tab has its own session, so BEGIN, temp tables and SET stay in that tab. Closing the tab rolls back an open transaction.",
+      },
+      {
+        t: "Guard rails",
+        d: "DROP, TRUNCATE, and DELETE or UPDATE without WHERE ask first. Read-only connections are enforced by MotionQL and by the database itself.",
+      },
+      { t: "Export", d: "Results and whole tables to CSV, JSON or Excel. Open and save .sql files." },
+    ],
+    related: ["sql-migration", "sql-query", "connections-security"],
+  },
+  {
+    // CHANGELOG 1.1.0 "Split panes and tab groups", "Faster results", "Lower memory"
+    slug: "fast-workspace",
+    name: "Split panes & speed",
+    title: "Side by side, and fast with big collections",
+    metaTitle: "Split panes and fast results for large MongoDB collections",
+    summary:
+      "Split the window into panes and tab groups with live results in each, open 50,000 documents in a few seconds, and keep the app light on memory.",
+    icon: Columns2,
+    capabilities: [
+      { t: "Split panes", d: "Split right or down, or drag a tab to the edge of another pane. Every pane keeps its own live results." },
+      { t: "Tab groups", d: "Group related tabs and move them between panes." },
+      {
+        t: "Load all",
+        d: "Stream every matching document into one scrollable list instead of pages. 50,000 documents open in a few seconds.",
+      },
+      {
+        t: "First rows first",
+        d: "Results appear before the document count finishes. Opening a collection, filtering, paging, aggregations and saving an edit are 1.5 to 8 times faster than in 1.0.",
+      },
+      { t: "Lighter", d: "About 30% less memory at idle and with a collection open; heavy parts load only when you first use them." },
+      {
+        t: "Calmer screens",
+        d: "Previews, stats, help and history open and close with a button, and each screen remembers your choice. Hide the sidebar with Ctrl/Cmd+Alt+B.",
+      },
+    ],
+    related: ["visual-query-builder", "intellishell", "query-profiler-explain"],
   },
   {
     // USER_GUIDE "Data Compare & Sync", "Continuous sync" task
@@ -564,7 +644,11 @@ MotionQL --cli tasks import task.json`,
       { t: "Templates", d: "Built-in and saved dashboard templates." },
       { t: "Present mode", d: "Show a dashboard full screen." },
       { t: "Export", d: "PNG, multi-page PDF (A4 or Letter), per-widget PNG and CSV, and dashboard JSON." },
-      { t: "Local", d: "Dashboards are stored on your computer." },
+      {
+        t: "Share with your team",
+        d: "Save a dashboard to the shared workspace folder, or share it through the Team Server. Teammates open it against their own saved connection of the same name.",
+      },
+      { t: "AI chart builder (next release)", d: "Describe a chart or a whole dashboard in words and apply the suggestion, with undo." },
     ],
     related: ["aggregation-pipeline-builder", "ai-assistant-mcp", "schema-analysis-er-diagram"],
   },
@@ -601,6 +685,18 @@ MotionQL --cli tasks import task.json`,
         d: "Explain plans, fix errors, index advice, pipeline debugging, compare summaries and masking suggestions.",
       },
       {
+        t: "Ask AI on every screen (next release)",
+        d: "Profiler, server monitoring, indexes, import and export, the chart editor, roles, the scheduler, the SQL editor and more get an Ask AI button. It suggests; nothing runs until you apply it.",
+      },
+      {
+        t: "Backup models (next release)",
+        d: "When Gemini is busy or rate-limited, MotionQL retries on a backup Gemini model and tells you which one answered.",
+      },
+      {
+        t: "Free to start",
+        d: "A step-by-step guide gets you a free Google Gemini API key in a couple of minutes.",
+      },
+      {
         t: "Off until you allow it",
         d: "AI is off for every connection by default. Passwords, connection strings and keys are never sent.",
       },
@@ -617,7 +713,7 @@ MotionQL --cli tasks import task.json`,
     name: "GridFS",
     title: "Browse and manage GridFS files",
     metaTitle: "MongoDB GridFS browser",
-    summary: "Browse GridFS buckets, search and sort files, and upload, download, rename or delete them.",
+    summary: "Browse GridFS buckets, preview files, drag files in to upload them, and download, rename or delete them.",
     icon: FileStack,
     capabilities: [
       { t: "Every bucket", d: "Pick any bucket in a database, not just fs." },
@@ -626,6 +722,8 @@ MotionQL --cli tasks import task.json`,
         t: "Upload",
         d: "Upload with an optional content type and metadata document. Bytes stream from disk without passing through the UI.",
       },
+      { t: "Preview", d: "Open a preview of a file without saving it to disk first." },
+      { t: "Drag and drop", d: "Drop files from your desktop onto a bucket to upload them." },
       { t: "Download", d: "Save any file to disk with a native save dialog." },
       { t: "Rename and delete", d: "Rename files or delete them with confirmation. Both are blocked on read-only connections." },
     ],
