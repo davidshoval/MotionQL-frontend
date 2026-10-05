@@ -41,9 +41,9 @@ content/               CHANGELOG.md and legal documents, copied from the app rep
 
 `render.yaml` is a Render Blueprint: in Render choose **New > Blueprint** and pick this repository. It creates the `xquery-website` web service (the pre-rename name is kept on purpose: renaming it makes Render create a new service), which builds with `npm ci --include=dev && npm run build` (dev dependencies are needed for the build even if `NODE_ENV=production` is set) and runs `npm start`.
 
-- `NEXT_PUBLIC_API_URL` points at the backend's Render service (`https://xquery-api.onrender.com`); change it to `https://api.motionql.com` once that domain is live. Values starting with `NEXT_PUBLIC_` are baked into the build, so trigger a redeploy after changing them.
+- `NEXT_PUBLIC_API_URL` points at the backend's custom domain, `https://api.motionql.com`. Values starting with `NEXT_PUBLIC_` are baked into the build, so trigger a redeploy after changing them.
 - Add the custom domain `motionql.com` under the service's **Settings > Custom Domains**.
-- The backend's `WEB_ORIGINS` must list `https://motionql.com` and the service's `https://xquery-website.onrender.com` address, or sign-in requests are refused.
+- The backend's `WEB_ORIGINS` must list `https://motionql.com` and `https://www.motionql.com`, or sign-in requests are refused. The session cookie is `SameSite=Lax`, so sign-in only works on motionql.com, not on the `xquery-website.onrender.com` address.
 - The free plan sleeps after 15 minutes without traffic, so the first visit after that is slow. Switch `plan` to `starter` if that becomes a problem.
 
 ## API contract
