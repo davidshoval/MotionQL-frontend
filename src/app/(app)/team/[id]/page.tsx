@@ -1,7 +1,7 @@
 "use client";
 
 import { use, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
@@ -59,6 +59,8 @@ export default function TeamPage({ params }: { params: Promise<{ id: string }> }
   const myRole = teamQ.data?.role;
   const isAdmin = myRole === "owner" || myRole === "admin";
   const invitesQ = useQuery({ queryKey: qk.invites(id), queryFn: () => api.invites(id).then((r) => r.invites), enabled: isAdmin });
+  // New team managers land here straight from sign-up.
+  const welcome = useSearchParams().get("welcome") === "1";
   const [inviteOpen, setInviteOpen] = useState(false);
 
   if (teamQ.isError)
@@ -87,6 +89,20 @@ export default function TeamPage({ params }: { params: Promise<{ id: string }> }
           </Button>
         )}
       </div>
+
+      {welcome && isAdmin && (
+        <div className="border-primary/30 bg-primary/[0.06] flex flex-wrap items-center justify-between gap-4 rounded-2xl border px-5 py-4">
+          <div>
+            <p className="font-medium">Your team is ready, and you&apos;re its manager.</p>
+            <p className="text-muted-foreground mt-0.5 text-sm">
+              Invite your teammates by email. Each one gets their own Pro key, and you can free a seat or reissue a key any time.
+            </p>
+          </div>
+          <Button onClick={() => setInviteOpen(true)}>
+            <UserPlus /> Invite your team
+          </Button>
+        </div>
+      )}
 
       <div className="grid gap-4 sm:grid-cols-3">
         <Stat label="Seats in use" value={`${team.seatsUsed} / ${team.seatLimit}`}>
@@ -181,7 +197,9 @@ function MembersTable({
     },
     onError: (e) =>
       toast.error(
-        e instanceof ApiError && e.code === "seat_limit_reached" ? "Every seat is taken. Free one first." : errText(e, "Couldn't assign a seat."),
+        e instanceof ApiError && e.code === "seat_limit_reached"
+          ? "Every seat is taken. Free one first."
+          : errText(e, "Couldn't assign a seat."),
       ),
   });
   const setRole = useMutation({
@@ -429,7 +447,8 @@ function InvitesList({ teamId, onInvite }: { teamId: string; onInvite: () => voi
           <div className="min-w-0 flex-1">
             <p className="truncate font-medium">{inv.email}</p>
             <p className="text-muted-foreground text-xs">
-              Invited by {inv.invitedBy} on {formatDate(inv.createdAt)} · expires {formatDate(inv.expiresAt)} · {inv.assignSeat ? "gets a seat" : "no seat"}
+              Invited by {inv.invitedBy} on {formatDate(inv.createdAt)} · expires {formatDate(inv.expiresAt)} ·{" "}
+              {inv.assignSeat ? "gets a seat" : "no seat"}
             </p>
           </div>
           <Badge variant={roleTone[inv.role]} className="capitalize">
@@ -442,7 +461,10 @@ function InvitesList({ teamId, onInvite }: { teamId: string; onInvite: () => voi
               title="Preview mode: no e-mail is sent, so copy the link the invitee would get"
               onClick={() => {
                 const link = mockInviteLink(inv.id);
-                if (link) navigator.clipboard.writeText(new URL(link, window.location.origin).toString()).then(() => toast.success("Invite link copied"));
+                if (link)
+                  navigator.clipboard
+                    .writeText(new URL(link, window.location.origin).toString())
+                    .then(() => toast.success("Invite link copied"));
               }}
             >
               <Link2 /> Copy link
@@ -489,7 +511,10 @@ function AuditLog({ teamId }: { teamId: string }) {
   function exportCsv() {
     const url = api.auditCsvUrl(teamId);
     if (url) return window.location.assign(url);
-    const rows = [["time", "actor", "action", "target"], ...(data?.events ?? []).map((e) => [e.at, e.actor?.email ?? "MotionQL", e.action, targetText(e)])];
+    const rows = [
+      ["time", "actor", "action", "target"],
+      ...(data?.events ?? []).map((e) => [e.at, e.actor?.email ?? "MotionQL", e.action, targetText(e)]),
+    ];
     const csv = rows.map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
@@ -636,7 +661,9 @@ function InviteDialog({ teamId, open, onOpenChange }: { teamId: string; open: bo
   const send = useMutation({
     mutationFn: () => api.invite(teamId, { emails: parsed, role, assignSeat }),
     onSuccess: ({ invites, skipped }) => {
-      const skippedText = skipped.length ? `Skipped ${skipped.map((s) => s.email).join(", ")} (already invited or on the team).` : undefined;
+      const skippedText = skipped.length
+        ? `Skipped ${skipped.map((s) => s.email).join(", ")} (already invited or on the team).`
+        : undefined;
       if (invites.length) toast.success(`Sent ${invites.length} invite${invites.length > 1 ? "s" : ""}`, { description: skippedText });
       else toast.info(skippedText ?? "Nothing to send.");
       qc.invalidateQueries({ queryKey: ["team", teamId] });
