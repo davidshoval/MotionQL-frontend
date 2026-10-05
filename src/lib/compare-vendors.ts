@@ -29,7 +29,7 @@ export interface Vendor {
 }
 
 /** Static fallback for MotionQL's platforms; the table swaps in the release-aware wording (PlatformsText). */
-export const platformsMotionql = "macOS and Windows, Linux coming soon";
+export const platformsMotionql = "macOS, Windows and Linux (from 1.1)";
 
 export const vendors: Record<string, Vendor> = {
   // Sources:

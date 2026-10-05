@@ -37,7 +37,8 @@ The profiler writes to `system.profile` and adds some load, so prefer "slow oper
 
 ## Server monitoring and operations
 
-- **Server Monitoring:** live server metrics.
+- **Server Monitoring:** live metrics from `serverStatus` (operations per second, connections, network in and out, memory, WiredTiger cache, active and queued reads and writes, uptime), `dbStats` for the open database, and the busiest collections from `top`. It polls every 2 to 30 seconds; pause and resume any time. Sections your user can't read (they need the `clusterMonitor` role), or that Atlas free and shared tiers refuse, show as unavailable with the reason.
+- **Query builder → Optimization:** runs `explain("executionStats")` on the query you're building and shows keys and documents examined, documents returned, server time, the winning plan and a COLLSCAN warning, with index suggestions. An index is created only after you type the collection name.
 - **Running Operations:** list current operations and **kill** one. Killing is a write, so it's blocked on read-only connections.
 - **Topology:** replica set members and their roles, and the shards of a sharded cluster.
 

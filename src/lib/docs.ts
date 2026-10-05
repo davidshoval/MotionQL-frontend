@@ -22,7 +22,7 @@ export const docSections: DocSection[] = [
       {
         slug: "install",
         title: "Download and install",
-        description: "System requirements, installers for macOS and Windows, and what to do about security warnings.",
+        description: "System requirements, installers for macOS, Windows and Linux, and what to do about security warnings.",
       },
       {
         slug: "activate",
@@ -82,6 +82,11 @@ export const docSections: DocSection[] = [
         description: "mongosh-style commands, autocomplete, history and the optional Script mode.",
       },
       { slug: "sql-query", title: "SQL Query", description: "Run SELECT statements against MongoDB collections." },
+      {
+        slug: "sql-databases",
+        title: "SQL databases",
+        description: "Connect to PostgreSQL, MySQL, MariaDB, SQL Server and Oracle, run SQL and edit table rows.",
+      },
       {
         slug: "gridfs",
         title: "GridFS, views and transactions",

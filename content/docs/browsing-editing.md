@@ -19,7 +19,13 @@ Switch between three views of the same results:
 - **Table:** one row per document with a **column picker**. Good for flat data and quick comparisons.
 - **JSON:** the raw Extended JSON.
 
-Results are paged. Choose the page size and whether counts are **exact** or **estimated** (faster on big collections) in **Settings → General**.
+Results are paged. Choose the page size and whether counts are **exact** or **estimated** (faster on big collections) in **Settings → General**. The first rows appear without waiting for the count.
+
+**Load all:** set **Results** in the info bar to **Load all** to stream every matching document into one scrollable list instead of pages. A status line shows how many have loaded, with **Stop loading**. It stops at 200,000 documents or 256 MB by default; change the default mode and both limits in **Settings → General**.
+
+## Split panes and tab groups
+
+Drag a tab to the edge of another pane, or use **Split Right** or **Split Down** on a tab, to see two or more tabs side by side. Every pane keeps its own live results. Secondary panels (previews, stats, help and history) open and close with a button, and each screen remembers your choice. **Ctrl/Cmd+Alt+B** hides the sidebar.
 
 ## Editing documents
 

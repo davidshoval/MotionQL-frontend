@@ -39,6 +39,10 @@ The **Advanced** tab holds the default database, application name, compressors (
 - **Duplicate**, **edit** and **delete**. You can have several connections open at once.
 - A **health dot** shows the last ping result, server version, replica set and latency.
 
+## Import from Compass, Studio 3T or Robo 3T
+
+In the Connection Manager, click **Import from…** and pick MongoDB Compass, Studio 3T or Robo 3T. MotionQL looks for that tool's saved connections in their usual place on your computer, shows what it found, and imports the ones you choose. Any passwords it brings over are encrypted with your keychain like the rest.
+
 ## Export and import connections
 
 Export saved connections to a file in one of two ways:
