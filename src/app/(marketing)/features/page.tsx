@@ -186,7 +186,7 @@ const groups: {
       "Gemini, Anthropic Claude, or any OpenAI-compatible endpoint including local models, with your own key",
       "Natural language to find, aggregation and SQL; explain plans; fix errors; index advice",
       "Ask Your Database for natural-language lookups",
-      "Next release: an Ask AI button on nearly every screen, and backup Gemini models when Gemini is busy",
+      "An Ask AI button on nearly every screen, and backup Gemini models when Gemini is busy",
       "Off for every connection until you allow it. Sends schema, never document values or credentials",
     ],
   },

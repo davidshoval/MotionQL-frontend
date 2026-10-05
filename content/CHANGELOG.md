@@ -2,6 +2,22 @@
 
 All notable changes to MotionQL are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and MotionQL uses [Semantic Versioning](https://semver.org/).
 
+## [1.2.0] — 2026-10-05
+
+### Added
+
+- Ask AI on nearly every screen: the chart editor and dashboard builder, profiler, server monitoring, index review, import, export, test data, bulk edit, value search, the document editor, roles, the task scheduler, the data model, schema compare, connection errors, the SQL editor, and "Ask AI about this screen" in the command palette. Each helper suggests something you then apply; nothing runs on its own, and every helper follows the connection's "Allow AI" policy.
+- Gemini backup models: when Gemini is busy or rate-limited, MotionQL retries on a backup model and says which model answered (Settings → AI → Backup models).
+
+### Changed
+
+- Help text and secondary panels stay hidden until you ask for them.
+- Dialogs close with Escape and keep keyboard focus inside them.
+
+### Fixed
+
+- The sidebar's Export and Import menu items now open the right tools.
+
 ## [1.1.0] — 2026-10-04
 
 ### Added

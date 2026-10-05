@@ -36,8 +36,8 @@ Save a dashboard to a workspace folder your team shares, or share it through the
 - Linux: an AppImage and a `.deb` package.
 - Every screen redesigned to be more compact, with secondary panels that open and close.
 
-## Coming next
+## What came next
 
-The next release puts an **Ask AI** button on nearly every screen, from the chart editor to the SQL editor, and retries on a backup Gemini model when Gemini is busy. It's all on the [roadmap](/roadmap), and the full list of changes is in the [changelog](/changelog).
+1.2 adds an **Ask AI** button on nearly every screen; see [MotionQL 1.2: Ask AI on every screen](/blog/motionql-1-2-ask-ai-on-every-screen). The full list of changes is in the [changelog](/changelog).
 
 [Download MotionQL](/download) or update from inside the app.

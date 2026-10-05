@@ -52,7 +52,7 @@ const groups: { title: string; items: Item[] }[] = [
     items: [
       {
         q: "Which operating systems are supported?",
-        a: "macOS 12 or later on Apple silicon and Intel, and Windows 10 or 11 (64-bit). Linux (AppImage and deb) arrives with the next release, for 64-bit x86 desktops. MotionQL works with MongoDB 4.4 and later, including Atlas, replica sets and sharded clusters, plus Amazon DocumentDB, Azure Cosmos DB for MongoDB and FerretDB within the features those services implement.",
+        a: "macOS 12 or later on Apple silicon and Intel, Windows 10 or 11 (64-bit), and Linux on 64-bit x86 desktops (AppImage and deb). MotionQL works with MongoDB 4.4 and later, including Atlas, replica sets and sharded clusters, plus Amazon DocumentDB, Azure Cosmos DB for MongoDB and FerretDB within the features those services implement.",
         more: { href: "/docs/install", label: "System requirements" },
       },
       {
