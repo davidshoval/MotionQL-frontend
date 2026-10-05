@@ -9,6 +9,7 @@ import { CheckCircle2, Loader2, MailCheck, XCircle } from "lucide-react";
 import { api, ApiError, USE_MOCK } from "@/lib/api";
 import { qk } from "@/lib/api/hooks";
 import { safeNext } from "@/lib/schemas";
+import { takePendingTeam } from "@/lib/pending-team";
 import { Button } from "@/components/ui/button";
 
 export function VerifyEmail() {
@@ -20,7 +21,7 @@ export function VerifyEmail() {
 function Confirm({ token }: { token: string }) {
   const router = useRouter();
   const qc = useQueryClient();
-  const [state, setState] = useState<"working" | "done" | { error: string }>("working");
+  const [state, setState] = useState<"working" | "done" | "team" | { error: string }>("working");
   const ran = useRef(false);
 
   useEffect(() => {
@@ -28,10 +29,22 @@ function Confirm({ token }: { token: string }) {
     ran.current = true;
     api
       .verifyEmail(token)
-      .then(async () => {
+      .then(async ({ user }) => {
         await qc.invalidateQueries({ queryKey: qk.me });
+        let next = safeNext(sessionStorage.getItem("mq-next"));
+        const teamName = takePendingTeam(user.email);
+        if (teamName) {
+          setState("team");
+          try {
+            const { team } = await api.createTeam(teamName);
+            await qc.invalidateQueries({ queryKey: qk.me });
+            next = `/team/${team.id}?welcome=1`;
+          } catch {
+            // Rare (e.g. the team was already created in another tab): let them create it by hand.
+            next = "/team/new";
+          }
+        }
         setState("done");
-        const next = safeNext(sessionStorage.getItem("mq-next"));
         sessionStorage.removeItem("mq-next");
         sessionStorage.removeItem("mq-dev-verify");
         setTimeout(() => router.push(next), 1400);
@@ -39,11 +52,11 @@ function Confirm({ token }: { token: string }) {
       .catch((e) => setState({ error: e instanceof ApiError ? e.message : "We couldn't verify this link." }));
   }, [token, qc, router]);
 
-  if (state === "working")
+  if (state === "working" || state === "team")
     return (
       <div className="flex flex-col items-center gap-4 text-center">
         <Loader2 className="text-primary size-10 animate-spin" />
-        <h1 className="text-2xl font-semibold">Verifying your email…</h1>
+        <h1 className="text-2xl font-semibold">{state === "team" ? "Setting up your team…" : "Verifying your email…"}</h1>
       </div>
     );
   if (state === "done")

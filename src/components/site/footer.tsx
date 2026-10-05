@@ -8,8 +8,22 @@ const columns = [
     links: [
       { href: "/features", label: "Features" },
       { href: "/download", label: "Download" },
+      { href: "/download/mac", label: "MongoDB GUI for Mac" },
+      { href: "/download/windows", label: "MongoDB GUI for Windows" },
+      { href: "/download/linux", label: "MongoDB GUI for Linux" },
       { href: "/pricing", label: "Pricing" },
       { href: "/changelog", label: "Changelog" },
+      { href: "/tools", label: "Free MongoDB tools" },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { href: "/docs", label: "Documentation" },
+      { href: "/blog", label: "Blog" },
+      { href: "/faq", label: "FAQ" },
+      { href: "/roadmap", label: "Roadmap" },
+      { href: "/support", label: "Support" },
     ],
   },
   {
@@ -17,7 +31,9 @@ const columns = [
     links: [
       { href: "/compare/studio-3t", label: "MotionQL vs Studio 3T" },
       { href: "/compare/compass", label: "MotionQL vs Compass" },
-      { href: "/compare", label: "Full comparison" },
+      { href: "/compare/robo-3t", label: "MotionQL vs Robo 3T" },
+      { href: "/compare/visualeaf", label: "MotionQL vs VisuaLeaf" },
+      { href: "/compare", label: "All comparisons" },
     ],
   },
   {
@@ -41,7 +57,7 @@ const columns = [
 export function Footer() {
   return (
     <footer className="border-border relative mt-24 border-t">
-      <div className="container-page grid gap-12 py-16 md:grid-cols-[1.4fr_repeat(4,1fr)]">
+      <div className="container-page grid gap-12 py-16 md:grid-cols-3 lg:grid-cols-[1.4fr_repeat(5,1fr)]">
         <div className="max-w-xs">
           <Logo />
           <p className="text-muted-foreground mt-4 text-sm leading-relaxed">

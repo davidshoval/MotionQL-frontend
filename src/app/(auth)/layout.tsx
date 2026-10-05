@@ -3,10 +3,13 @@ import { Check } from "lucide-react";
 import { Logo } from "@/components/site/logo";
 import { Aurora } from "@/components/marketing/aurora";
 import { USE_MOCK } from "@/lib/api";
+import { PlatformsText } from "@/components/app/platforms-text";
 
 const perks = [
   "A personal Pro license, free for 12 months",
-  "Installers for macOS, Windows and Linux",
+  <>
+    Installers for <PlatformsText />
+  </>,
   "Activate offline: no phone-home, ever",
   "Free team seats while we launch",
 ];
@@ -31,8 +34,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div className="max-w-md">
           <h2 className="text-gradient text-4xl font-semibold tracking-[-0.035em]">Everything Pro. Free for a year.</h2>
           <ul className="mt-8 space-y-4">
-            {perks.map((p) => (
-              <li key={p} className="flex items-center gap-3 text-[15px]">
+            {perks.map((p, i) => (
+              <li key={i} className="flex items-center gap-3 text-[15px]">
                 <span className="bg-primary/15 text-primary grid size-6 place-items-center rounded-full">
                   <Check className="size-3.5" />
                 </span>
