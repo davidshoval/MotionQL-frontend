@@ -1,4 +1,5 @@
 import type { OS, ReleaseFile } from "@/lib/api";
+import { track } from "@/lib/analytics";
 
 export function detectOS(): OS | null {
   if (typeof navigator === "undefined") return null;
@@ -29,6 +30,7 @@ export function sortFiles(files: ReleaseFile[]) {
 
 /** Start a download. GitHub release assets download directly from their URL. */
 export function startDownload(f: ReleaseFile) {
+  track("download", { os: f.os, arch: f.arch, kind: f.kind });
   window.location.assign(f.url);
 }
 

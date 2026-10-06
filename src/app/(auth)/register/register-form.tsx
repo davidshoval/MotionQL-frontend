@@ -8,6 +8,7 @@ import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, ArrowRight, Gift, Loader2, User, Users } from "lucide-react";
 import { api, ApiError } from "@/lib/api";
+import { track } from "@/lib/analytics";
 import { registerSchema, safeNext, type RegisterValues } from "@/lib/schemas";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -63,6 +64,7 @@ export function RegisterForm() {
         heardFrom: (v.heardFrom === "other" ? v.heardFromOther : v.heardFrom) || undefined,
         referralCode: invite ? invite.code : undefined,
       });
+      track("register", { usage: v.usage, referred: invite ? "yes" : "no" });
       clearReferral();
       if (res.devVerifyToken) sessionStorage.setItem("mq-dev-verify", res.devVerifyToken);
       if (v.usage === "team" && v.teamName) savePendingTeam(v.email, v.teamName);
