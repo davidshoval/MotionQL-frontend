@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
@@ -20,7 +21,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/legal/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const d = docs[slug as Slug];
-  return d ? { title: d.title } : {};
+  return d ? pageMetadata({ title: d.title, description: `The MotionQL ${d.title}.`, path: `/legal/${slug}` }) : {};
 }
 
 export default async function LegalPage({ params }: PageProps<"/legal/[slug]">) {

@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { docSections } from "@/lib/docs";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Documentation",
   description: "How to install MotionQL, connect to MongoDB, query, move data, automate tasks and use the AI assistant.",
-  alternates: { canonical: "/docs" },
-};
+  path: "/docs",
+});
 
 export default function DocsIndex() {
   return (

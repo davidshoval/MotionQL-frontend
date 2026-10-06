@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { CircleCheck, CircleDashed, LoaderCircle } from "lucide-react";
 import { PageHero } from "@/components/marketing/page-hero";
 import { Badge } from "@/components/ui/badge";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Roadmap",
   description: "What we're building next for MotionQL, and what shipped recently: AI on every screen, SQL databases, split panes, faster results and a Linux release.",
-  alternates: { canonical: "/roadmap" },
-};
+  path: "/roadmap",
+});
 
 type Status = "in-progress" | "planned" | "shipped";
 

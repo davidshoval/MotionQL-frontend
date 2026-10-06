@@ -15,7 +15,11 @@ import { VideoTour } from "@/components/marketing/video-tour";
 import { Faq } from "@/components/marketing/faq";
 import { Cta } from "@/components/marketing/cta";
 import { Button } from "@/components/ui/button";
-import { site } from "@/lib/site";
+import type { Metadata } from "next";
+import { JsonLd } from "@/components/seo/json-ld";
+import { organizationLd, softwareApplicationLd, websiteLd } from "@/lib/seo";
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default function HomePage() {
   return (
@@ -58,22 +62,7 @@ export default function HomePage() {
       </section>
       <Faq />
       <Cta />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            name: "MotionQL",
-            applicationCategory: "DeveloperApplication",
-            // Add Linux once its installers are published (see platformsText in lib/site.ts).
-            operatingSystem: "macOS, Windows",
-            description: site.description,
-            url: site.url,
-            offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-          }),
-        }}
-      />
+      <JsonLd data={[softwareApplicationLd(), organizationLd(), websiteLd()]} />
     </>
   );
 }

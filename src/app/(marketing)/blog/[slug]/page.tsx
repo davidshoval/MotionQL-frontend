@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { Prose } from "@/components/docs/prose";
 import { Cta } from "@/components/marketing/cta";
 import { blogPosts, getPost, readingMinutes, readPostSource } from "@/lib/blog";
+import { ogImage } from "@/lib/seo";
 import { site } from "@/lib/site";
 import { formatDate } from "@/lib/utils";
 
@@ -22,7 +23,16 @@ export async function generateMetadata({ params }: PageProps<"/blog/[slug]">): P
     title: p.title,
     description: p.description,
     alternates: { canonical: `/blog/${slug}`, types: { "application/rss+xml": "/blog/rss.xml" } },
-    openGraph: { type: "article", title: p.title, description: p.description, publishedTime: p.date, url: `/blog/${slug}` },
+    openGraph: {
+      type: "article",
+      siteName: "MotionQL",
+      title: p.title,
+      description: p.description,
+      publishedTime: p.date,
+      url: `/blog/${slug}`,
+      images: [ogImage],
+    },
+    twitter: { card: "summary_large_image", title: p.title, description: p.description, images: [ogImage] },
   };
 }
 
@@ -60,6 +70,7 @@ export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
             author: { "@type": "Organization", name: site.name },
             publisher: { "@type": "Organization", name: site.name },
             mainEntityOfPage: `${site.url}/blog/${p.slug}`,
+            image: `${site.url}${ogImage.url}`,
           }),
         }}
       />
