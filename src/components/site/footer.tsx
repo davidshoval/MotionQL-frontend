@@ -7,6 +7,7 @@ const columns = [
     title: "Product",
     links: [
       { href: "/features", label: "Features" },
+      { href: "/videos", label: "Video tours" },
       { href: "/download", label: "Download" },
       { href: "/download/mac", label: "MongoDB GUI for Mac" },
       { href: "/download/windows", label: "MongoDB GUI for Windows" },
