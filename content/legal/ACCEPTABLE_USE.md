@@ -1,10 +1,8 @@
-> **Template — have this reviewed by a qualified lawyer in your jurisdiction before publishing. Remove this line and fill every [FIELD] listed in legal/README.md before release.**
-
 # MotionQL Acceptable Use Policy
 
-**Effective [EFFECTIVE DATE]**
+**Effective 6 October 2026**
 
-This Acceptable Use Policy ("**AUP**") applies to your use of the MotionQL desktop app, the MotionQL Team Server, our website at https://motionql.com, and our support channels (together, the "**Services**"), provided by **Shoval Real Estate Holdings LLC** ("**we**"). It forms part of the [EULA](./EULA.md) and the [Terms of Service](./TERMS_OF_SERVICE.md).
+This Acceptable Use Policy ("**AUP**") applies to your use of the MotionQL desktop app, the MotionQL Team Server, our website at https://motionql.com, and our support channels (together, the "**Services**"), provided by **David Shoval**, trading as MotionQL ("**we**"). It forms part of the [EULA](./EULA.md) and the [Terms of Service](./TERMS_OF_SERVICE.md).
 
 MotionQL is a tool for working with databases you are authorized to use. Most of this policy is about using it for that purpose and not against other people's systems.
 

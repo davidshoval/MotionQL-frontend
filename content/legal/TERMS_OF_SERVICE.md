@@ -1,10 +1,8 @@
-> **Template — have this reviewed by a qualified lawyer in your jurisdiction before publishing. Remove this line and fill every [FIELD] listed in legal/README.md before release.**
-
 # MotionQL Terms of Service
 
-**Effective [EFFECTIVE DATE]**
+**Effective 6 October 2026**
 
-These Terms of Service (the "**Terms**") govern your purchase of MotionQL licenses and subscriptions, your use of our website at https://motionql.com (the "**Website**"), your customer account (if any), support services, and your license to the self-hosted MotionQL Team Server. They are an agreement between you and **Shoval Real Estate Holdings LLC**, [ADDRESS] ("**we**", "**us**").
+These Terms of Service (the "**Terms**") govern your Free Launch License, any future purchase of MotionQL licenses and subscriptions, your use of our website at https://motionql.com (the "**Website**"), your customer account (if any), support services, and your license to the self-hosted MotionQL Team Server. They are an agreement between you and **David Shoval**, an individual residing in Israel, trading as MotionQL, of Uri Zvi Grinberg St., Holon, Israel ("**we**", "**us**").
 
 Use of the MotionQL desktop application itself is governed by the [End User License Agreement](./EULA.md) (the "**EULA**"). Capitalized terms not defined here have the meaning given in the EULA. If these Terms and the EULA conflict about the desktop application, the EULA prevails; for everything else, these Terms prevail. A signed agreement between you and us overrides both where they conflict.
 
@@ -18,11 +16,23 @@ Use of the MotionQL desktop application itself is governed by the [End User Lice
 
 1.3 You may not buy or use our products if you are subject to sanctions or located in a sanctioned country or region (see EULA section 15).
 
+## 1A. Free launch license
+
+1A.1 **Free for 12 months.** During our launch period, every person who registers an account on the Website can obtain, **at no charge**, a License Key for the Pro Edition (a "**Free Launch License**"), valid for **12 months** from the date we issue it. EULA section 3A sets out its terms.
+
+1A.2 **As is, no support obligation, no refunds.** No fees are paid for a Free Launch License. **It is provided "as is", without any warranty, indemnity, service level or support obligation, and there are no refunds** (there is nothing to refund). The warranty in EULA section 12.1, the refund window in section 4.2 and the support plans in the Support and Service Level Policy do not apply to it. We may answer questions on a best-effort basis.
+
+1A.3 **After the free period.** If and when we offer paid Editions, you may choose to buy one at the prices listed on the Website at the time of your Order. We will announce those prices later, and they may change. **You will not be charged automatically:** we do not ask for payment details for a Free Launch License, and nothing is bought unless you place an Order. If you do not buy, the Licensed Features stop working when the Free Launch License expires and you keep the Free Edition.
+
+1A.4 **The offer.** We may end the launch offer for new registrations at any time and may limit the number of Free Launch Licenses one person or organization can obtain. Ending the offer does not shorten a Free Launch License already issued.
+
 ## 2. Orders, pricing and payment
+
+Sections 2 to 4 apply only if and when we offer paid Editions and you place an Order. They do not apply to a Free Launch License.
 
 2.1 **Orders.** An Order is formed when we (or our authorized reseller or payment provider) confirm your purchase. Each Order states the Edition, number of Authorized Users, term, price and any Team Server entitlement.
 
-2.2 **Prices.** Prices are as listed on the Website or in a quote at the time of your Order. Unless stated otherwise, prices exclude taxes. We may change our prices, Editions, plans and the features included in them at any time for new Orders. For an existing subscription, a price change applies only from your next renewal and only after the notice in section 3.2; it never changes the price of a term you have already paid for. Promotional prices apply only for the period stated in the promotion.
+2.2 **Prices.** We have not yet set prices for paid Editions; we will announce them on the Website. Prices are as listed on the Website or in a quote at the time of your Order. Unless stated otherwise, prices exclude taxes. We may change our prices, Editions, plans and the features included in them at any time for new Orders. For an existing subscription, a price change applies only from your next renewal and only after the notice in section 3.2; it never changes the price of a term you have already paid for. Promotional prices apply only for the period stated in the promotion.
 
 2.3 **Payment.** Card and online payments are processed by our payment provider **Paddle**. We do not receive or store your full card number. Invoiced Orders are payable within **30** days of the invoice date, in the currency stated on the invoice.
 
@@ -50,7 +60,7 @@ Use of the MotionQL desktop application itself is governed by the [End User Lice
 
 4.1 **Trial first.** We offer a 14-day trial so you can evaluate the Software before buying.
 
-4.2 **Refund window.** If you are not satisfied, you may request a full refund within **30 days** of your first purchase of a given subscription (not of renewals), by writing to support@motionql.com. After a refund, the related License Key is revoked.
+4.2 **Refund window.** If you are not satisfied, you may request a full refund within **30 days** of your first purchase of a given subscription (not of renewals), by writing to support@motionql.com. After a refund, the related License Key is revoked. A Free Launch License is free, so no refund applies to it (section 1A).
 
 4.3 **Consumers in the EU/UK.** If you are a consumer in the European Union or the United Kingdom, you have a statutory right to withdraw from a purchase within 14 days. Because the Software is digital content supplied immediately, you acknowledge at checkout that, by requesting immediate delivery of the License Key, you lose that withdrawal right once delivery begins, to the extent permitted by law. The refund window in section 4.2 still applies.
 
@@ -100,7 +110,7 @@ Use of the MotionQL desktop application itself is governed by the [End User Lice
 
 ## 9. Hosted services
 
-We operate the following online services, which are provided under these Terms: the Website and customer account, where License Keys are issued after purchase; the release and update service; the product service for usage statistics, required updates and in-app notices described in EULA sections 7.6, 8.5 and 8.6; and, if you opt in, the crash-report service. These services are provided on a best-effort basis without a service level, and the Software keeps working (including License Key verification) when they are unavailable. If we later offer other hosted services, their descriptions and any service levels will be set out in the Order or the Support and Service Level Policy.
+We operate the following online services, which are provided under these Terms: the Website and customer account, where License Keys are issued after purchase; the release and update service; the product service for usage statistics, required updates and in-app notices described in EULA sections 7.6, 8.5 and 8.6. We do not operate a crash-report service. These services are provided on a best-effort basis without a service level, and the Software keeps working (including License Key verification) when they are unavailable. If we later offer other hosted services, their descriptions and any service levels will be set out in the Order or the Support and Service Level Policy.
 
 At the effective date of these Terms, we do not operate a hosted service that stores or processes the contents of your databases.
 
@@ -138,10 +148,10 @@ We may update these Terms. We will post the updated Terms on the Website with a 
 
 ## 15. General
 
-15.1 **Governing law and venue.** These Terms are governed by the laws of **the State of Wyoming, United States**, and applicable United States federal law, excluding its conflict-of-laws rules. The state and federal courts located in **Laramie County, Wyoming** have exclusive jurisdiction. Consumers may also bring proceedings where they live, and keep the protection of the mandatory laws of their country of residence.
+15.1 **Governing law and venue.** These Terms are governed by the laws of **the State of Israel**, excluding its conflict-of-laws rules. The competent courts of **Tel Aviv-Jaffa, Israel** have exclusive jurisdiction, except that either party may seek injunctive relief in any competent court. Consumers may also bring proceedings where they live, and keep the protection of the mandatory laws of their country of residence.
 
 15.2 **Publicity.** We will not use your name or logo as a customer reference without your prior written consent.
 
 15.3 **Assignment, entire agreement, severability, waiver, force majeure and notices.** EULA sections 17.3 to 17.9 apply to these Terms.
 
-15.4 **Contact.** Shoval Real Estate Holdings LLC, [ADDRESS] · Sales: sales@motionql.com · Support: support@motionql.com · Legal: legal@motionql.com · https://motionql.com
+15.4 **Contact.** David Shoval, trading as MotionQL, Uri Zvi Grinberg St., Holon, Israel · Sales: sales@motionql.com · Support: support@motionql.com · Legal: legal@motionql.com · https://motionql.com

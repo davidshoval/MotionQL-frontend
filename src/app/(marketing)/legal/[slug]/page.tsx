@@ -20,8 +20,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/legal/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const d = docs[slug as Slug];
-  // The documents are still templates awaiting legal review, so keep them out of search results until they're final.
-  return d ? { title: d.title, robots: { index: false } } : {};
+  return d ? { title: d.title } : {};
 }
 
 export default async function LegalPage({ params }: PageProps<"/legal/[slug]">) {
@@ -29,9 +28,10 @@ export default async function LegalPage({ params }: PageProps<"/legal/[slug]">) 
   const d = docs[slug as Slug];
   if (!d) notFound();
   const raw = await readFile(path.join(process.cwd(), "content/legal", d.file), "utf8");
-  // The source files open with an internal "Template" note for whoever finalizes them; it isn't for site visitors.
+  // A draft source file opens with an internal "Template" note for whoever finalizes it; it isn't for site visitors.
   const body = raw.replace(/^>\s*\*\*Template[^\n]*\n+/, "");
-  const draft = /\[[A-Z][A-Z ]+\]/.test(body);
+  // An all-caps [FIELD] still to fill in, but not a Markdown link such as [EULA](./EULA.md).
+  const draft = /\[[A-Z][A-Z ]+\](?!\()/.test(body);
   return (
     <section className="container-page max-w-3xl pt-36 pb-16">
       {draft && (
