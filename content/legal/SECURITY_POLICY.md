@@ -1,10 +1,8 @@
-> **Template — have this reviewed by a qualified lawyer in your jurisdiction before publishing. Remove this line and fill every [FIELD] listed in legal/README.md before release.**
-
 # MotionQL Security Policy and Vulnerability Disclosure
 
-**Effective [EFFECTIVE DATE]**
+**Effective 6 October 2026**
 
-**Shoval Real Estate Holdings LLC** ("**we**") takes the security of MotionQL seriously. This policy explains which versions we support, how to report a vulnerability, what you can expect from us, and the rules for good-faith research.
+**David Shoval**, trading as MotionQL ("**we**") takes the security of MotionQL seriously. This policy explains which versions we support, how to report a vulnerability, what you can expect from us, and the rules for good-faith research.
 
 ---
 

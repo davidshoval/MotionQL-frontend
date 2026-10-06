@@ -1,10 +1,8 @@
-> **Template — have this reviewed by a qualified lawyer in your jurisdiction before publishing. Remove this line and fill every [FIELD] listed in legal/README.md before release.**
-
 # MotionQL End User License Agreement
 
-**Version:** 1.0.0 · **Effective:** [EFFECTIVE DATE]
+**Version:** 1.1.0 · **Effective:** 6 October 2026
 
-This End User License Agreement (the "**Agreement**") is between **Shoval Real Estate Holdings LLC**, a Wyoming limited liability company, with its principal office at [ADDRESS] ("**we**", "**us**", "**our**"), and the person or legal entity that installs, activates or uses the Software ("**you**", "**your**"). If you accept this Agreement on behalf of an organization, you confirm that you have authority to bind that organization, and "you" means that organization.
+This End User License Agreement (the "**Agreement**") is between **David Shoval**, an individual residing in Israel, trading as MotionQL, of Uri Zvi Grinberg St. 31, Holon, Israel ("**we**", "**us**", "**our**"), and the person or legal entity that installs, activates or uses the Software ("**you**", "**your**"). If you accept this Agreement on behalf of an organization, you confirm that you have authority to bind that organization, and "you" means that organization.
 
 By installing, activating or using the Software, you agree to this Agreement. If you do not agree, do not install or use the Software.
 
@@ -16,11 +14,11 @@ If you and we have signed a separate written agreement that covers the Software 
 
 - **"Software"** means the MotionQL desktop application for macOS, Windows and Linux, including its updates, documentation, and any license keys we provide. It does not include Third-Party Components (section 9) or Third-Party Services (section 11).
 - **"Team Server"** means the self-hosted MotionQL Team Server software. Its use is governed by the Terms of Service and the Order, and by this Agreement to the extent it applies to software you install.
-- **"Edition"** means the version of the Software you are licensed for: **Free** (no License Key), **Trial**, **Pro** or **Enterprise**, as stated in your Order or License Key. Editions differ in features and permitted use.
+- **"Edition"** means the version of the Software you are licensed for: **Free** (no License Key), **Trial**, **Pro** or **Enterprise**, as stated in your Order or License Key. A Free Launch License (section 3A) is a Pro Edition license. Editions differ in features and permitted use.
 - **"Licensed Features"** means the features that need a Trial or a License Key. In version 1.0 these are: SQL Migration, Data Masking, the Tasks scheduler, Atlas management, and Team Server integration. All other features of the Software are "**Free Features**".
 - **"Order"** means an order form, online checkout, quote, invoice or subscription confirmation through which you purchase a license from us or an authorized reseller.
-- **"License Key"** means the digitally signed license file or string we issue to activate a paid Edition.
-- **"Authorized User"** means an individual person you permit to use the Software under a license you have paid for.
+- **"License Key"** means the digitally signed license file or string we issue to activate a paid Edition or a Free Launch License.
+- **"Authorized User"** means an individual person you permit to use the Software under a license you hold.
 - **"Customer Data"** means all data you access, view, query, create, import, export, transform or store using the Software, including the contents of your databases, your queries, scripts, connection settings and credentials.
 - **"Subscription Term"** means the period stated in your Order, or, for a perpetual license, the maintenance period stated in the Order.
 
@@ -55,15 +53,25 @@ If you and we have signed a separate written agreement that covers the Software 
 
 3.4 **The Software is provided during the Trial Period "as is", without any warranty, indemnity, service level or support obligation**, and our total liability for the Trial is limited to **USD 100**, to the extent permitted by law.
 
+## 3A. Free launch license
+
+3A.1 **What you get.** During our launch period, every person who registers an account on our website at https://motionql.com (the "**Website**") can obtain, **at no charge**, a License Key for the **Pro** Edition (a "**Free Launch License**"). A Free Launch License is valid for **12 months** from the date we issue it, as shown by the expiry date in the License Key. Unless the License Key states otherwise, it covers one Authorized User, and section 2.2 applies to it as to the Pro Edition.
+
+3A.2 **No fees, no warranty, no support, no refunds.** You pay no fees for a Free Launch License. **A Free Launch License and the Software used under it are provided "as is", without any warranty (including the limited warranty in section 12.1), indemnity, service level or support obligation.** Because no fees are paid, there is nothing to refund. We may answer questions sent to support@motionql.com on a best-effort basis. Our liability is limited as set out in section 13 for licenses for which no fees were paid.
+
+3A.3 **After the free period.** When a Free Launch License expires, the Licensed Features stop working and you may keep using the Free Features under the Free Edition, as described in section 14.4. If and when we offer paid Editions, you may choose to buy one at the prices listed on the Website at the time of your Order. We will announce those prices later, and they may change. **You will not be charged automatically:** we do not ask for payment details for a Free Launch License, and nothing is bought unless you place an Order.
+
+3A.4 **The offer.** We may end the launch offer for new registrations at any time, and may limit the number of Free Launch Licenses one person or organization can obtain. Ending the offer does not shorten a Free Launch License already issued. We may revoke a Free Launch License obtained with false registration details or used in breach of this Agreement.
+
 ## 4. License keys and activation
 
-4.1 Paid Editions are activated with a License Key. License Keys are digitally signed (Ed25519) and the Software verifies them **offline** on your device, so activation works without an internet connection and does not itself send data to us. Your administrator may also deploy a License Key to your device through the enterprise policy file. If you allow usage statistics (section 7.6), they include a one-way hash of your license id, which lets us see how many installations use a License Key.
+4.1 Paid Editions and Free Launch Licenses are activated with a License Key. License Keys are digitally signed (Ed25519) and the Software verifies them **offline** on your device, so activation works without an internet connection and does not itself send data to us. Your administrator may also deploy a License Key to your device through the enterprise policy file. If you allow usage statistics (section 7.6), they include a one-way hash of your license id, which lets us see how many installations use a License Key.
 
 4.2 A License Key identifies the license, the licensee name and email, the Edition, the number of seats, the issue and expiry dates, and any extra features. You must keep License Keys confidential and must not publish, share or resell them.
 
 4.3 You must not create, modify, forge or distribute License Keys, or remove, disable or circumvent any license verification in the Software.
 
-4.4 **Prices and editions.** Prices, the features included in each Edition, and the Editions we offer for new purchases may change over time, as described in the Terms of Service. A change does not reduce the features of a License Key you already hold during its term.
+4.4 **Prices and editions.** If and when we offer paid Editions, their prices are as listed on the Website at the time of your Order. Prices, the features included in each Edition, and the Editions we offer for new purchases may change over time, as described in the Terms of Service. A change does not reduce the features of a License Key you already hold during its term.
 
 4.5 When a subscription ends and is not renewed, the License Key expires and the Licensed Features stop working as described in section 14.4.
 
@@ -74,7 +82,7 @@ Except as expressly permitted by this Agreement or by mandatory law, you must no
 1. copy, modify, translate, or create derivative works of the Software;
 2. decompile, disassemble or reverse engineer the Software, or attempt to derive its source code, except to the extent that applicable law (for example, for interoperability) expressly permits this despite this restriction, and then only after first asking us for the information;
 3. rent, lease, lend, sell, sublicense, distribute or otherwise make the Software available to any third party, including as a hosted, managed or time-sharing service, except that your contractors may use it on your behalf as Authorized Users;
-4. use the Software beyond the Edition, number of Authorized Users, devices or term you have paid for;
+4. use the Software beyond the Edition, number of Authorized Users, devices or term you are licensed for;
 5. remove, alter or obscure any proprietary notices, labels or marks;
 6. circumvent or disable any technical measure in the Software, including license checks and enterprise policy enforcement (this does not restrict administrators from configuring policies as documented);
 7. use the Software to build a competing product, or publish benchmarks of the Software without our prior written consent, where such a restriction is permitted by law;
@@ -98,7 +106,7 @@ Except as expressly permitted by this Agreement or by mandatory law, you must no
 
 7.3 **Your responsibility.** You are responsible for Customer Data, for having the rights and authorizations needed to access and process it, for configuring the Software (including read-only, AI and server-side JavaScript policies) appropriately for your data, and for keeping backups. The Software can modify or delete data in your databases when you instruct it to; we are not responsible for loss of data caused by operations you or your Authorized Users run.
 
-7.4 **Diagnostics.** If you opt in to sending crash reports, the Software sends a crash report to us (or to a server your administrator configures) as described in our Privacy Policy. Crash reporting is off unless you turn it on, you can turn it off at any time, and your administrator can prevent it. A crash report is a technical snapshot of the crashed process and may incidentally contain fragments of data the Software was handling at the time of the crash. We use crash reports only to diagnose and fix defects. You may also export a diagnostics file and choose to send it to support; you control whether and what you send.
+7.4 **Diagnostics.** We do not operate a crash-report service and do not collect crash reports. Crash reports are uploaded only if your administrator configures your organization's own crash-report server through the enterprise policy file **and** you turn crash reporting on; they then go to that server, not to us, as described in our Privacy Policy. Crash reporting is off unless you turn it on, you can turn it off at any time, and your administrator can prevent it. A crash report is a technical snapshot of the crashed process and may incidentally contain fragments of data the Software was handling at the time of the crash. You may also export a diagnostics file and choose to send it to support; you control whether and what you send.
 
 7.5 **Team Server.** If you deploy the Team Server, you host it and control the data in it. The Team Server stores user accounts, roles, policies, audit events and shared items such as queries and connection settings. It is designed to never store database passwords or other database credentials; each user's credentials stay on that user's device.
 
@@ -132,7 +140,7 @@ The Software supports machine-wide policy files and per-connection policies (suc
 
 11.1 **Optional.** AI features are optional. They are off for each connection until you turn them on for that connection, and administrators can turn them off by policy (per connection, or across the organization when a Team Server is used). An offline mode prevents any AI request.
 
-11.2 **Your provider, your key.** AI features work only with an AI provider account that **you** configure: Google Gemini, or an endpoint compatible with the OpenAI API (which may be hosted by a third party, by you, or run locally). You supply your own API key. **The AI provider is a Third-Party Service. Your use of it is governed by your agreement with that provider, not by this Agreement, and you are responsible for that relationship, including its costs, its data handling, retention and training practices, and its location.**
+11.2 **Your provider, your key.** AI features work only with an AI provider account that **you** configure: Google Gemini, Anthropic Claude, or an endpoint compatible with the OpenAI API (which may be hosted by a third party, by you, or run locally). You supply your own API key. **The AI provider is a Third-Party Service. Your use of it is governed by your agreement with that provider, not by this Agreement, and you are responsible for that relationship, including its costs, its data handling, retention and training practices, and its location.**
 
 11.3 **What is sent.** When you use an AI feature, the Software sends the provider your request text and a context it builds on your device. The context is designed to contain database, collection and field names, field types, index definitions and query plan structure, and, only where you choose to include them, labels describing value patterns (for example "email" or "phone number") rather than the values themselves. Depending on the feature, it may also include the query, pipeline or error message you are working on, after known credential patterns are removed. The Software is designed not to send passwords, connection strings, API keys or document values in bulk. You should nevertheless review whether names, queries and error text in your environment are themselves sensitive, and configure AI features accordingly.
 
@@ -142,7 +150,7 @@ The Software supports machine-wide policy files and per-connection policies (suc
 
 ## 12. Warranty and disclaimer
 
-12.1 **Limited warranty (paid Editions).** For **30** days from the date you first obtain a paid license (the "**Warranty Period**"), we warrant that the Software will perform substantially as described in its documentation. Your sole remedy, and our sole obligation, for breach of this warranty is, at our option, to correct the non-conformity or to terminate the license and refund the fees you paid for the non-conforming Software for the then-current term. This warranty does not apply to Trial use, to problems caused by your modifications, misuse, third-party products or services, or use not in accordance with the documentation.
+12.1 **Limited warranty (paid Editions).** This warranty applies only to paid licenses bought under an Order, if and when we offer paid Editions. **During the free launch period there is no warranty and no refund:** this section does not apply to a Free Launch License (section 3A). For **30** days from the date you first obtain a paid license (the "**Warranty Period**"), we warrant that the Software will perform substantially as described in its documentation. Your sole remedy, and our sole obligation, for breach of this warranty is, at our option, to correct the non-conformity or to terminate the license and refund the fees you paid for the non-conforming Software for the then-current term. This warranty does not apply to Trial use, to problems caused by your modifications, misuse, third-party products or services, or use not in accordance with the documentation.
 
 12.2 **Disclaimer.** EXCEPT FOR THE EXPRESS WARRANTY IN SECTION 12.1, AND TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE SOFTWARE, AI FEATURES AND ANY THIRD-PARTY COMPONENTS ARE PROVIDED "AS IS" AND "AS AVAILABLE", AND WE DISCLAIM ALL OTHER WARRANTIES, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY, SATISFACTORY QUALITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. WE DO NOT WARRANT THAT THE SOFTWARE WILL BE ERROR-FREE OR UNINTERRUPTED, THAT IT WILL PREVENT DATA LOSS, OR THAT IT WILL WORK WITH EVERY DATABASE VERSION OR CONFIGURATION.
 
@@ -162,13 +170,13 @@ The Software supports machine-wide policy files and per-connection policies (suc
 
 14.1 This Agreement starts when you first install or use the Software and continues until terminated.
 
-14.2 A subscription license lasts for the Subscription Term and renews as stated in the Order and the Terms of Service. A perpetual license continues until terminated under this section.
+14.2 If and when we offer paid Editions, a subscription license lasts for the Subscription Term and renews as stated in the Order and the Terms of Service. A perpetual license continues until terminated under this section.
 
 14.3 Either party may terminate this Agreement by written notice if the other party materially breaches it and does not cure the breach within **30 days** of notice. We may terminate immediately by notice if you breach section 5 or fail to pay fees when due after reminder.
 
-14.4 When your paid license ends (without termination of this Agreement), the Licensed Features stop working and you may continue to use the Free Features under the Free Edition. When this Agreement terminates, you must stop using the Software and, on our request, uninstall it and destroy copies of License Keys. **Your Customer Data remains on your devices and in your databases; the Software does not delete it.** You can continue to access your local settings files and export your saved connections as described in the documentation.
+14.4 When your paid license or Free Launch License ends (without termination of this Agreement), the Licensed Features stop working and you may continue to use the Free Features under the Free Edition. When this Agreement terminates, you must stop using the Software and, on our request, uninstall it and destroy copies of License Keys. **Your Customer Data remains on your devices and in your databases; the Software does not delete it.** You can continue to access your local settings files and export your saved connections as described in the documentation.
 
-14.5 Sections 1, 5, 6, 7.1, 7.3, 9, 11.2, 11.4, 12.2, 13, 14.4, 14.5 and 15–17 survive termination.
+14.5 Sections 1, 3A.2, 5, 6, 7.1, 7.3, 9, 11.2, 11.4, 12.2, 13, 14.4, 14.5 and 15–17 survive termination.
 
 ## 15. Export control and sanctions
 
@@ -182,11 +190,11 @@ If you are a government entity, the Software is "commercial computer software" a
 
 ## 17. General
 
-17.1 **Governing law and venue.** This Agreement is governed by the laws of **the State of Wyoming, United States**, and applicable United States federal law, excluding its conflict-of-laws rules. The United Nations Convention on Contracts for the International Sale of Goods does not apply. The state and federal courts located in **Laramie County, Wyoming** have exclusive jurisdiction, except that either party may seek injunctive relief in any competent court. If you are a consumer, you may also bring proceedings in the courts of your country of residence.
+17.1 **Governing law and venue.** This Agreement is governed by the laws of **the State of Israel**, excluding its conflict-of-laws rules. The United Nations Convention on Contracts for the International Sale of Goods does not apply. The competent courts of **Tel Aviv-Jaffa, Israel** have exclusive jurisdiction, except that either party may seek injunctive relief in any competent court. If you are a consumer, you may also bring proceedings in the courts of your country of residence.
 
 17.2 **Audit.** No more than once in any 12-month period, on at least 30 days' written notice, we may ask you to certify in writing that your use complies with the licenses you have purchased. If your use exceeds your licenses, you will pay for the excess at our then-current list price.
 
-17.3 **Assignment.** You may not assign this Agreement without our prior written consent, except to a successor of your entire business, on notice to us. We may assign this Agreement to an Affiliate or to a successor of our business.
+17.3 **Assignment.** You may not assign this Agreement without our prior written consent, except to a successor of your entire business, on notice to us. We may assign or transfer this Agreement, on notice to you, to a company we form or control (for example, a company incorporated to operate the MotionQL business), or to a successor or buyer of all or part of our business; that company, successor or buyer then takes our place under this Agreement.
 
 17.4 **Entire agreement.** This Agreement, together with the Order, the Terms of Service, the Privacy Policy and any policies referenced here, is the entire agreement about the Software. Purchase-order terms you issue do not apply.
 
@@ -196,10 +204,10 @@ If you are a government entity, the Software is "commercial computer software" a
 
 17.7 **Force majeure.** Neither party is liable for delay or failure caused by events beyond its reasonable control, other than payment obligations.
 
-17.8 **Notices.** Notices to us: Shoval Real Estate Holdings LLC, [ADDRESS], with a copy to legal@motionql.com. Notices to you: the email address in your Order or account.
+17.8 **Notices.** Notices to us: David Shoval (MotionQL), Uri Zvi Grinberg St. 31, Holon, Israel, with a copy to legal@motionql.com. Notices to you: the email address in your Order or account.
 
 17.9 **Language.** This Agreement is written in English. If it is translated, the English version prevails, to the extent permitted by law.
 
 ---
 
-Contact: Shoval Real Estate Holdings LLC · [ADDRESS] · support@motionql.com · https://motionql.com
+Contact: David Shoval, trading as MotionQL · Uri Zvi Grinberg St. 31, Holon, Israel · support@motionql.com · https://motionql.com

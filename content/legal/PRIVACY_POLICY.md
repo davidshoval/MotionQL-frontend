@@ -1,15 +1,12 @@
-> **Template — have this reviewed by a qualified lawyer in your jurisdiction before publishing. Remove this line and fill every [FIELD] listed in legal/README.md before release.**
-
 # MotionQL Privacy Policy
 
-**Effective [EFFECTIVE DATE]**
+**Effective 6 October 2026**
 
-This policy explains what personal data **Shoval Real Estate Holdings LLC** ("**we**", "**us**") collects in connection with the MotionQL desktop application (the "**App**"), the self-hosted MotionQL Team Server, our website at https://motionql.com, purchases, license activation and support, how we use it, and your rights.
+This policy explains what personal data **David Shoval**, an individual residing in Israel, trading as MotionQL ("**we**", "**us**"), collects in connection with the MotionQL desktop application (the "**App**"), the self-hosted MotionQL Team Server, our website at https://motionql.com, purchases, license activation and support, how we use it, and your rights.
 
-**Controller:** Shoval Real Estate Holdings LLC, [ADDRESS]. Contact: privacy@motionql.com.
+**Controller:** David Shoval, trading as MotionQL, Uri Zvi Grinberg St. 31, Holon, Israel. Contact: privacy@motionql.com.
 **Data protection officer (if appointed):** We have not appointed a data protection officer because we are not required to. Privacy questions go to privacy@motionql.com.
-**EU representative (Art. 27 GDPR, if required):** [EU REPRESENTATIVE NAME AND ADDRESS]
-**UK representative (Art. 27 UK GDPR, if required):** [UK REPRESENTATIVE NAME AND ADDRESS]
+**EU and UK individuals:** If you are in the European Union or the United Kingdom, you can contact us at privacy@motionql.com about any privacy matter, and you can also contact your local data protection supervisory authority (section 10.1).
 
 ---
 
@@ -17,7 +14,7 @@ This policy explains what personal data **Shoval Real Estate Holdings LLC** ("**
 
 - **Your databases are not our business.** The App runs on your computer and connects directly to the databases you choose. We do not receive the contents of your databases, your queries, your connection settings or your credentials.
 - **Usage statistics only if you allow them.** If you choose "Allow" when the App first asks, it sends us, at most once a day, a small usage record (a random installation id, App version, operating system, edition and, for paid licenses, a hash of your license id) so we can count active installations and check license use. It never includes your databases, queries, credentials, name, email or IP address. Nothing is sent until you allow it; you can change your mind in Settings → Diagnostics, and your administrator can turn it off for your organization (section 2.8).
-- **Crash reports are opt-in.** If you turn crash reporting on, the App sends crash snapshots (minidumps) for diagnosis. It is off unless you turn it on.
+- **We do not collect crash reports.** Crash reporting is off. Crash snapshots (minidumps) are uploaded only if your organization's administrator sets up the organization's own crash-report server and you turn crash reporting on; they then go to that server, not to us (section 2.4).
 - **License keys are checked offline.** Activating a license does not send your data to us.
 - **AI goes to your provider, not to us.** If you use AI features, requests go directly from your computer to the AI provider you configure, with your own API key.
 - **The Team Server is yours.** If your organization runs the Team Server, it runs on your organization's infrastructure; your organization is responsible for the data in it.
@@ -45,11 +42,11 @@ The App connects to:
 |---|---|---|
 | Your database servers, SSH servers and proxies | When you connect | Whatever the database protocol requires, including your credentials, directly to that server |
 | Your identity provider (MongoDB OIDC, Team Server SSO) | When you sign in | Standard OpenID Connect sign-in in your system browser |
-| The AI provider you configure (Google Gemini or an OpenAI-compatible endpoint) | Only when you use an AI feature on a connection where AI is allowed | See section 2.3 |
+| The AI provider you configure (Google Gemini, Anthropic Claude or an OpenAI-compatible endpoint) | Only when you use an AI feature on a connection where AI is allowed | See section 2.3 |
 | Our product service (`api.motionql.com` by default, or a server your administrator configures) | Notice list: about every 4 hours. Usage record: at most once a day, only if you allowed usage statistics. Neither in offline mode | Notice list: nothing about you (no identifier, cookie or body). Usage record: see section 2.8 |
 | The update server (our GitHub Releases page by default, or a server your administrator configures) | When checking for updates, unless turned off | Standard HTTPS request headers including your IP address, the App version and platform in the request, as needed to find the right update |
 | Your organization's Team Server | Only if you sign in to one | Your sign-in, your organization's shared items, and your local audit events |
-| Our crash-report service (or your organization's) | Only if you opt in | See section 2.4 |
+| Your organization's crash-report server (we do not operate one) | Only if your administrator configures one and you opt in | See section 2.4 |
 | MongoDB Atlas Administration API | Only if you add Atlas credentials and use Atlas features | See section 2.7 |
 
 The update server by default is GitHub, Inc., which processes your IP address and request metadata under its own privacy statement when the App downloads update information. Your administrator can turn update checks off or use an internal server.
@@ -62,13 +59,13 @@ The App builds the request on your device and is designed to include only: your 
 
 Field names, queries and error messages can themselves contain personal data. Review your AI provider's terms and your organization's rules before using AI features, or leave them off.
 
-### 2.4 Crash reports (opt-in)
+### 2.4 Crash reports (not collected by us)
 
-The App uses the crash reporter built into its Electron runtime (Crashpad). When the App's process crashes, a **minidump** is written to your device (in the `Crashpad` folder inside the App's data folder). Minidumps are **uploaded only if you turn on "Send crash reports" in Settings → Diagnostics** and a crash-report server is configured for your build. Your administrator can turn uploads off or point them at your organization's own server; a policy can never turn uploads on for you.
+The App uses the crash reporter built into its Electron runtime (Crashpad). When the App's process crashes, a **minidump** is written to your device (in the `Crashpad` folder inside the App's data folder). **We do not operate a crash-report service, and the App as we distribute it has no crash-report server configured, so minidumps stay on your device.** They are uploaded only if your administrator configures your organization's own crash-report server through the enterprise policy file **and** you turn on "Send crash reports" in Settings → Diagnostics; they then go to that server, and your organization is responsible for them. Your administrator can also turn uploads off; a policy can never turn uploads on for you.
 
 A minidump is a technical snapshot of the crashed process: App name and version, operating system and version, CPU architecture, loaded modules, the call stacks and register state of its threads, and **small portions of process memory** around them. Because it captures memory, a minidump can incidentally contain fragments of whatever the App was handling at that moment, which could include parts of database documents or other data. When the report is uploaded, the receiving server also sees your IP address.
 
-We use crash reports only to find and fix defects, restrict access to our engineering staff, and do not attempt to extract personal data from them. **Legal basis (GDPR):** your consent (Art. 6(1)(a)), which you can withdraw at any time by turning crash reporting off. **Retention:** 90 days, then deleted. **Processor:** see section 7.
+We do not receive crash reports. If we ever offer our own crash-report service, we will update this policy first, and uploads will still require you to turn crash reporting on.
 
 ### 2.5 Diagnostics file (you decide)
 
@@ -111,12 +108,11 @@ The installation id is not derived from your hardware, user name, network or any
 
 | Category | Examples | Purpose | Legal basis (GDPR / UK GDPR) | Retention |
 |---|---|---|---|---|
-| Account data | Name, email, company, password hash, account settings | Create and manage your account | Contract (Art. 6(1)(b)) | Life of account plus 12 months |
+| Account data | Name, email, company, password hash, account settings, Free Launch License issued | Create and manage your account, issue your Free Launch License | Contract (Art. 6(1)(b)) | Life of account plus 12 months |
 | Purchase and billing data | Name, billing address, VAT/tax ID, order history, license keys issued, last digits and type of card (full card numbers are held by our payment provider) | Process orders, issue licenses, invoicing, tax and accounting | Contract; legal obligation (Art. 6(1)(c)) | As required by tax law, typically 10 years |
 | Support data | Your messages, contact details, attachments you choose to send | Answer support requests, improve documentation | Contract; legitimate interests (Art. 6(1)(f)) | 3 years after the ticket closes |
 | Website data | IP address, browser type, pages visited, referrer, cookie identifiers | Operate and secure the website and the license service (the product service does not log IP addresses) | Legitimate interests | Server logs, including IP addresses, 30 days |
 | Marketing preferences | Email, newsletter consent, unsubscribe records | Send product news if you opt in | Consent (Art. 6(1)(a)) | Until you unsubscribe, plus suppression record |
-| Crash reports | See section 2.4 | Fix defects | Consent | 90 days |
 | Usage statistics | See section 2.8 | Count installations, plan platform support, license compliance | Consent | 25 months after last seen; aggregated counts kept |
 | Security reports | Your report and contact details | Handle vulnerability reports | Legitimate interests | 3 years |
 
@@ -126,7 +122,7 @@ We do not sell personal data, and we do not "share" it for cross-context behavio
 
 ## 4. Cookies
 
-The Website uses only cookies that are strictly necessary to operate it (for example, session and checkout cookies, including those set by Paddle during checkout). We do not use analytics or advertising cookies. If that changes, we will ask for your consent first through a cookie banner and update this policy. The App does not use cookies for tracking.
+The Website uses only cookies that are strictly necessary to operate it (for example, session and checkout cookies, and, if and when we offer paid Editions, those set by our payment provider during checkout). We do not use analytics or advertising cookies. If that changes, we will ask for your consent first through a cookie banner and update this policy. The App does not use cookies for tracking.
 
 ## 5. Team Server
 
@@ -146,18 +142,20 @@ We share personal data only with:
 
 | Provider | Purpose | Location | Transfer safeguard |
 |---|---|---|---|
-| Paddle.com Market Ltd (merchant of record) | Checkout, payments, invoicing, sales tax and VAT, refunds | United Kingdom | UK adequacy decision |
-| [EMAIL PROVIDER] | Transactional email (license keys, receipts) | [LOCATION] | [SAFEGUARD] |
-| [HELPDESK PROVIDER] | Support tickets | [LOCATION] | [SAFEGUARD] |
-| [CRASH REPORTING PROVIDER] | Opt-in crash reports | [LOCATION] | [SAFEGUARD] |
-| [WEBSITE HOSTING PROVIDER] | Hosting of the Website, customer accounts, license issuing and the product service, and their logs | [LOCATION] | [SAFEGUARD] |
-| GitHub, Inc. | Hosting of release downloads and update metadata | United States | EU-US Data Privacy Framework / SCCs |
+| Render Services, Inc. | Hosting of the Website, customer accounts, license issuing and the product service (API), and their logs | Frankfurt, Germany (EU) | Hosted in the EU; EU Standard Contractual Clauses and UK International Data Transfer Addendum for any access from outside the EEA |
+| MongoDB, Inc. (MongoDB Atlas) | Database for Website accounts and the licenses we issue | The cloud region selected for our cluster | EU Standard Contractual Clauses and UK International Data Transfer Addendum |
+| Resend | Transactional email (account emails, License Keys) | United States | EU Standard Contractual Clauses and UK International Data Transfer Addendum |
+| ImprovMX | Forwarding of email sent to our @motionql.com addresses to our mailbox | The provider's servers, which may be outside the EEA | EU Standard Contractual Clauses and UK International Data Transfer Addendum |
+| Google LLC (Gmail) | Our mailbox, where we receive and answer email, including support and privacy requests | United States and other Google locations | EU Standard Contractual Clauses and UK International Data Transfer Addendum |
+| GitHub, Inc. | Hosting of release downloads (installers) and update metadata | United States | EU Standard Contractual Clauses and UK International Data Transfer Addendum |
+
+AI providers (Google Gemini, Anthropic Claude and OpenAI-compatible endpoints) are **not** our sub-processors: when you turn AI features on, the App contacts the provider you choose directly, with your own API key (section 2.3). We do not use a helpdesk or crash-reporting provider. If and when we offer paid Editions, we will add our payment provider to this list before it processes your data.
 
 We keep this list current at https://motionql.com/legal/subprocessors and notify business customers who have signed our DPA of changes as described there.
 
 ## 8. International transfers
 
-We are based in the United States. Some of our service providers are located outside the European Economic Area, the United Kingdom or your country. Where we transfer personal data from the EEA or UK to a country without an adequacy decision, we use the European Commission's Standard Contractual Clauses (and the UK International Data Transfer Addendum) or another lawful transfer mechanism, together with additional safeguards where needed. You can ask us for a copy at privacy@motionql.com.
+We are based in Israel, which the European Commission and the United Kingdom recognize as providing an adequate level of data protection (an adequacy decision). Some of our service providers are located outside the European Economic Area, the United Kingdom or your country. Where we transfer personal data from the EEA or UK to a country without an adequacy decision, we use the European Commission's Standard Contractual Clauses (and the UK International Data Transfer Addendum) or another lawful transfer mechanism, together with additional safeguards where needed. You can ask us for a copy at privacy@motionql.com.
 
 ## 9. Security
 
@@ -187,4 +185,4 @@ We will post updates to this policy with a new effective date. If a change is ma
 
 ## 13. Contact
 
-Shoval Real Estate Holdings LLC, [ADDRESS] · privacy@motionql.com
+David Shoval, trading as MotionQL, Uri Zvi Grinberg St. 31, Holon, Israel · privacy@motionql.com
