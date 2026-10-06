@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { PageHero } from "@/components/marketing/page-hero";
@@ -7,11 +8,12 @@ import { Cta } from "@/components/marketing/cta";
 import { Button } from "@/components/ui/button";
 import { vendors } from "@/lib/compare-vendors";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "MotionQL vs Studio 3T vs MongoDB Compass",
   description:
     "A side-by-side comparison of MotionQL, Studio 3T and MongoDB Compass: querying, SQL, compare and sync, migration, masking, AI and licensing.",
-};
+  path: "/compare",
+});
 
 export default function ComparePage() {
   return (

@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { PageHero } from "@/components/marketing/page-hero";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "FAQ",
   description: "Pricing, the free Pro year, platforms, installer warnings, data privacy and teams: answers about MotionQL.",
-  alternates: { canonical: "/faq" },
-};
+  path: "/faq",
+});
 
 interface Item {
   q: string;

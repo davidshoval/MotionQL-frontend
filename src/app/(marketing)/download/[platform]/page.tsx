@@ -10,7 +10,8 @@ import { Cta } from "@/components/marketing/cta";
 import { LinuxDownload } from "@/components/app/linux-download";
 import { Button } from "@/components/ui/button";
 import { features } from "@/lib/features";
-import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbLd, operatingSystems, pageMetadata, softwareApplicationLd } from "@/lib/seo";
 
 /**
  * Platform landing pages. Requirements and install details come from the desktop app's docs/INSTALLATION.md
@@ -145,9 +146,19 @@ export default async function PlatformPage({ params }: PageProps<"/download/[pla
   const p = platforms[platform as Platform];
   if (!p) notFound();
   const others = (Object.keys(platforms) as Platform[]).filter((k) => k !== platform);
+  const path = `/download/${platform}`;
 
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbLd([
+            { name: "Download", path: "/download" },
+            { name: p.metaTitle, path },
+          ]),
+          softwareApplicationLd({ os: operatingSystems[platform as Platform], path, description: p.description }),
+        ]}
+      />
       <PageHero eyebrow={`MotionQL for ${p.os}`} title={p.title} description={p.description}>
         {platform === "linux" ? (
           <LinuxDownload />

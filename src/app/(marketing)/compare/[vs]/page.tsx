@@ -11,12 +11,14 @@ import { Button } from "@/components/ui/button";
 import { SpeedChart } from "@/components/marketing/speed-chart";
 import { VendorCompareTable } from "@/components/marketing/vendor-compare-table";
 import { vendors, type Vendor } from "@/lib/compare-vendors";
-import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbLd, faqLd, pageMetadata, softwareApplicationLd } from "@/lib/seo";
 
 const pages = {
   "studio-3t": {
     column: "studio3t" as const,
     name: "Studio 3T",
+    metaTitle: "Studio 3T alternative: MotionQL vs Studio 3T",
     title: "The Studio 3T alternative that's free for real work",
     description:
       "MotionQL covers the Studio 3T workflows you rely on: visual queries, IntelliShell, SQL, Compare & Sync, SQL migration, masking and scheduled tasks. Get a free Pro license for a year, with no license server to check in with.",
@@ -39,14 +41,38 @@ const pages = {
       },
       { t: "Self-hosted Team Server", d: "SSO, SCIM, shared queries and a hash-chained audit log, hosted inside your network." },
       {
-        t: "Same connections",
-        d: "Paste your existing URIs. SRV, replica sets, sharded clusters, SSH jump hosts, X.509, LDAP, Kerberos, AWS IAM and OIDC are all supported.",
+        t: "Bring your connections",
+        d: "Import your saved Studio 3T connections in one step, or paste your URIs. SRV, replica sets, sharded clusters, SSH jump hosts, X.509, LDAP, Kerberos, AWS IAM and OIDC are all supported.",
+      },
+    ],
+    // Answers use only facts from the shared comparison table (content.ts) and the docs (connections, install).
+    faq: [
+      {
+        q: "Is MotionQL a free alternative to Studio 3T?",
+        a: "Yes. The core app is free forever, including for commercial work, and every registered user gets a Pro license free for 12 months. Studio 3T's full feature set is a paid per-user subscription, and its free Community edition is for non-commercial use in recent versions.",
+      },
+      {
+        q: "Can I import my Studio 3T connections?",
+        a: "Yes. In the Connection Manager, click Import from… and choose Studio 3T. MotionQL finds the saved connections on your computer, shows what it found and imports the ones you pick. Passwords are encrypted with your operating system's keychain.",
+      },
+      {
+        q: "Does MotionQL have SQL queries and Compare & Sync like Studio 3T?",
+        a: "Yes. SQL queries against MongoDB, Data Compare and Sync, SQL to MongoDB migration and data masking are all included, without a paid tier during your free Pro year.",
+      },
+      {
+        q: "Does MotionQL work offline?",
+        a: "Yes. License keys are verified offline with a digital signature, so there is no license server to check in with. Air-gapped networks work.",
+      },
+      {
+        q: "Which platforms does MotionQL run on?",
+        a: "macOS (Apple Silicon and Intel), Windows 10 and 11, and Linux (AppImage and .deb).",
       },
     ],
   },
   compass: {
     column: "compass" as const,
     name: "Compass",
+    metaTitle: "MongoDB Compass alternative: MotionQL vs Compass",
     title: "Love Compass? Meet what comes next.",
     description:
       "Keep the clean, fast feel of Compass and add the tools you've been missing: SQL queries, Compare & Sync, Excel and BSON import/export, masking, scheduled tasks, ER diagrams and dashboards.",
@@ -71,6 +97,7 @@ const pages = {
 };
 
 type Slug = keyof typeof pages;
+type Faq = { q: string; a: string }[];
 
 export const dynamicParams = false;
 
@@ -82,7 +109,7 @@ export async function generateMetadata({ params }: PageProps<"/compare/[vs]">): 
   const { vs } = await params;
   const p = pages[vs as Slug] ?? vendors[vs];
   if (!p) return {};
-  return pageMetadata({ title: `MotionQL vs ${p.name}`, description: p.description, path: `/compare/${vs}` });
+  return pageMetadata({ title: p.metaTitle ?? `MotionQL vs ${p.name}`, description: p.description, path: `/compare/${vs}` });
 }
 
 export default async function VsPage({ params }: PageProps<"/compare/[vs]">) {
@@ -91,8 +118,20 @@ export default async function VsPage({ params }: PageProps<"/compare/[vs]">) {
   const vendor: Vendor | undefined = legacy ? undefined : vendors[vs];
   const p = legacy ?? vendor;
   if (!p) notFound();
+  const faq: Faq | undefined = "faq" in p ? p.faq : undefined;
+  const path = `/compare/${vs}`;
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbLd([
+            { name: "Compare", path: "/compare" },
+            { name: `MotionQL vs ${p.name}`, path },
+          ]),
+          softwareApplicationLd({ path }),
+          ...(faq ? [faqLd(faq)] : []),
+        ]}
+      />
       <PageHero eyebrow={`MotionQL vs ${p.name}`} title={p.title} description={p.description}>
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
           <Button asChild size="lg">
@@ -145,6 +184,21 @@ export default async function VsPage({ params }: PageProps<"/compare/[vs]">) {
           </Reveal>
         )}
       </section>
+      {faq && (
+        <section className="container-page max-w-3xl py-16" aria-labelledby="switch-faq">
+          <h2 id="switch-faq" className="text-center text-2xl font-semibold tracking-tight">
+            Switching from {p.name}: common questions
+          </h2>
+          <dl className="mt-10 space-y-6">
+            {faq.map((f) => (
+              <div key={f.q} className="border-border bg-card/50 rounded-2xl border p-6">
+                <dt className="font-semibold tracking-tight">{f.q}</dt>
+                <dd className="text-muted-foreground mt-2 text-[15px] leading-relaxed">{f.a}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      )}
       <Cta />
     </>
   );

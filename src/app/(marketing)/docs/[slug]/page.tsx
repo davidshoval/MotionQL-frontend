@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -15,7 +16,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/docs/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const d = getDoc(slug);
-  return d ? { title: `${d.page.title} · Docs`, description: d.page.description, alternates: { canonical: `/docs/${slug}` } } : {};
+  return d ? pageMetadata({ title: `${d.page.title} · Docs`, description: d.page.description, path: `/docs/${slug}` }) : {};
 }
 
 export default async function DocPage({ params }: PageProps<"/docs/[slug]">) {

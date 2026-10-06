@@ -19,6 +19,8 @@ export interface VendorRow {
 
 export interface Vendor {
   name: string;
+  /** Search title for the page; defaults to "MotionQL vs <name>". */
+  metaTitle?: string;
   title: string;
   description: string;
   reasons: { t: string; d: string }[];
@@ -38,13 +40,14 @@ export const vendors: Record<string, Vendor> = {
   // https://robomongo.org/ (Studio 3T Community Edition replaces Robo 3T; "for non-commercial, personal use only")
   "robo-3t": {
     name: "Robo 3T",
+    metaTitle: "Robo 3T alternative: MotionQL vs Robo 3T",
     title: "Robo 3T is retired. Here's a modern home for your workflow.",
     description:
       "Robo 3T (formerly Robomongo) is no longer being developed. MotionQL keeps the shell-first workflow you liked, adds a visual query builder, aggregation editor and SQL, and is free for commercial work.",
     reasons: [
       {
         t: "Actively developed",
-        d: "MotionQL is in active development (1.0.1 shipped in October 2026) and supports MongoDB 4.4 and later. Its installers are not yet code-signed, so the OS warns on first launch.",
+        d: "MotionQL is in active development (1.2.1 shipped in October 2026) and supports MongoDB 4.4 and later. Its installers are not yet code-signed, so the OS warns on first launch.",
       },
       {
         t: "A shell that feels familiar",
@@ -60,7 +63,7 @@ export const vendors: Record<string, Vendor> = {
       },
       {
         t: "Same connections",
-        d: "Paste your connection strings. SSH tunnels with jump hosts, TLS, X.509, LDAP, Kerberos, AWS IAM and OIDC are supported.",
+        d: "Import your saved Robo 3T connections in one step, or paste your connection strings. SSH tunnels with jump hosts, TLS, X.509, LDAP, Kerberos, AWS IAM and OIDC are supported.",
       },
       {
         t: "Guardrails",
@@ -68,7 +71,7 @@ export const vendors: Record<string, Vendor> = {
       },
     ],
     rows: [
-      { feature: "Development status", motionql: "Active (1.0.1, October 2026)", them: "No longer developed; final release 1.4.4" },
+      { feature: "Development status", motionql: "Active (1.2.1, October 2026)", them: "No longer developed; final release 1.4.4" },
       {
         feature: "Built-in shell",
         motionql: "IntelliShell (mongosh-style), optional JavaScript Script mode",
@@ -351,6 +354,7 @@ export const vendors: Record<string, Vendor> = {
   //   at every stage of the aggregation designer)
   visualeaf: {
     name: "VisuaLeaf",
+    metaTitle: "VisuaLeaf alternative: MotionQL vs VisuaLeaf",
     title: "MotionQL vs VisuaLeaf",
     description:
       "VisuaLeaf and MotionQL are both visual MongoDB GUIs with query builders, aggregation, SQL and AI. MotionQL also includes SQL migration, masking, Atlas management, scheduled tasks with a CLI and a self-hosted Team Server, with Pro free for a year.",

@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { ArrowRight, BookOpen, Bug, LifeBuoy, Mail, MessagesSquare, ShieldAlert } from "lucide-react";
 import { PageHero } from "@/components/marketing/page-hero";
 import { Button } from "@/components/ui/button";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Support",
   description: `Get help with MotionQL. Email ${site.contactEmail}; we aim to reply within ${site.supportResponseDays} business days.`,
-  alternates: { canonical: "/support" },
-};
+  path: "/support",
+});
 
 const selfHelp = [
   { href: "/docs", icon: BookOpen, title: "Documentation", body: "Install, connect, query, move data and automate." },

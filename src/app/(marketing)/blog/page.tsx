@@ -1,14 +1,20 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { ArrowRight, Rss } from "lucide-react";
 import { PageHero } from "@/components/marketing/page-hero";
 import { blogPosts } from "@/lib/blog";
 import { formatDate } from "@/lib/utils";
 
-export const metadata: Metadata = {
+const base = pageMetadata({
   title: "Blog",
   description: "Releases, guides and MongoDB know-how from the team building MotionQL.",
-  alternates: { canonical: "/blog", types: { "application/rss+xml": "/blog/rss.xml" } },
+  path: "/blog",
+});
+
+export const metadata: Metadata = {
+  ...base,
+  alternates: { ...base.alternates, types: { "application/rss+xml": "/blog/rss.xml" } },
 };
 
 export default function BlogIndex() {

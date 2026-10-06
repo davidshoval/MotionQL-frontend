@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { ArrowRight, Cpu, Database, KeyRound, Laptop, Lock, Server, Sparkles } from "lucide-react";
 import { PageHero } from "@/components/marketing/page-hero";
@@ -8,11 +9,12 @@ import { Reveal } from "@/components/marketing/reveal";
 import { Cta } from "@/components/marketing/cta";
 import { Button } from "@/components/ui/button";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Security",
   description:
     "How MotionQL protects your databases and credentials: process isolation, OS keychain encryption, enforced read-only connections, offline licensing and a private AI assistant.",
-};
+  path: "/security",
+});
 
 const flow = [
   {

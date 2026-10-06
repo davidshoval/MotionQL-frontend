@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { privateMetadata } from "@/lib/seo";
 import { Suspense } from "react";
 import { VerifyEmail } from "./verify-email";
 
-export const metadata: Metadata = { title: "Verify your email" };
+export const metadata: Metadata = privateMetadata("Verify your email");
 
 export default function VerifyEmailPage() {
   return (

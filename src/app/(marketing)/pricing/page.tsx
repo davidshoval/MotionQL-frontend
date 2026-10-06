@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHero } from "@/components/marketing/page-hero";
 import { PricingCards } from "@/components/marketing/pricing-cards";
 import { Faq } from "@/components/marketing/faq";
 import { Cta } from "@/components/marketing/cta";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Pricing",
   description: "MotionQL is free. Get a free Pro license for 12 months when you create an account, and free team seats for now.",
-};
+  path: "/pricing",
+});
 
 export default function PricingPage() {
   return (

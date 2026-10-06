@@ -33,6 +33,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/support",
     "/tools",
     ...TOOLS.map((t) => `/tools/${t.slug}`),
+    ...["terms", "privacy", "eula", "acceptable-use", "security-policy"].map((l) => `/legal/${l}`),
   ];
-  return paths.map((p) => ({ url: `${site.url}${p}`, changeFrequency: "weekly", priority: p === "" ? 1 : 0.7 }));
+  // Pages people search for by name get a higher hint than docs and legal pages.
+  const priority = (p: string) =>
+    p === "" ? 1 : /^\/(download|compare|pricing|features)(\/|$)/.test(p) ? 0.9 : p.startsWith("/legal/") ? 0.3 : 0.7;
+  const posted = new Map(blogPosts.map((b) => [`/blog/${b.slug}`, b.date]));
+  return [...new Set(paths)].map((p) => ({
+    url: `${site.url}${p}`,
+    ...(posted.has(p) && { lastModified: posted.get(p) }),
+    changeFrequency: p.startsWith("/legal/") ? "yearly" : "weekly",
+    priority: priority(p),
+  }));
 }

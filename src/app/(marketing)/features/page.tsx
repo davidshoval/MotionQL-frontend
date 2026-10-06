@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import {
   ArrowLeftRight,
@@ -25,11 +26,12 @@ import { Badge } from "@/components/ui/badge";
 import { PlatformsText } from "@/components/app/platforms-text";
 import { features } from "@/lib/features";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Features",
   description:
     "Every MotionQL feature: connections, query builder, IntelliShell, aggregation, SQL, import/export, compare and sync, migration, schema tools, admin, tasks, dashboards, AI and teams.",
-};
+  path: "/features",
+});
 
 const groups: {
   id: string;
