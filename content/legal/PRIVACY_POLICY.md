@@ -109,6 +109,7 @@ The installation id is not derived from your hardware, user name, network or any
 | Category | Examples | Purpose | Legal basis (GDPR / UK GDPR) | Retention |
 |---|---|---|---|---|
 | Account data | Name, email, company, password hash, account settings, Free Launch License issued | Create and manage your account, issue your Free Launch License | Contract (Art. 6(1)(b)) | Life of account plus 12 months |
+| Referral data | The invite code in your link, who invited you (if you signed up through a friend's link), your optional answer to "How did you hear about us?", referral rewards earned | Run the refer-a-friend program and give rewards; understand which channels bring new users. People who open your invite link see your first name; you see only how many people signed up with your link, not who they are | Contract (Art. 6(1)(b)); legitimate interests (Art. 6(1)(f)) | Life of account plus 12 months |
 | Purchase and billing data | Name, billing address, VAT/tax ID, order history, license keys issued, last digits and type of card (full card numbers are held by our payment provider) | Process orders, issue licenses, invoicing, tax and accounting | Contract; legal obligation (Art. 6(1)(c)) | As required by tax law, typically 10 years |
 | Support data | Your messages, contact details, attachments you choose to send | Answer support requests, improve documentation | Contract; legitimate interests (Art. 6(1)(f)) | 3 years after the ticket closes |
 | Website data | IP address, browser type, pages visited, referrer, cookie identifiers | Operate and secure the website and the license service (the product service does not log IP addresses) | Legitimate interests | Server logs, including IP addresses, 30 days |
@@ -122,7 +123,7 @@ We do not sell personal data, and we do not "share" it for cross-context behavio
 
 ## 4. Cookies
 
-The Website uses only cookies that are strictly necessary to operate it (for example, session and checkout cookies, and, if and when we offer paid Editions, those set by our payment provider during checkout). We do not use analytics or advertising cookies. If that changes, we will ask for your consent first through a cookie banner and update this policy. The App does not use cookies for tracking.
+The Website uses only cookies that are strictly necessary to operate it (for example, session and checkout cookies, and, if and when we offer paid Editions, those set by our payment provider during checkout). We do not use analytics or advertising cookies. To count visits, we use Umami, a privacy-focused analytics service that sets no cookies and stores no IP addresses or other identifiers: it records only aggregated page views, referrers, country, browser and device type, and a few anonymous events such as download clicks. If we ever add cookies that are not strictly necessary, we will ask for your consent first through a cookie banner and update this policy. The App does not use cookies for tracking.
 
 ## 5. Team Server
 
@@ -147,6 +148,7 @@ We share personal data only with:
 | Resend | Transactional email (account emails, License Keys) | United States | EU Standard Contractual Clauses and UK International Data Transfer Addendum |
 | ImprovMX | Forwarding of email sent to our @motionql.com addresses to our mailbox | The provider's servers, which may be outside the EEA | EU Standard Contractual Clauses and UK International Data Transfer Addendum |
 | Google LLC (Gmail) | Our mailbox, where we receive and answer email, including support and privacy requests | United States and other Google locations | EU Standard Contractual Clauses and UK International Data Transfer Addendum |
+| Umami Software, Inc. (Umami Cloud) | Cookieless, aggregated website visit statistics (section 4) | The provider's servers, which may be outside the EEA | EU Standard Contractual Clauses and UK International Data Transfer Addendum |
 | GitHub, Inc. | Hosting of release downloads (installers) and update metadata | United States | EU Standard Contractual Clauses and UK International Data Transfer Addendum |
 
 AI providers (Google Gemini, Anthropic Claude and OpenAI-compatible endpoints) are **not** our sub-processors: when you turn AI features on, the App contacts the provider you choose directly, with your own API key (section 2.3). We do not use a helpdesk or crash-reporting provider. If and when we offer paid Editions, we will add our payment provider to this list before it processes your data.

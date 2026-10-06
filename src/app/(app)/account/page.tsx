@@ -6,9 +6,9 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ArrowRight, Download, KeyRound, Loader2, Mail, MonitorDown, Plus, Settings2, Users } from "lucide-react";
+import { ArrowRight, Download, Gift, KeyRound, Loader2, Mail, MonitorDown, Plus, Settings2, Users } from "lucide-react";
 import { api, ApiError, type OS } from "@/lib/api";
-import { qk, useLicenses, useMe, useRelease } from "@/lib/api/hooks";
+import { qk, useLicenses, useMe, useReferral, useRelease } from "@/lib/api/hooks";
 import { detectOS, fileLabel, osLabel, sortFiles, startDownload } from "@/lib/os";
 import { formatBytes } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { LicenseCard } from "@/components/app/license-card";
 import { ConfirmDialog } from "@/components/app/confirm-dialog";
 import { FormField } from "@/components/app/form-field";
+import { CopyButton } from "@/components/app/copy-button";
 
 export default function AccountPage() {
   const { data: me } = useMe();
@@ -60,6 +61,7 @@ export default function AccountPage() {
         </div>
         <div className="grid content-start gap-6">
           <QuickDownload />
+          <InviteCard />
           <TeamsCard />
         </div>
       </div>
@@ -159,6 +161,51 @@ function QuickDownload() {
             All platforms and checksums <ArrowRight />
           </Link>
         </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
+const extraTime = (days: number) =>
+  days % 30 === 0 ? `${days / 30} extra month${days === 30 ? "" : "s"}` : `${days} extra days`;
+
+/** Refer a friend: the user's invite link and how many people used it. The app's "Invite a friend" opens /account#invite. */
+function InviteCard() {
+  const { data: referral, isLoading } = useReferral();
+  const reward = referral?.reward;
+  return (
+    <Card id="invite" className="scroll-mt-24">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Gift className="text-primary size-5" /> Invite a friend
+        </CardTitle>
+        <CardDescription>
+          {reward
+            ? reward.remaining > 0
+              ? `Share your link. When a friend signs up and confirms their email, you both get ${extraTime(reward.bonusDays)} of Pro.`
+              : "Share your link. You've earned every reward there is for now. Thank you!"
+            : "Know someone who works with MongoDB? Share your link: they get the same free Pro year you did."}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="grid gap-3">
+        {isLoading || !referral ? (
+          <Skeleton className="h-11 rounded-lg" />
+        ) : (
+          <>
+            <div className="flex gap-2">
+              <Input readOnly value={referral.url} aria-label="Your invite link" onFocus={(e) => e.currentTarget.select()} className="font-mono text-sm" />
+              <CopyButton value={referral.url} label="Copy" toastText="Invite link copied" variant="secondary" />
+            </div>
+            <p className="text-muted-foreground text-sm">
+              {referral.signups === 0
+                ? "No sign-ups yet."
+                : `${referral.signups} ${referral.signups === 1 ? "person" : "people"} signed up with your link${
+                    referral.confirmed < referral.signups ? `, ${referral.confirmed} confirmed` : ""
+                  }.`}
+              {reward && referral.rewarded > 0 && ` You've earned ${extraTime(reward.bonusDays * referral.rewarded)}.`}
+            </p>
+          </>
+        )}
       </CardContent>
     </Card>
   );

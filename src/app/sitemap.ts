@@ -31,6 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/faq",
     "/roadmap",
     "/support",
+    "/feedback",
     "/tools",
     ...TOOLS.map((t) => `/tools/${t.slug}`),
     ...["terms", "privacy", "eula", "acceptable-use", "security-policy"].map((l) => `/legal/${l}`),

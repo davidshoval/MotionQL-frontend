@@ -15,6 +15,15 @@ export interface BlogPost {
 
 const posts: BlogPost[] = [
   {
+    slug: "mongodb-gui-up-to-7x-faster-than-compass",
+    title: "How we made a MongoDB GUI up to 7x faster than Compass",
+    description:
+      "We timed MotionQL and MongoDB Compass the same way on the same Mac: MotionQL was faster at every step, up to 7.6 times. Here are the numbers, the method, and what we changed.",
+    date: "2026-10-06",
+    author: "The MotionQL team",
+    tags: ["Performance", "MongoDB"],
+  },
+  {
     slug: "motionql-1-2-ask-ai-on-every-screen",
     title: "MotionQL 1.2: Ask AI on every screen",
     description:

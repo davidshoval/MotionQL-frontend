@@ -24,3 +24,6 @@ services:
       # Canonical URL. The service also stays reachable at https://xquery-website.onrender.com.
       - key: NEXT_PUBLIC_SITE_URL
         value: https://motionql.com
+      # Umami analytics (cookieless). Set the Website ID from cloud.umami.is > Settings > Websites; leave unset to turn analytics off.
+      - key: NEXT_PUBLIC_UMAMI_WEBSITE_ID
+        sync: false

@@ -8,6 +8,9 @@ import type { AuditEvent, Invite, License, Me, Member, Release, Role, Team, User
 
 interface StoredUser extends User {
   password: string;
+  referralCode?: string;
+  referredBy?: string;
+  heardFrom?: string;
 }
 interface StoredTeam {
   id: string;
@@ -65,10 +68,12 @@ const b64url = (s: string) => btoa(unescape(encodeURIComponent(s))).replace(/\+/
 function fail(status: number, code: string, message: string, fields?: Record<string, string>): never {
   throw new ApiError(status, code, message, fields);
 }
-function publicUser({ password: _pw, ...u }: StoredUser): User {
-  void _pw;
+function publicUser({ password: _pw, referralCode: _c, referredBy: _r, heardFrom: _h, ...u }: StoredUser): User {
+  void [_pw, _c, _r, _h];
   return u;
 }
+const referralCode = () => Array.from({ length: 8 }, () => "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[Math.floor(Math.random() * 32)]).join("");
+const inviterFor = (db: DB, code: string | undefined) => (code ? db.users.find((u) => u.referralCode === code.trim().toUpperCase()) : undefined);
 function sessionUser(db: DB): StoredUser {
   const u = db.users.find((x) => x.id === db.session);
   if (!u) fail(401, "unauthorized", "Please sign in.");
@@ -215,12 +220,24 @@ const RELEASE: Release = {
 };
 
 export const mockApi: Api = {
-  async register({ email, password, name, company }) {
+  async register({ email, password, name, company, referralCode: code, heardFrom }) {
     await wait();
     const db = load();
     const e = email.trim().toLowerCase();
     if (db.users.some((u) => u.email === e)) fail(409, "email_taken", "An account with this e-mail already exists.", { email: "Already registered. Sign in instead." });
-    const user: StoredUser = { id: id("usr"), email: e, name, company: company || null, emailVerified: false, isStaff: false, createdAt: now(), password };
+    const user: StoredUser = {
+      id: id("usr"),
+      email: e,
+      name,
+      company: company || null,
+      emailVerified: false,
+      isStaff: false,
+      createdAt: now(),
+      password,
+      referralCode: referralCode(),
+      referredBy: inviterFor(db, code)?.id,
+      heardFrom: heardFrom || undefined,
+    };
     db.users.push(user);
     const token = id("vt");
     db.tokens.push({ token, userId: user.id, kind: "verify" });
@@ -330,6 +347,29 @@ export const mockApi: Api = {
     const user = sessionUser(db);
     db.licenses.forEach(refreshStatus);
     return { licenses: db.licenses.filter((l) => l.userId === user.id).map(strip).reverse() };
+  },
+  // The mock has the reward switched off, like the backend's default.
+  async referral() {
+    await wait(150);
+    const db = load();
+    const user = sessionUser(db);
+    user.referralCode ??= referralCode();
+    save(db);
+    const invited = db.users.filter((u) => u.referredBy === user.id);
+    return {
+      code: user.referralCode,
+      url: `${window.location.origin}/r/${user.referralCode}`,
+      signups: invited.length,
+      confirmed: invited.filter((u) => u.emailVerified).length,
+      rewarded: 0,
+      reward: null,
+    };
+  },
+  async referralPreview(code) {
+    await wait(150);
+    const inviter = inviterFor(load(), code);
+    if (!inviter) fail(404, "not_found", "This invite link is not valid.");
+    return { code: inviter.referralCode!, inviterName: inviter.name.trim().split(/\s+/)[0] ?? "", reward: null };
   },
   async renewLicense() {
     await wait();

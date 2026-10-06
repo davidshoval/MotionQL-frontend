@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
-import { ArrowRight, BookOpen, Bug, LifeBuoy, Mail, MessagesSquare, ShieldAlert } from "lucide-react";
+import { ArrowRight, BookOpen, Bug, LifeBuoy, Mail, MessagesSquare, Send, ShieldAlert } from "lucide-react";
 import { PageHero } from "@/components/marketing/page-hero";
 import { Button } from "@/components/ui/button";
 import { site } from "@/lib/site";
@@ -21,6 +21,7 @@ const selfHelp = [
     body: "Fixes for install, connection, license and keychain problems.",
   },
   { href: "/faq", icon: MessagesSquare, title: "FAQ", body: "Pricing, the free year, platforms, privacy and teams." },
+  { href: "/feedback", icon: Send, title: "Send feedback", body: "A bug, an idea or praise: tell the team in a minute." },
 ];
 
 export default function SupportPage() {
@@ -49,7 +50,7 @@ export default function SupportPage() {
       </PageHero>
 
       <section className="container-page max-w-4xl space-y-14 pb-8">
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2">
           {selfHelp.map((s) => (
             <Link
               key={s.href}
@@ -102,7 +103,11 @@ export default function SupportPage() {
                 ; email us if something there doesn&apos;t work.
               </li>
               <li>
-                <span className="text-foreground font-medium">Feature requests</span> are welcome. See what&apos;s already planned on the{" "}
+                <span className="text-foreground font-medium">Feature requests</span> are welcome: send them with the{" "}
+                <Link href="/feedback?kind=idea" className="text-primary hover:underline">
+                  feedback form
+                </Link>
+                . See what&apos;s already planned on the{" "}
                 <Link href="/roadmap" className="text-primary hover:underline">
                   roadmap
                 </Link>
