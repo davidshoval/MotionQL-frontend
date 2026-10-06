@@ -7,6 +7,7 @@ import { linuxInstallers } from "@/lib/os";
 export const qk = {
   me: ["me"] as const,
   licenses: ["me", "licenses"] as const,
+  referral: ["me", "referral"] as const,
   release: ["release", "latest"] as const,
   team: (id: string) => ["team", id] as const,
   members: (id: string) => ["team", id, "members"] as const,
@@ -33,6 +34,10 @@ export function useMe() {
 
 export function useLicenses(enabled = true) {
   return useQuery({ queryKey: qk.licenses, queryFn: () => api.myLicenses().then((r) => r.licenses), enabled });
+}
+
+export function useReferral() {
+  return useQuery({ queryKey: qk.referral, queryFn: () => api.referral() });
 }
 
 export function useRelease() {

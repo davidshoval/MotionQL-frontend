@@ -12,6 +12,8 @@ export const registerSchema = z
     terms: z.literal(true, { message: "Please accept the terms to continue" }),
     usage: z.enum(["solo", "team"]),
     teamName: z.string().trim().max(80).optional(),
+    heardFrom: z.string().max(40).optional(),
+    heardFromOther: z.string().trim().max(100).optional(),
   })
   .refine((v) => v.usage !== "team" || !!v.teamName, {
     path: ["teamName"],

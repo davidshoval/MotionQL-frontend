@@ -1,12 +1,16 @@
 import { API_URL, http, USE_MOCK } from "./client";
 import { mockApi } from "./mock";
-import type { AuditEvent, FreePlan, Invite, InvitePreview, License, Me, Member, Release, Role, Team, User } from "./types";
+import type { AuditEvent, FreePlan, Invite, InvitePreview, License, Me, Member, Referral, ReferralPreview, Release, Role, Team, User } from "./types";
 
 export interface RegisterInput {
   email: string;
   password: string;
   name: string;
   company?: string;
+  /** Code from an invite link (/r/CODE). */
+  referralCode?: string;
+  /** "How did you hear about us?" */
+  heardFrom?: string;
 }
 
 /** Every call the website makes to the backend (docs/API.md in motionql-backend). The mock implements the same interface. */
@@ -26,6 +30,8 @@ export interface Api {
   myLicenses(): Promise<{ licenses: License[] }>;
   renewLicense(): Promise<{ license: License }>;
   reissueLicense(licenseId: string): Promise<{ license: License }>;
+  referral(): Promise<Referral>;
+  referralPreview(code: string): Promise<ReferralPreview>;
 
   latestRelease(): Promise<Release>;
   freePlan(): Promise<FreePlan>;
@@ -70,6 +76,8 @@ const httpApi: Api = {
   myLicenses: () => http("GET", "/me/licenses"),
   renewLicense: () => http("POST", "/me/licenses/renew"),
   reissueLicense: (id) => http("POST", `/me/licenses/${enc(id)}/reissue`),
+  referral: () => http("GET", "/me/referral"),
+  referralPreview: (code) => http("GET", `/referrals/${enc(code)}`),
 
   latestRelease: () => http("GET", "/downloads/latest"),
   freePlan: () => http("GET", "/plans/free"),

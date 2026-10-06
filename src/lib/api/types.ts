@@ -127,6 +127,23 @@ export interface FreePlan {
   renewable: boolean;
 }
 
+/** Refer a friend: the signed-in user's invite link. `reward` is null while the reward is switched off. */
+export interface Referral {
+  code: string;
+  url: string;
+  signups: number;
+  confirmed: number;
+  rewarded: number;
+  reward: { bonusDays: number; maxRewards: number; remaining: number } | null;
+}
+
+/** What an invite link shows before sign-up: the inviter's first name and the reward, if on. */
+export interface ReferralPreview {
+  code: string;
+  inviterName: string;
+  reward: { bonusDays: number } | null;
+}
+
 export interface ApiErrorBody {
   error: { code: string; message: string; fields?: Record<string, string> };
 }
