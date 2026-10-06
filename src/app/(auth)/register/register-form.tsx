@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, ArrowRight, Loader2, User, Users } from "lucide-react";
+import { ArrowLeft, ArrowRight, Gift, Loader2, User, Users } from "lucide-react";
 import { api, ApiError } from "@/lib/api";
 import { registerSchema, safeNext, type RegisterValues } from "@/lib/schemas";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,8 @@ import { Input } from "@/components/ui/input";
 import { FormError, FormField } from "@/components/app/form-field";
 import { PasswordInput } from "@/components/app/password-input";
 import { savePendingTeam } from "@/lib/pending-team";
+import { cleanReferralCode, clearReferral, heardFromOptions, loadReferral, saveReferral } from "@/lib/referral";
+import { selectClass } from "@/components/tools/shared";
 
 export function RegisterForm() {
   const router = useRouter();
@@ -22,22 +25,45 @@ export function RegisterForm() {
   // People who arrive from a team invite are joining a team, not starting one.
   const joining = next.startsWith("/invite");
   const [usage, setUsage] = useState<"solo" | "team" | null>(joining ? "solo" : null);
+  const referralCode = useReferralCode(params.get("ref"));
+  const { data: invite } = useQuery({
+    queryKey: ["referral-preview", referralCode],
+    queryFn: () => api.referralPreview(referralCode!),
+    enabled: !!referralCode,
+    retry: false,
+    staleTime: Infinity,
+  });
   const {
     register,
     handleSubmit,
     setError: setFieldError,
     setValue,
+    control,
+    getValues,
     formState: { errors, isSubmitting },
   } = useForm<RegisterValues>({
     resolver: zodResolver(registerSchema),
-    defaultValues: { email: params.get("email") ?? "", usage: usage ?? undefined },
+    defaultValues: { email: params.get("email") ?? "", usage: usage ?? undefined, heardFrom: "" },
   });
+  const heardFrom = useWatch({ control, name: "heardFrom" });
+  // Someone who came through an invite link most likely heard from a friend.
+  useEffect(() => {
+    if (invite && !getValues("heardFrom")) setValue("heardFrom", "friend");
+  }, [invite, getValues, setValue]);
 
   async function onSubmit(v: RegisterValues) {
     setError(null);
     try {
       const company = (v.usage === "team" ? v.teamName : v.company) || undefined;
-      const res = await api.register({ name: v.name, email: v.email, password: v.password, company });
+      const res = await api.register({
+        name: v.name,
+        email: v.email,
+        password: v.password,
+        company,
+        heardFrom: (v.heardFrom === "other" ? v.heardFromOther : v.heardFrom) || undefined,
+        referralCode: invite ? invite.code : undefined,
+      });
+      clearReferral();
       if (res.devVerifyToken) sessionStorage.setItem("mq-dev-verify", res.devVerifyToken);
       if (v.usage === "team" && v.teamName) savePendingTeam(v.email, v.teamName);
       sessionStorage.setItem("mq-next", next);
@@ -50,9 +76,12 @@ export function RegisterForm() {
     }
   }
 
+  const banner = invite ? <InviteBanner name={invite.inviterName} bonusDays={invite.reward?.bonusDays} /> : null;
+
   if (!usage)
     return (
       <div className="grid gap-6">
+        {banner}
         <div>
           <h1 className="text-3xl font-semibold tracking-tight">How will you use MotionQL?</h1>
           <p className="text-muted-foreground mt-2">Both are free. You can create or join a team later either way.</p>
@@ -100,6 +129,7 @@ export function RegisterForm() {
 
   return (
     <div className="grid gap-6">
+      {banner}
       <div>
         {!joining && (
           <button
@@ -144,6 +174,21 @@ export function RegisterForm() {
         <FormField id="password" label="Password" error={errors.password?.message} hint="At least 10 characters.">
           <PasswordInput id="password" autoComplete="new-password" aria-invalid={!!errors.password} {...register("password")} />
         </FormField>
+        <FormField id="heardFrom" label="How did you hear about us? (optional)">
+          <select id="heardFrom" className={selectClass} {...register("heardFrom")}>
+            <option value="">Choose one</option>
+            {heardFromOptions.map((o) => (
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
+            ))}
+          </select>
+        </FormField>
+        {heardFrom === "other" && (
+          <FormField id="heardFromOther" label="Where did you hear about MotionQL?" error={errors.heardFromOther?.message}>
+            <Input id="heardFromOther" maxLength={100} {...register("heardFromOther")} />
+          </FormField>
+        )}
         <label className="text-muted-foreground flex items-start gap-3 text-sm">
           <input type="checkbox" className="mt-0.5 size-4 accent-[var(--primary)]" {...register("terms")} />
           <span>
@@ -176,6 +221,34 @@ export function RegisterForm() {
         >
           Sign in
         </Link>
+      </p>
+    </div>
+  );
+}
+
+/** The code from /r/CODE (arrives as ?ref=), or one saved from an earlier visit. */
+function useReferralCode(fromUrl: string | null) {
+  const [code, setCode] = useState<string | null>(null);
+  useEffect(() => {
+    const fresh = cleanReferralCode(fromUrl);
+    if (fresh) saveReferral(fresh);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- the saved code is only readable in the browser
+    setCode(fresh ?? loadReferral());
+  }, [fromUrl]);
+  return code;
+}
+
+function InviteBanner({ name, bonusDays }: { name: string; bonusDays?: number }) {
+  const months = bonusDays && bonusDays % 30 === 0 ? bonusDays / 30 : null;
+  const extra = bonusDays ? (months ? `${months} extra month${months === 1 ? "" : "s"}` : `${bonusDays} extra days`) : null;
+  return (
+    <div className="border-primary/30 bg-primary/[0.06] flex items-start gap-3 rounded-2xl border px-4 py-3 text-sm">
+      <Gift className="text-primary mt-0.5 size-4 shrink-0" />
+      <p>
+        <span className="font-medium">{name || "A friend"} invited you to MotionQL.</span>{" "}
+        <span className="text-muted-foreground">
+          {extra ? `Confirm your email and you both get ${extra} of Pro.` : "Sign up free and get Pro for your first year."}
+        </span>
       </p>
     </div>
   );
