@@ -8,6 +8,7 @@ import { SectionHeading } from "@/components/marketing/section-heading";
 import { Reveal } from "@/components/marketing/reveal";
 import { Cta } from "@/components/marketing/cta";
 import { Button } from "@/components/ui/button";
+import { SpeedChart } from "@/components/marketing/speed-chart";
 import { VendorCompareTable } from "@/components/marketing/vendor-compare-table";
 import { vendors, type Vendor } from "@/lib/compare-vendors";
 import { pageMetadata } from "@/lib/seo";
@@ -116,6 +117,18 @@ export default async function VsPage({ params }: PageProps<"/compare/[vs]">) {
           ))}
         </div>
       </section>
+      {vs === "compass" && (
+        <section className="container-page py-16">
+          <SectionHeading
+            eyebrow="Measured, not claimed"
+            title="Faster than Compass on every step we timed"
+            description="Up to 7.6 times faster, with the same queries on the same data and server, timed from the click to the result on screen."
+          />
+          <Reveal className="mt-12">
+            <SpeedChart />
+          </Reveal>
+        </section>
+      )}
       <section className="container-page py-16">
         <SectionHeading title="Feature by feature" />
         <div className="mt-12">
