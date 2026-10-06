@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, ArrowRight, Loader2, User, Users } from "lucide-react";
 import { api, ApiError } from "@/lib/api";
+import { track } from "@/lib/analytics";
 import { registerSchema, safeNext, type RegisterValues } from "@/lib/schemas";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -38,6 +39,7 @@ export function RegisterForm() {
     try {
       const company = (v.usage === "team" ? v.teamName : v.company) || undefined;
       const res = await api.register({ name: v.name, email: v.email, password: v.password, company });
+      track("register", { usage: v.usage });
       if (res.devVerifyToken) sessionStorage.setItem("mq-dev-verify", res.devVerifyToken);
       if (v.usage === "team" && v.teamName) savePendingTeam(v.email, v.teamName);
       sessionStorage.setItem("mq-next", next);

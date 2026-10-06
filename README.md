@@ -44,6 +44,7 @@ content/               CHANGELOG.md and legal documents, copied from the app rep
 - `NEXT_PUBLIC_API_URL` points at the backend's custom domain, `https://api.motionql.com`. Values starting with `NEXT_PUBLIC_` are baked into the build, so trigger a redeploy after changing them.
 - Add the custom domain `motionql.com` under the service's **Settings > Custom Domains**.
 - The backend's `WEB_ORIGINS` must list `https://motionql.com` and `https://www.motionql.com`, or sign-in requests are refused. The session cookie is `SameSite=Lax`, so sign-in only works on motionql.com, not on the `xquery-website.onrender.com` address.
+- Analytics: set `NEXT_PUBLIC_UMAMI_WEBSITE_ID` to the Website ID from Umami Cloud (cloud.umami.is, free plan) and redeploy. Umami is cookieless, so no consent banner is needed. It counts page views on motionql.com and www only, plus the events `download` (os, arch, kind), `register` (usage) and `sign-in` (`src/lib/analytics.ts`). Leave it unset to turn analytics off.
 - The free plan sleeps after 15 minutes without traffic, so the first visit after that is slow. Switch `plan` to `starter` if that becomes a problem.
 
 ## API contract

@@ -9,6 +9,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { api, ApiError } from "@/lib/api";
 import { qk } from "@/lib/api/hooks";
+import { track } from "@/lib/analytics";
 import { loginSchema, safeNext, type LoginValues } from "@/lib/schemas";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,6 +33,7 @@ export function LoginForm() {
     setError(null);
     try {
       await api.login(v.email, v.password);
+      track("sign-in");
       await qc.invalidateQueries({ queryKey: qk.me });
       router.push(next);
     } catch (e) {
