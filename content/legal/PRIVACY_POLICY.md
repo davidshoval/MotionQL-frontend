@@ -4,7 +4,7 @@
 
 This policy explains what personal data **David Shoval**, an individual residing in Israel, trading as MotionQL ("**we**", "**us**"), collects in connection with the MotionQL desktop application (the "**App**"), the self-hosted MotionQL Team Server, our website at https://motionql.com, purchases, license activation and support, how we use it, and your rights.
 
-**Controller:** David Shoval, trading as MotionQL, Uri Zvi Grinberg St., Holon, Israel. Contact: privacy@motionql.com.
+**Controller:** David Shoval, trading as MotionQL, Uri Zvi Grinberg St. 31, Holon, Israel. Contact: privacy@motionql.com.
 **Data protection officer (if appointed):** We have not appointed a data protection officer because we are not required to. Privacy questions go to privacy@motionql.com.
 **EU and UK individuals:** If you are in the European Union or the United Kingdom, you can contact us at privacy@motionql.com about any privacy matter, and you can also contact your local data protection supervisory authority (section 10.1).
 
@@ -185,4 +185,4 @@ We will post updates to this policy with a new effective date. If a change is ma
 
 ## 13. Contact
 
-David Shoval, trading as MotionQL, Uri Zvi Grinberg St., Holon, Israel · privacy@motionql.com
+David Shoval, trading as MotionQL, Uri Zvi Grinberg St. 31, Holon, Israel · privacy@motionql.com

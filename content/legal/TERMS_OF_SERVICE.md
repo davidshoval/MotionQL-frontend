@@ -2,7 +2,7 @@
 
 **Effective 6 October 2026**
 
-These Terms of Service (the "**Terms**") govern your Free Launch License, any future purchase of MotionQL licenses and subscriptions, your use of our website at https://motionql.com (the "**Website**"), your customer account (if any), support services, and your license to the self-hosted MotionQL Team Server. They are an agreement between you and **David Shoval**, an individual residing in Israel, trading as MotionQL, of Uri Zvi Grinberg St., Holon, Israel ("**we**", "**us**").
+These Terms of Service (the "**Terms**") govern your Free Launch License, any future purchase of MotionQL licenses and subscriptions, your use of our website at https://motionql.com (the "**Website**"), your customer account (if any), support services, and your license to the self-hosted MotionQL Team Server. They are an agreement between you and **David Shoval**, an individual residing in Israel, trading as MotionQL, of Uri Zvi Grinberg St. 31, Holon, Israel ("**we**", "**us**").
 
 Use of the MotionQL desktop application itself is governed by the [End User License Agreement](./EULA.md) (the "**EULA**"). Capitalized terms not defined here have the meaning given in the EULA. If these Terms and the EULA conflict about the desktop application, the EULA prevails; for everything else, these Terms prevail. A signed agreement between you and us overrides both where they conflict.
 
@@ -154,4 +154,4 @@ We may update these Terms. We will post the updated Terms on the Website with a 
 
 15.3 **Assignment, entire agreement, severability, waiver, force majeure and notices.** EULA sections 17.3 to 17.9 apply to these Terms.
 
-15.4 **Contact.** David Shoval, trading as MotionQL, Uri Zvi Grinberg St., Holon, Israel · Sales: sales@motionql.com · Support: support@motionql.com · Legal: legal@motionql.com · https://motionql.com
+15.4 **Contact.** David Shoval, trading as MotionQL, Uri Zvi Grinberg St. 31, Holon, Israel · Sales: sales@motionql.com · Support: support@motionql.com · Legal: legal@motionql.com · https://motionql.com

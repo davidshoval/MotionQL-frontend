@@ -2,7 +2,7 @@
 
 **Version:** 1.1.0 · **Effective:** 6 October 2026
 
-This End User License Agreement (the "**Agreement**") is between **David Shoval**, an individual residing in Israel, trading as MotionQL, of Uri Zvi Grinberg St., Holon, Israel ("**we**", "**us**", "**our**"), and the person or legal entity that installs, activates or uses the Software ("**you**", "**your**"). If you accept this Agreement on behalf of an organization, you confirm that you have authority to bind that organization, and "you" means that organization.
+This End User License Agreement (the "**Agreement**") is between **David Shoval**, an individual residing in Israel, trading as MotionQL, of Uri Zvi Grinberg St. 31, Holon, Israel ("**we**", "**us**", "**our**"), and the person or legal entity that installs, activates or uses the Software ("**you**", "**your**"). If you accept this Agreement on behalf of an organization, you confirm that you have authority to bind that organization, and "you" means that organization.
 
 By installing, activating or using the Software, you agree to this Agreement. If you do not agree, do not install or use the Software.
 
@@ -204,10 +204,10 @@ If you are a government entity, the Software is "commercial computer software" a
 
 17.7 **Force majeure.** Neither party is liable for delay or failure caused by events beyond its reasonable control, other than payment obligations.
 
-17.8 **Notices.** Notices to us: David Shoval (MotionQL), Uri Zvi Grinberg St., Holon, Israel, with a copy to legal@motionql.com. Notices to you: the email address in your Order or account.
+17.8 **Notices.** Notices to us: David Shoval (MotionQL), Uri Zvi Grinberg St. 31, Holon, Israel, with a copy to legal@motionql.com. Notices to you: the email address in your Order or account.
 
 17.9 **Language.** This Agreement is written in English. If it is translated, the English version prevails, to the extent permitted by law.
 
 ---
 
-Contact: David Shoval, trading as MotionQL · Uri Zvi Grinberg St., Holon, Israel · support@motionql.com · https://motionql.com
+Contact: David Shoval, trading as MotionQL · Uri Zvi Grinberg St. 31, Holon, Israel · support@motionql.com · https://motionql.com
