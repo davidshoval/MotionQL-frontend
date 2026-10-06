@@ -2,6 +2,26 @@
 
 All notable changes to MotionQL are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and MotionQL uses [Semantic Versioning](https://semver.org/).
 
+## [1.2.1] — 2026-10-06
+
+### Fixed
+
+- AI with Gemini: masking rules, "Which fields are PII?", "Build dashboard" and "Explain indexes" now work (Gemini rejected their requests before). AI-built pipelines no longer fail when Gemini escapes `$` in a stage.
+- AI backup models now take over when the main model hangs, not only when it returns an error, and Test connection names the model that actually answered.
+- Query Builder: the sort reaches Explain and Query Code, Add Condition adds one row, and tab titles count per kind.
+- Aggregation: field pickers list the collection's fields, including arrays for $unwind.
+- Document history: dates show correctly, revert works, and the selected entry follows the theme.
+- Compare & Sync: the sync preview is visible again.
+- Collection lists refresh after a copy; the grid refreshes after a bulk edit and counts update after an insert.
+- Data masking: number noise keeps the original decimals, and "Already exists" no longer shows after a write.
+- Test data: values seen in arrays become choices for generated data.
+- Create Index form layout, Index Review keeps its results across tab switches.
+- Server Monitoring: memory is shown and the trend charts fit their cards.
+- Dashboards: chart colours stay the same per category, and the chart editor and toolbar fit.
+- Tasks: the editor background, the keychain notice and the Counts column.
+- SQL Migration can use saved PostgreSQL and MySQL connections, including SSH tunnels.
+- No more stray tooltips in the SQL editor and results grid.
+
 ## [1.2.0] — 2026-10-05
 
 ### Added
