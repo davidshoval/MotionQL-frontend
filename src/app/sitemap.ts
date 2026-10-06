@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const paths = [
     "",
     "/features",
+    "/videos",
     "/compare",
     "/compare/studio-3t",
     "/compare/compass",

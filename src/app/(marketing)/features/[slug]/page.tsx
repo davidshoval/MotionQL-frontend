@@ -12,6 +12,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { featureBySlug, features } from "@/lib/features";
 import { pageMetadata } from "@/lib/seo";
+import { videosForFeature } from "@/lib/videos";
+import { VideoPlayer } from "@/components/marketing/video-player";
 
 export const dynamicParams = false;
 
@@ -36,6 +38,7 @@ export default async function FeaturePage({ params }: PageProps<"/features/[slug
   const f = featureBySlug(slug);
   if (!f) notFound();
   const related = f.related.map(featureBySlug).filter((r) => r !== undefined);
+  const tours = videosForFeature(f.slug);
 
   return (
     <>
@@ -85,6 +88,21 @@ export default async function FeaturePage({ params }: PageProps<"/features/[slug
               <code>{f.snippet.code}</code>
             </pre>
           </Reveal>
+        </section>
+      )}
+
+      {tours.length > 0 && (
+        <section className="container-page max-w-5xl py-16">
+          <SectionHeading eyebrow="Watch" title={tours.length > 1 ? "See it in action" : tours[0].title} />
+          <div className={tours.length > 1 ? "mt-12 grid gap-8 md:grid-cols-2" : "mt-12"}>
+            {tours.map((v) => (
+              <Reveal key={v.slug}>
+                <VideoPlayer video={v} />
+                {tours.length > 1 && <h3 className="mt-5 font-semibold tracking-tight">{v.title}</h3>}
+                <p className="text-muted-foreground mt-2 text-center text-sm md:text-left">{v.summary}</p>
+              </Reveal>
+            ))}
+          </div>
         </section>
       )}
 

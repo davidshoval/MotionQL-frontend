@@ -11,6 +11,7 @@ import { CompareTable } from "@/components/marketing/compare-table";
 import { PricingCards } from "@/components/marketing/pricing-cards";
 import { Steps } from "@/components/marketing/steps";
 import { Showcase } from "@/components/marketing/showcase";
+import { VideoTour } from "@/components/marketing/video-tour";
 import { Faq } from "@/components/marketing/faq";
 import { Cta } from "@/components/marketing/cta";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,7 @@ export default function HomePage() {
       <WorksWith />
       <Switchers />
       <Showcase />
+      <VideoTour />
       <Bento />
       <AiSection />
       <SecuritySection />
