@@ -4,7 +4,7 @@
  * Source: tools/bench/compare/results-2026-10-06.md in the desktop app repo (MotionQL-Platform). screenwatch
  * performs the click or key itself and times the screen until the result stops changing, the same way for both
  * apps. Values are medians (p50) of 20 runs over two rounds; p95 in `p95`. Update this file, not the page, when
- * the benchmark is run again.
+ * the benchmark is run again, and the table in content/blog/mongodb-gui-up-to-7x-faster-than-compass.md too.
  */
 export interface SpeedRow {
   step: string;
