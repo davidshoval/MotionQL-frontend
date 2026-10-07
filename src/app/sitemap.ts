@@ -9,6 +9,7 @@ import { TOOLS } from "@/lib/tools/registry";
 export default function sitemap(): MetadataRoute.Sitemap {
   const paths = [
     "",
+    "/mongodb-gui",
     "/features",
     "/videos",
     "/compare",
@@ -38,7 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
   // Pages people search for by name get a higher hint than docs and legal pages.
   const priority = (p: string) =>
-    p === "" ? 1 : /^\/(download|compare|pricing|features)(\/|$)/.test(p) ? 0.9 : p.startsWith("/legal/") ? 0.3 : 0.7;
+    p === "" ? 1 : /^\/(download|compare|pricing|features|mongodb-gui)(\/|$)/.test(p) ? 0.9 : p.startsWith("/legal/") ? 0.3 : 0.7;
   const posted = new Map(blogPosts.map((b) => [`/blog/${b.slug}`, b.date]));
   return [...new Set(paths)].map((p) => ({
     url: `${site.url}${p}`,

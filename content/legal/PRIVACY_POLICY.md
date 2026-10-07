@@ -1,6 +1,6 @@
 # MotionQL Privacy Policy
 
-**Effective 6 October 2026**
+**Effective 6 October 2026, updated 7 October 2026**
 
 This policy explains what personal data **David Shoval**, an individual residing in Israel, trading as MotionQL ("**we**", "**us**"), collects in connection with the MotionQL desktop application (the "**App**"), the self-hosted MotionQL Team Server, our website at https://motionql.com, purchases, license activation and support, how we use it, and your rights.
 
@@ -14,6 +14,7 @@ This policy explains what personal data **David Shoval**, an individual residing
 
 - **Your databases are not our business.** The App runs on your computer and connects directly to the databases you choose. We do not receive the contents of your databases, your queries, your connection settings or your credentials.
 - **Usage statistics only if you allow them.** If you choose "Allow" when the App first asks, it sends us, at most once a day, a small usage record (a random installation id, App version, operating system, edition and, for paid licenses, a hash of your license id) so we can count active installations and check license use. It never includes your databases, queries, credentials, name, email or IP address. Nothing is sent until you allow it; you can change your mind in Settings → Diagnostics, and your administrator can turn it off for your organization (section 2.8).
+- **Product usage events only if you turn them on.** Off by default. If you turn them on, the App tells us when it starts, when you first connect to a database and on which days it is used, with the same random installation id, App version and operating system, and no IP address stored (section 2.9).
 - **We do not collect crash reports.** Crash reporting is off. Crash snapshots (minidumps) are uploaded only if your organization's administrator sets up the organization's own crash-report server and you turn crash reporting on; they then go to that server, not to us (section 2.4).
 - **License keys are checked offline.** Activating a license does not send your data to us.
 - **AI goes to your provider, not to us.** If you use AI features, requests go directly from your computer to the AI provider you configure, with your own API key.
@@ -43,7 +44,7 @@ The App connects to:
 | Your database servers, SSH servers and proxies | When you connect | Whatever the database protocol requires, including your credentials, directly to that server |
 | Your identity provider (MongoDB OIDC, Team Server SSO) | When you sign in | Standard OpenID Connect sign-in in your system browser |
 | The AI provider you configure (Google Gemini, Anthropic Claude or an OpenAI-compatible endpoint) | Only when you use an AI feature on a connection where AI is allowed | See section 2.3 |
-| Our product service (`api.motionql.com` by default, or a server your administrator configures) | Notice list: about every 4 hours. Usage record: at most once a day, only if you allowed usage statistics. Neither in offline mode | Notice list: nothing about you (no identifier, cookie or body). Usage record: see section 2.8 |
+| Our product service (`api.motionql.com` by default, or a server your administrator configures) | Notice list: about every 4 hours. Usage record: at most once a day, only if you allowed usage statistics. Usage events: only if you turned them on. None of these in offline mode | Notice list: nothing about you (no identifier, cookie or body). Usage record: see section 2.8. Usage events: see section 2.9 |
 | The update server (our GitHub Releases page by default, or a server your administrator configures) | When checking for updates, unless turned off | Standard HTTPS request headers including your IP address, the App version and platform in the request, as needed to find the right update |
 | Your organization's Team Server | Only if you sign in to one | Your sign-in, your organization's shared items, and your local audit events |
 | Your organization's crash-report server (we do not operate one) | Only if your administrator configures one and you opt in | See section 2.4 |
@@ -104,17 +105,40 @@ The installation id is not derived from your hardware, user name, network or any
 
 **Legal basis (GDPR / UK GDPR):** your consent (Art. 6(1)(a)), given by choosing "Allow", which you can withdraw at any time in Settings → Diagnostics without affecting earlier processing. Storing the installation id on your device is also covered by that consent. **Retention:** an installation record is deleted 25 months after it was last seen. We keep aggregated counts (for example "installations per version per month") that cannot identify anyone, without time limit.
 
+### 2.9 Product usage events (optional)
+
+Separately from the daily usage record, the App can tell us when a few things happen, so we can see whether people keep using MotionQL after installing it (for example, how many installations are still in use a day, a week and a month later). **This is off unless you turn it on**, and nothing is sent while it is off. When it is on, the App sends our product service a small event containing only:
+
+| Field | Example | Why |
+|---|---|---|
+| Installation id | the same random value as in section 2.8, created by the App and not derived from your hardware | Tell installations apart without knowing who you are |
+| App version | `1.4.2` | Know which versions people keep using |
+| Operating system and architecture | `darwin`, `arm64` | Plan platform support |
+| Event | `app_open` (the App started), `first_connection` (the first time you connected to a database; kept once) or `active_day` (the App was used that day; kept at most once per day) | Measure retention |
+| Hash of the license id | a one-way SHA-256 value, only while a paid License Key is active | See below |
+| Date | recorded by our server when the event arrives | Measure retention over time |
+
+The event **never** contains database contents, database names or addresses, queries, connection strings, credentials, file paths, your name, email, user or machine name. Our server receives your IP address to answer the request; **we do not store it.**
+
+**Linking to your account.** If the event carries a license id hash and that License Key belongs to an account, we can link the installation to that account, and so to how the account first found us (section 3, "Sign-up source"). We use this only in totals, for example retention of installations per newsletter or campaign, to decide where to advertise.
+
+**Your choices.** Turn product usage events on or off at any time in the App's settings (Settings → Diagnostics); with them off, every feature keeps working. The `DO_NOT_TRACK` and `MOTIONQL_DISABLE_USAGE_STATS` environment variables, offline mode and your administrator's `productService.disableUsageStats` or `productService.disabled` policy also stop them.
+
+**Legal basis (GDPR / UK GDPR):** your consent (Art. 6(1)(a)), given by turning them on, which you can withdraw at any time without affecting earlier processing. **Retention:** each event is deleted 25 months after we received it. We keep aggregated counts that cannot identify anyone, without time limit.
+
 ## 3. Data we collect when you deal with us
 
 | Category | Examples | Purpose | Legal basis (GDPR / UK GDPR) | Retention |
 |---|---|---|---|---|
 | Account data | Name, email, company, password hash, account settings, Free Launch License issued | Create and manage your account, issue your Free Launch License | Contract (Art. 6(1)(b)) | Life of account plus 12 months |
 | Referral data | The invite code in your link, who invited you (if you signed up through a friend's link), your optional answer to "How did you hear about us?", referral rewards earned | Run the refer-a-friend program and give rewards; understand which channels bring new users. People who open your invite link see your first name; you see only how many people signed up with your link, not who they are | Contract (Art. 6(1)(b)); legitimate interests (Art. 6(1)(f)) | Life of account plus 12 months |
+| Sign-up source | Where your visit to the Website started, if you then create an account: the campaign tags in the link you followed (`utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, for example from a newsletter or an ad), the path of the first page you opened, and the name of the website that linked to it (for example `news.example.com`, not the full address). Kept in your browser for that tab only (section 4) and sent with your sign-up | Understand which newsletters, ads and sites bring new users and teams, to decide where to advertise. We look at it in totals per source (for example how many sign-ups and companies, counted by email domain, came from a newsletter) | Legitimate interests (Art. 6(1)(f)) | Life of account plus 12 months |
 | Purchase and billing data | Name, billing address, VAT/tax ID, order history, license keys issued, last digits and type of card (full card numbers are held by our payment provider) | Process orders, issue licenses, invoicing, tax and accounting | Contract; legal obligation (Art. 6(1)(c)) | As required by tax law, typically 10 years |
 | Support data | Your messages, contact details, attachments you choose to send | Answer support requests, improve documentation | Contract; legitimate interests (Art. 6(1)(f)) | 3 years after the ticket closes |
 | Website data | IP address, browser type, pages visited, referrer, cookie identifiers | Operate and secure the website and the license service (the product service does not log IP addresses) | Legitimate interests | Server logs, including IP addresses, 30 days |
 | Marketing preferences | Email, newsletter consent, unsubscribe records | Send product news if you opt in | Consent (Art. 6(1)(a)) | Until you unsubscribe, plus suppression record |
 | Usage statistics | See section 2.8 | Count installations, plan platform support, license compliance | Consent | 25 months after last seen; aggregated counts kept |
+| Product usage events | See section 2.9 | Measure how many installations keep being used, overall and per sign-up source | Consent | 25 months after each event; aggregated counts kept |
 | Security reports | Your report and contact details | Handle vulnerability reports | Legitimate interests | 3 years |
 
 **Please do not send us database contents, credentials or connection strings in support requests.** If you do, we will delete them once they are no longer needed to resolve your request.
@@ -123,7 +147,7 @@ We do not sell personal data, and we do not "share" it for cross-context behavio
 
 ## 4. Cookies
 
-The Website uses only cookies that are strictly necessary to operate it (for example, session and checkout cookies, and, if and when we offer paid Editions, those set by our payment provider during checkout). We do not use analytics or advertising cookies. To count visits, we use Umami, a privacy-focused analytics service that sets no cookies and stores no IP addresses or other identifiers: it records only aggregated page views, referrers, country, browser and device type, and a few anonymous events such as download clicks. If we ever add cookies that are not strictly necessary, we will ask for your consent first through a cookie banner and update this policy. The App does not use cookies for tracking.
+The Website uses only cookies that are strictly necessary to operate it (for example, session and checkout cookies, and, if and when we offer paid Editions, those set by our payment provider during checkout). We do not use analytics or advertising cookies. To count visits, we use Umami, a privacy-focused analytics service that sets no cookies and stores no IP addresses or other identifiers: it records only aggregated page views, referrers, country, browser and device type, and a few anonymous events such as download clicks. So that we can tell which campaign or site brought a new account, the Website also keeps the campaign tags of the link you arrived with, the first page you opened and the referring website's name in your browser's session storage (not a cookie). It stays on your device, is deleted when you close the tab, and is only sent to us if you create an account in that tab (section 3, "Sign-up source"). If we ever add cookies that are not strictly necessary, we will ask for your consent first through a cookie banner and update this policy. The App does not use cookies for tracking.
 
 ## 5. Team Server
 

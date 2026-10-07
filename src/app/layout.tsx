@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import { Providers } from "@/components/providers";
+import { AttributionCapture } from "@/components/site/attribution-capture";
 import { site } from "@/lib/site";
 import { UMAMI_SCRIPT_URL, UMAMI_WEBSITE_ID } from "@/lib/analytics";
 import "./globals.css";
@@ -56,6 +57,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
         <Providers>{children}</Providers>
+        <AttributionCapture />
         {UMAMI_WEBSITE_ID && (
           // data-domains keeps local and onrender.com previews out of the stats.
           <Script src={UMAMI_SCRIPT_URL} data-website-id={UMAMI_WEBSITE_ID} data-domains={analyticsDomains} strategy="afterInteractive" />
