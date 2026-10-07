@@ -4,13 +4,15 @@
 // Keys it issues are clearly fake and will not activate the app.
 import { ApiError } from "./client";
 import type { Api } from "./index";
-import type { AuditEvent, Invite, License, Me, Member, Release, Role, Team, User } from "./types";
+import type { Attribution } from "@/lib/attribution";
+import type { AcquisitionReport, AcquisitionSource, AuditEvent, Invite, License, Me, Member, Release, Role, Team, User } from "./types";
 
 interface StoredUser extends User {
   password: string;
   referralCode?: string;
   referredBy?: string;
   heardFrom?: string;
+  attribution?: Attribution;
 }
 interface StoredTeam {
   id: string;
@@ -220,7 +222,7 @@ const RELEASE: Release = {
 };
 
 export const mockApi: Api = {
-  async register({ email, password, name, company, referralCode: code, heardFrom }) {
+  async register({ email, password, name, company, referralCode: code, heardFrom, attribution }) {
     await wait();
     const db = load();
     const e = email.trim().toLowerCase();
@@ -237,6 +239,7 @@ export const mockApi: Api = {
       referralCode: referralCode(),
       referredBy: inviterFor(db, code)?.id,
       heardFrom: heardFrom || undefined,
+      attribution,
     };
     db.users.push(user);
     const token = id("vt");
@@ -629,6 +632,45 @@ export const mockApi: Api = {
     return { events: db.audit.filter((e) => e.teamId === teamId).map(({ teamId: _t, ...e }) => (void _t, e)), nextCursor: null };
   },
   auditCsvUrl: () => null,
+
+  // A rough version of the backend report; the backend has the full personal-mailbox list and activation data.
+  async acquisition({ from, to }) {
+    await wait(150);
+    const db = load();
+    const user = sessionUser(db);
+    if (!user.isStaff) fail(403, "forbidden", "Staff only.");
+    const inRange = db.users.filter((u) => (!from || u.createdAt >= from) && (!to || u.createdAt < to));
+    const personal = /^(gmail|googlemail|outlook|hotmail|yahoo|icloud|proton|protonmail|aol|gmx|live|me|yandex|mail|qq|163)\./;
+    const domainOf = (e: string) => e.slice(e.lastIndexOf("@") + 1);
+    const size = (d: string) => db.users.filter((u) => domainOf(u.email) === d).length;
+    const groups = new Map<string | null, typeof inRange>();
+    for (const u of inRange) {
+      const k = u.attribution?.utmSource?.toLowerCase() || null;
+      groups.set(k, [...(groups.get(k) ?? []), u]);
+    }
+    const companiesOf = (list: typeof inRange) => [...new Set(list.map((u) => domainOf(u.email)).filter((d) => !personal.test(d)))];
+    const sources: AcquisitionSource[] = [...groups.entries()]
+      .map(([utmSource, list]) => {
+        const companies = companiesOf(list);
+        return {
+          utmSource,
+          signups: list.length,
+          confirmed: list.filter((u) => u.emailVerified).length,
+          companies: companies.length,
+          companies2Plus: companies.filter((d) => size(d) >= 2).length,
+          companies3Plus: companies.filter((d) => size(d) >= 3).length,
+          activated: 0,
+        };
+      })
+      .sort((a, b) => b.signups - a.signups);
+    const report: AcquisitionReport = {
+      from: from ? new Date(from).toISOString() : null,
+      to: to ? new Date(to).toISOString() : null,
+      totals: { signups: inRange.length, confirmed: inRange.filter((u) => u.emailVerified).length, companies: companiesOf(inRange).length, activated: 0 },
+      sources,
+    };
+    return report;
+  },
 };
 
 /** Preview mode only: the invite link the backend would have e-mailed, so it can be opened by hand. */

@@ -1,6 +1,7 @@
 import { API_URL, http, USE_MOCK } from "./client";
 import { mockApi } from "./mock";
-import type { AuditEvent, FreePlan, Invite, InvitePreview, License, Me, Member, Referral, ReferralPreview, Release, Role, Team, User } from "./types";
+import type { Attribution } from "@/lib/attribution";
+import type { AcquisitionReport, AuditEvent, FreePlan, Invite, InvitePreview, License, Me, Member, Referral, ReferralPreview, Release, Role, Team, User } from "./types";
 
 export interface RegisterInput {
   email: string;
@@ -11,6 +12,8 @@ export interface RegisterInput {
   referralCode?: string;
   /** "How did you hear about us?" */
   heardFrom?: string;
+  /** First-touch utm_* tags, landing path and referring host (lib/attribution.ts). */
+  attribution?: Attribution;
 }
 
 /** Every call the website makes to the backend (docs/API.md in motionql-backend). The mock implements the same interface. */
@@ -56,6 +59,9 @@ export interface Api {
   audit(teamId: string, before?: string): Promise<{ events: AuditEvent[]; nextCursor: string | null }>;
   /** URL of the CSV export, or null when the export happens in the browser (mock). */
   auditCsvUrl(teamId: string): string | null;
+
+  /** Staff only: sign-ups per first-touch utm_source. `from` inclusive, `to` exclusive (YYYY-MM-DD). */
+  acquisition(range: { from?: string; to?: string }): Promise<AcquisitionReport>;
 }
 
 const enc = encodeURIComponent;
@@ -101,6 +107,11 @@ const httpApi: Api = {
   acceptInvite: (token) => http("POST", "/invites/accept", { token }),
   audit: (id, before) => http("GET", `/teams/${enc(id)}/audit${before ? `?before=${enc(before)}` : ""}`),
   auditCsvUrl: (id) => `${API_URL}/teams/${enc(id)}/audit.csv`,
+
+  acquisition: ({ from, to }) => {
+    const q = new URLSearchParams({ ...(from ? { from } : {}), ...(to ? { to } : {}) }).toString();
+    return http("GET", `/admin/acquisition${q ? `?${q}` : ""}`);
+  },
 };
 
 export const api: Api = USE_MOCK ? mockApi : httpApi;

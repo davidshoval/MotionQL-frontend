@@ -1,6 +1,6 @@
 # MotionQL Privacy Policy
 
-**Effective 6 October 2026**
+**Effective 6 October 2026, updated 7 October 2026**
 
 This policy explains what personal data **David Shoval**, an individual residing in Israel, trading as MotionQL ("**we**", "**us**"), collects in connection with the MotionQL desktop application (the "**App**"), the self-hosted MotionQL Team Server, our website at https://motionql.com, purchases, license activation and support, how we use it, and your rights.
 
@@ -110,6 +110,7 @@ The installation id is not derived from your hardware, user name, network or any
 |---|---|---|---|---|
 | Account data | Name, email, company, password hash, account settings, Free Launch License issued | Create and manage your account, issue your Free Launch License | Contract (Art. 6(1)(b)) | Life of account plus 12 months |
 | Referral data | The invite code in your link, who invited you (if you signed up through a friend's link), your optional answer to "How did you hear about us?", referral rewards earned | Run the refer-a-friend program and give rewards; understand which channels bring new users. People who open your invite link see your first name; you see only how many people signed up with your link, not who they are | Contract (Art. 6(1)(b)); legitimate interests (Art. 6(1)(f)) | Life of account plus 12 months |
+| Sign-up source | Where your visit to the Website started, if you then create an account: the campaign tags in the link you followed (`utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, for example from a newsletter or an ad), the path of the first page you opened, and the name of the website that linked to it (for example `news.example.com`, not the full address). Kept in your browser for that tab only (section 4) and sent with your sign-up | Understand which newsletters, ads and sites bring new users and teams, to decide where to advertise. We look at it in totals per source (for example how many sign-ups and companies, counted by email domain, came from a newsletter) | Legitimate interests (Art. 6(1)(f)) | Life of account plus 12 months |
 | Purchase and billing data | Name, billing address, VAT/tax ID, order history, license keys issued, last digits and type of card (full card numbers are held by our payment provider) | Process orders, issue licenses, invoicing, tax and accounting | Contract; legal obligation (Art. 6(1)(c)) | As required by tax law, typically 10 years |
 | Support data | Your messages, contact details, attachments you choose to send | Answer support requests, improve documentation | Contract; legitimate interests (Art. 6(1)(f)) | 3 years after the ticket closes |
 | Website data | IP address, browser type, pages visited, referrer, cookie identifiers | Operate and secure the website and the license service (the product service does not log IP addresses) | Legitimate interests | Server logs, including IP addresses, 30 days |
@@ -123,7 +124,7 @@ We do not sell personal data, and we do not "share" it for cross-context behavio
 
 ## 4. Cookies
 
-The Website uses only cookies that are strictly necessary to operate it (for example, session and checkout cookies, and, if and when we offer paid Editions, those set by our payment provider during checkout). We do not use analytics or advertising cookies. To count visits, we use Umami, a privacy-focused analytics service that sets no cookies and stores no IP addresses or other identifiers: it records only aggregated page views, referrers, country, browser and device type, and a few anonymous events such as download clicks. If we ever add cookies that are not strictly necessary, we will ask for your consent first through a cookie banner and update this policy. The App does not use cookies for tracking.
+The Website uses only cookies that are strictly necessary to operate it (for example, session and checkout cookies, and, if and when we offer paid Editions, those set by our payment provider during checkout). We do not use analytics or advertising cookies. To count visits, we use Umami, a privacy-focused analytics service that sets no cookies and stores no IP addresses or other identifiers: it records only aggregated page views, referrers, country, browser and device type, and a few anonymous events such as download clicks. So that we can tell which campaign or site brought a new account, the Website also keeps the campaign tags of the link you arrived with, the first page you opened and the referring website's name in your browser's session storage (not a cookie). It stays on your device, is deleted when you close the tab, and is only sent to us if you create an account in that tab (section 3, "Sign-up source"). If we ever add cookies that are not strictly necessary, we will ask for your consent first through a cookie banner and update this policy. The App does not use cookies for tracking.
 
 ## 5. Team Server
 

@@ -25,6 +25,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     { href: "/account", label: "Account" },
     ...(me?.teams.map((t) => ({ href: `/team/${t.id}`, label: t.name })) ?? []),
     { href: "/download", label: "Download" },
+    ...(me?.user.isStaff ? [{ href: "/admin/acquisition", label: "Acquisition" }] : []),
   ];
 
   return (

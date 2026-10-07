@@ -147,3 +147,23 @@ export interface ReferralPreview {
 export interface ApiErrorBody {
   error: { code: string; message: string; fields?: Record<string, string> };
 }
+
+/** One row of GET /admin/acquisition: sign-ups that first arrived with this utm_source (null: none). */
+export interface AcquisitionSource {
+  utmSource: string | null;
+  signups: number;
+  confirmed: number;
+  /** Distinct company e-mail domains (personal mailboxes left out). */
+  companies: number;
+  companies2Plus: number;
+  companies3Plus: number;
+  /** Users whose key has been seen in the app. */
+  activated: number;
+}
+
+export interface AcquisitionReport {
+  from: string | null;
+  to: string | null;
+  totals: { signups: number; confirmed: number; companies: number; activated: number };
+  sources: AcquisitionSource[];
+}
