@@ -110,7 +110,7 @@ export const faqs = [
   },
   {
     q: "What happens after the 12 months?",
-    a: "While the free plan is on, you renew for another year with one click on your account page. If we ever start charging, you will see pricing before your year ends, and everything that is free today stays free. Nothing on your computer is deleted.",
+    a: "The free Pro year is one per email address and isn't renewed. From 30 days before it ends, MotionQL reminds you. When it ends, only the Pro features pause: MotionQL still opens, connects and shows your data, every free feature keeps working, and nothing on your computer is deleted. You can then upgrade to keep Pro.",
   },
   {
     q: "Can I move over from DBeaver, DataGrip or Studio 3T?",
@@ -134,6 +134,6 @@ export const faqs = [
   },
   {
     q: "Is there a version for teams?",
-    a: "Yes, and team seats are free for now too. Create a team, invite people by email, and each member gets their own key. Admins can free a seat, reissue a key or remove someone at any time from the team page.",
+    a: "Yes, and team seats are free for their first year too. Create a team, invite people by email, and each member gets their own key. Admins can free a seat, reissue a key or remove someone at any time from the team page.",
   },
 ];

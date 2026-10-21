@@ -63,7 +63,7 @@ export default function HomePage() {
         <SectionHeading
           eyebrow="Pricing"
           title="Free. Really."
-          description="Pro is free for your first year, team seats are free for now, and the core app is free forever."
+          description="Pro is free for your first year, team seats are free for their first year, and the core app is free forever."
         />
         <div className="mt-14">
           <PricingCards />

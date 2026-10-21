@@ -25,7 +25,7 @@ const groups: { title: string; items: Item[] }[] = [
     items: [
       {
         q: "How much does MotionQL cost?",
-        a: "Nothing today. The core app is free forever and needs no license key. When you create an account you also get a Pro license, free for 12 months, with no credit card. Team seats are free for now too.",
+        a: "Nothing today. The core app is free forever and needs no license key. When you create an account you also get a Pro license, free for 12 months, with no credit card. Team seats are free for their first year too.",
         more: { href: "/pricing", label: "See pricing" },
       },
       {
@@ -39,7 +39,7 @@ const groups: { title: string; items: Item[] }[] = [
       },
       {
         q: "What happens after the 12 months?",
-        a: "While the free launch offer runs, you renew for another year with one click on your account page and paste the new key. If we ever start charging for Pro, you'll see the price before your year ends, and everything that's free today stays free. If a key does expire, only the Pro features stop: MotionQL still opens, connects and shows your data, and nothing on your computer is deleted.",
+        a: "The free Pro year is one per email address and isn't renewed. From 30 days before it ends, MotionQL reminds you. When it ends, only the Pro features pause: MotionQL still opens, connects and shows your data, every free feature keeps working, and nothing on your computer is deleted. You can then upgrade to keep Pro.",
       },
       {
         q: "Can I use MotionQL for commercial work?",
@@ -100,7 +100,7 @@ const groups: { title: string; items: Item[] }[] = [
     items: [
       {
         q: "Is there a version for teams?",
-        a: "Yes, and team seats are free for now. Create a team from your account, invite people by email, and assign each member a seat. Each member gets their own Pro key. Owners and admins can free a seat, reissue a key or remove someone at any time, and every change is logged.",
+        a: "Yes, and team seats are free for their first year. Create a team from your account, invite people by email, and assign each member a seat. Each member gets their own Pro key. Owners and admins can free a seat, reissue a key or remove someone at any time, and every change is logged.",
         more: { href: "/docs/licensing-teams", label: "Licensing and teams" },
       },
       {

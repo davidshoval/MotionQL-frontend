@@ -25,7 +25,7 @@ const pages = {
     reasons: [
       {
         t: "No per-seat bill",
-        d: "Pro is free for your first year and team seats are free for now. The core app is free forever, including for commercial work.",
+        d: "Pro is free for your first year and team seats are free for their first year. The core app is free forever, including for commercial work.",
       },
       {
         t: "No license check-ins",

@@ -2,7 +2,7 @@
 
 | | Free | Pro | Teams |
 |---|---|---|---|
-| **Price today** | $0, forever | $0 for 12 months with a free account | $0 per seat for now |
+| **Price today** | $0, forever | $0 for 12 months with a free account | $0 per seat for 12 months |
 | **Key needed** | No | Yes, from your account page | Each member gets their own key |
 | **Features** | Everything except the four below | Free, plus SQL Migration, Data Masking, the Tasks scheduler and MongoDB Atlas management | Pro for every member |
 
@@ -19,7 +19,7 @@ Get and activate a key: [Register and activate Pro](/docs/activate).
 
 ## After the first year
 
-While the free launch offer runs, renew for another year with one click on your [account page](/account). If we ever start charging for Pro, you'll see the pricing before your year ends, and everything that's free today stays free.
+The free Pro year is one per email address and isn't renewed. From 30 days before it ends, MotionQL reminds you. When it ends, only the Pro features pause: MotionQL still opens, connects and shows your data, every free feature keeps working, and nothing on your computer is deleted. You can then upgrade to keep Pro. Team seats are free for their first year on the same terms.
 
 ## Teams
 

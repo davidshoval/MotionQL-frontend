@@ -38,13 +38,12 @@ const plans = [
       "SQL schema and data compare",
       "Supabase and Neon branches, Atlas management",
       "Redis RDB file analysis",
-      "Renew free with one click while the offer lasts",
     ],
   },
   {
     name: "Teams",
     price: "$0",
-    period: "per seat, for now",
+    period: "per seat, for 12 months",
     blurb: "A Pro key for every teammate, managed from one place.",
     cta: { label: "Create a team", href: "/register?next=/team/new" },
     features: [

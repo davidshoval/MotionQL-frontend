@@ -225,7 +225,7 @@ function TeamsCard() {
         <CardTitle className="flex items-center gap-2">
           <Users className="text-primary size-5" /> Teams
         </CardTitle>
-        <CardDescription>Give everyone their own Pro key and manage it in one place. Free for now.</CardDescription>
+        <CardDescription>Give everyone their own Pro key and manage it in one place. Free for the first year.</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-2">
         {me.teams.map((t) => (

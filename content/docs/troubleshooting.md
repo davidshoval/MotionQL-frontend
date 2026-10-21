@@ -60,7 +60,7 @@ More detail: [Authentication methods](/docs/authentication), [TLS, SSH and proxi
 |---|---|
 | "This is not a MotionQL license key." | Paste the complete key, starting with `MQL1.`, without line breaks |
 | "The license key signature is not valid …" | Copy the key again from your [account page](/account) |
-| Pro features stopped | Your key or trial expired. Renew on your account page and paste the new key |
+| Pro features stopped | Your key or free year ended. The free features keep working; upgrade on your account page to keep Pro |
 
 ## App lock
 

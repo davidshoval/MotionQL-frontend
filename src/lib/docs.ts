@@ -157,7 +157,7 @@ export const docSections: DocSection[] = [
       {
         slug: "licensing-teams",
         title: "Licensing and teams",
-        description: "Editions, what Pro unlocks, renewals, team seats and the Team Server.",
+        description: "Editions, what Pro unlocks, the free year, team seats and the Team Server.",
       },
       { slug: "troubleshooting", title: "Troubleshooting", description: "Fixes for install, connection, license and keychain problems." },
     ],
