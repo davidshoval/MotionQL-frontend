@@ -1,6 +1,7 @@
 /**
- * Captioned video tours of the desktop app (public/videos). Each one was recorded from MotionQL 1.2 driving
- * the real app against sample data; the poster is a frame from the video.
+ * Captioned video tours of the desktop app (public/videos). Each one was recorded by driving the real app against
+ * sample data (the multi-database tours from the 1.3 build, the MongoDB tours from 1.2); the poster is a frame from
+ * the video.
  */
 export type VideoTour = {
   slug: string;
@@ -13,6 +14,22 @@ export type VideoTour = {
 };
 
 export const videos: VideoTour[] = [
+  {
+    slug: "14-every-database",
+    title: "Every database, one app",
+    summary:
+      "The database picker, then PostgreSQL tables, SQL and EXPLAIN, Redis keys, Elasticsearch Discover, a Neo4j graph and MongoDB, side by side.",
+    seconds: 78,
+    features: ["sql-databases", "connections-security"],
+  },
+  {
+    slug: "15-projects-insights",
+    title: "Projects, production guards and insights",
+    summary:
+      "Group every engine into a project, watch Production ask before a write, then Logs & analytics, pg_stat_statements and the ClickHouse query log.",
+    seconds: 65,
+    features: ["projects-environments", "logs-analytics", "sql-data-tools"],
+  },
   {
     slug: "01-core-tour",
     title: "Connect, browse and query",

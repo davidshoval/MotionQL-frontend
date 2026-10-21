@@ -6,25 +6,25 @@ import { SpotlightCard } from "./spotlight-card";
 
 const items = [
   {
-    icon: Compass,
-    from: "Coming from Compass",
-    title: "Keep the simplicity. Lose the ceiling.",
-    body: "Same clean browsing and aggregation builder, plus SQL queries, Compare & Sync, import to Excel and BSON, data masking, scheduled jobs and ER diagrams.",
-    href: "/compare/compass",
+    icon: Layers,
+    from: "Coming from DBeaver or DataGrip",
+    title: "One tool for everything, without the paid tiers.",
+    body: "SQL and NoSQL side by side in the free app, with tools made for each engine: EXPLAIN plans, pg_stat_statements, Redis keys, Elasticsearch Discover and Cypher graphs.",
+    href: "/compare/dbeaver",
   },
   {
-    icon: Layers,
-    from: "Coming from Studio 3T",
-    title: "The power features, without the per-seat bill.",
-    body: "Visual query builder, IntelliShell, SQL, Query Code, migration and Tasks. Get a free Pro license for a year, and no license check-ins: it works offline.",
+    icon: Compass,
+    from: "Coming from Compass or Studio 3T",
+    title: "Your MongoDB IDE, now for every database.",
+    body: "The query builder, aggregation editor, IntelliShell, SQL and Compare & Sync you know, plus your PostgreSQL, MySQL and Redis in the same window.",
     href: "/compare/studio-3t",
   },
   {
     icon: SquareTerminal,
-    from: "Coming from mongosh",
-    title: "Your commands, with a safety net.",
-    body: "Paste mongosh-style commands into IntelliShell with autocomplete and history. They are parsed, never eval'd, and a Script mode sandbox runs real JavaScript when you want it.",
-    href: "/features#intellishell",
+    from: "Coming from pgAdmin, SSMS or a terminal",
+    title: "The admin tools, with a safety net.",
+    body: "Server insights, roles, sessions and locks, with read-only connections, typed confirmations and Production environments that ask before every write.",
+    href: "/databases",
   },
 ];
 
@@ -33,8 +33,8 @@ export function Switchers() {
     <section className="container-page py-28">
       <SectionHeading
         eyebrow="Switch in minutes"
-        title={<>Built for everyone who lives in MongoDB</>}
-        description="Paste your connection strings and go. Every host, topology and auth method you use today already works."
+        title={<>Built for everyone who lives in a database</>}
+        description="Import your connections and saved queries from DBeaver, DataGrip, pgAdmin, MySQL Workbench, Azure Data Studio, Navicat, Compass or Studio 3T in one step."
       />
       <div className="mt-16 grid gap-4 md:grid-cols-3">
         {items.map((it, i) => (

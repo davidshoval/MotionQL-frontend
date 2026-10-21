@@ -26,7 +26,7 @@ ${p.tags.map((t) => `      <category>${esc(t)}</category>`).join("\n")}
     <title>${esc(site.name)} blog</title>
     <link>${site.url}/blog</link>
     <atom:link href="${site.url}/blog/rss.xml" rel="self" type="application/rss+xml" />
-    <description>Releases, guides and MongoDB know-how from the team building ${esc(site.name)}.</description>
+    <description>Releases, guides and database know-how from the team building ${esc(site.name)}.</description>
     <language>en</language>
     <lastBuildDate>${latest}</lastBuildDate>
 ${items}

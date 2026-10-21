@@ -10,70 +10,76 @@ import { Reveal } from "./reveal";
 // Real screenshots of the desktop app (public/screens), captured against sample data.
 const screens = [
   {
-    id: "collection-tree",
-    label: "Documents",
-    title: "Tree, table and JSON views",
-    text: "Expand nested documents, see every BSON type, and edit in place.",
+    id: "connection-picker",
+    label: "60+ databases",
+    title: "Pick a database, get its own dialog",
+    text: "Relational, document, key-value, warehouse, search, time-series and graph databases, plus the hosted services you use.",
   },
   {
-    id: "query-builder",
+    id: "pg-editor",
+    label: "SQL editor",
+    title: "SQL editor",
+    text: "Autocomplete from your schema, result grids you can chart and export, and a run-as role picker for PostgreSQL.",
+  },
+  {
+    id: "pg-explain",
+    label: "Explain",
+    title: "Visual EXPLAIN plans",
+    text: "Find the sequential scans and expensive joins, and ask the AI what to fix first.",
+  },
+  {
+    id: "sql-query-builder",
     label: "Query builder",
-    title: "Visual query builder",
-    text: "Pick fields from the schema and combine conditions without writing JSON.",
+    title: "Visual SQL query builder",
+    text: "Click tables and they join on their foreign keys. The SQL updates as you go.",
+  },
+  {
+    id: "pg-performance",
+    label: "Insights",
+    title: "Server insights",
+    text: "pg_stat_statements, activity and locks, vacuum health, an index advisor and roles, without leaving the app.",
+  },
+  {
+    id: "redis-keys",
+    label: "Redis",
+    title: "Redis and Valkey key browser",
+    text: "Browse keys by namespace, edit hashes, lists, sets, sorted sets and streams, and see TTLs and memory.",
+  },
+  {
+    id: "es-discover",
+    label: "Elasticsearch",
+    title: "Elasticsearch Discover",
+    text: "Search an index with a time range, see the hits over time and open any document.",
+  },
+  {
+    id: "neo4j-graph",
+    label: "Neo4j",
+    title: "Cypher with a graph view",
+    text: "Run Cypher and explore the result as a graph or a table.",
+  },
+  {
+    id: "clickhouse-operations",
+    label: "ClickHouse",
+    title: "ClickHouse query log",
+    text: "Queries grouped by shape with calls, time and bytes read, plus merges, mutations and storage.",
   },
   {
     id: "aggregation-stage-preview",
-    label: "Aggregation",
-    title: "Aggregation editor with stage preview",
+    label: "MongoDB",
+    title: "MongoDB aggregation editor",
     text: "See the input and output of every stage while you build the pipeline.",
   },
   {
-    id: "sql-query",
-    label: "SQL",
-    title: "SQL against MongoDB",
-    text: "Write SELECT … WHERE … ORDER BY and watch the live MongoDB translation.",
+    id: "logs-analytics",
+    label: "Logs & analytics",
+    title: "Logs & analytics",
+    text: "The server's log, slow operations by shape and live metrics, the same way for every database.",
   },
   {
-    id: "intellishell",
-    label: "IntelliShell",
-    title: "IntelliShell",
-    text: "A mongosh-style shell with autocomplete and readable output.",
-  },
-  {
-    id: "explain-plan",
-    label: "Explain",
-    title: "Visual explain plans",
-    text: "Spot COLLSCANs and in-memory sorts before they reach production.",
-  },
-  {
-    id: "schema-analysis",
-    label: "Schema",
-    title: "Schema analysis",
-    text: "Types, ranges, averages and how often each field is present.",
-  },
-  {
-    id: "data-compare-sync",
-    label: "Compare & Sync",
-    title: "Data Compare and Sync",
-    text: "Diff two collections document by document and sync the changes.",
-  },
-  {
-    id: "index-review",
-    label: "Index review",
-    title: "Index review",
-    text: "Find redundant indexes and the ones your queries are missing.",
-  },
-  {
-    id: "export-dialog",
-    label: "Import / export",
-    title: "Import and export",
-    text: "JSON, JSONL, CSV, BSON, Excel and SQL INSERT, from any query.",
-  },
-  {
-    id: "connection-safety-settings",
-    label: "Safety",
-    title: "Per-connection safety",
-    text: "Read-only connections, AI opt-in and guards on risky commands, set per connection.",
+    id: "er-diagram",
+    label: "ER diagram",
+    title: "ER diagrams",
+    text: "Tables and their foreign keys, laid out for you. Export to PNG, SVG or Mermaid.",
   },
 ] as const;
 
@@ -86,7 +92,7 @@ export function Showcase({ heading = true }: { heading?: boolean }) {
         <SectionHeading
           eyebrow="Product tour"
           title="The real app, not a mockup"
-          description="Every screen below is MotionQL running against a sample shop database."
+          description="Every screen below is MotionQL running against the same sample shop, loaded into each database."
         />
       )}
       <Reveal className={cn("grid gap-6 lg:grid-cols-[220px_1fr]", heading && "mt-14")}>

@@ -21,16 +21,16 @@ import { breadcrumbLd, operatingSystems, pageMetadata, softwareApplicationLd } f
 const platforms = {
   mac: {
     os: "macOS",
-    title: "The MongoDB GUI for Mac",
-    metaTitle: "MongoDB GUI for Mac (Apple Silicon and Intel)",
+    title: "The database GUI for Mac",
+    metaTitle: "Database GUI for Mac: PostgreSQL, MySQL, MongoDB and more",
     description:
-      "MotionQL is a fast MongoDB IDE for macOS, with builds for Apple Silicon and Intel, and secrets kept in your macOS Keychain.",
+      "MotionQL is a fast IDE for PostgreSQL, MySQL, SQL Server, MongoDB, Redis and 50+ more databases on macOS, with builds for Apple Silicon and Intel, and secrets kept in your macOS Keychain.",
     requirements: [
       "macOS 12 Monterey or later",
       "Apple Silicon (arm64) or Intel (x64): separate builds for each",
       "4 GB RAM minimum, 8 GB recommended for large result sets",
       "About 500 MB of disk space",
-      "MongoDB 4.4 or later, Atlas, DocumentDB, Cosmos DB for MongoDB or FerretDB",
+      "Any of the 60+ supported databases and hosted services",
     ],
     details: [
       {
@@ -53,15 +53,15 @@ const platforms = {
   },
   windows: {
     os: "Windows",
-    title: "The MongoDB GUI for Windows",
-    metaTitle: "MongoDB GUI for Windows 10 and 11",
+    title: "The database GUI for Windows",
+    metaTitle: "Database GUI for Windows 10 and 11: SQL Server, PostgreSQL, MongoDB and more",
     description:
-      "MotionQL is a fast MongoDB IDE for Windows 10 and 11. Install per user without admin rights, for all users, or run the portable build.",
+      "MotionQL is a fast IDE for SQL Server, PostgreSQL, MySQL, MongoDB, Redis and 50+ more databases on Windows 10 and 11. Install per user without admin rights, for all users, or run the portable build.",
     requirements: [
       "Windows 10 or 11, 64-bit (x64)",
       "4 GB RAM minimum, 8 GB recommended for large result sets",
       "About 500 MB of disk space",
-      "MongoDB 4.4 or later, Atlas, DocumentDB, Cosmos DB for MongoDB or FerretDB",
+      "Any of the 60+ supported databases and hosted services",
     ],
     details: [
       {
@@ -89,20 +89,20 @@ const platforms = {
   },
   linux: {
     os: "Linux",
-    title: "The MongoDB GUI for Linux",
-    metaTitle: "MongoDB GUI for Linux",
+    title: "The database GUI for Linux",
+    metaTitle: "Database GUI for Linux: PostgreSQL, MySQL, MongoDB and more",
     description:
       "MotionQL for Linux comes as an x86_64 AppImage and a .deb package, with the same features, connections and free Pro license as on macOS and Windows.",
     requirements: [
       "64-bit x86 (x64) desktop distribution with a graphical session",
       "A Secret Service provider such as GNOME Keyring or KWallet to store passwords",
       "4 GB RAM minimum, 8 GB recommended",
-      "MongoDB 4.4 or later, Atlas, DocumentDB, Cosmos DB for MongoDB or FerretDB",
+      "Any of the 60+ supported databases and hosted services",
     ],
     details: [
       {
         t: "Same app, same features",
-        d: "The Linux build is the same desktop app as on macOS and Windows: queries, aggregation, SQL, compare and sync, and the AI assistant.",
+        d: "The Linux build is the same desktop app as on macOS and Windows: every database, projects, Logs & analytics, migration and the AI assistant.",
       },
       {
         t: "Secrets in your keyring",

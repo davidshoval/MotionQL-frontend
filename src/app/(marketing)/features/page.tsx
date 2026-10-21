@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import {
+  Activity,
   ArrowLeftRight,
   Building2,
+  FolderKanban,
   CalendarClock,
   Cloud,
   Database,
@@ -29,7 +31,7 @@ import { features } from "@/lib/features";
 export const metadata: Metadata = pageMetadata({
   title: "Features",
   description:
-    "Every MotionQL feature: connections, query builder, IntelliShell, aggregation, SQL, import/export, compare and sync, migration, schema tools, admin, tasks, dashboards, AI and teams.",
+    "Every MotionQL feature across 60+ databases: SQL editor and query builder, server insights, Logs & analytics, projects and environments, import/export, migration, MongoDB tools, tasks, dashboards, AI and teams.",
   path: "/features",
 });
 
@@ -43,20 +45,66 @@ const groups: {
   {
     id: "connections",
     icon: PlugZap,
-    title: "Connections and authentication",
+    title: "Connections for 60+ databases",
     items: [
-      "Connection Manager with folders, tags, colors and dev / staging / prod environments, with a production warning banner",
-      "Standalone, seed lists, mongodb+srv, replica sets with read preference and tags, sharded clusters, direct and load-balanced connections, Unix sockets",
-      "TLS with CA and client certificates; SSH tunnels with password or key, host-key pinning and up to four jump hosts; SOCKS5 and HTTP proxies",
-      "SCRAM-SHA-256/1, X.509, LDAP, Kerberos, AWS IAM and OIDC (browser sign-in, plus workload identity for Azure, GCP and Kubernetes)",
-      "Quick connect with Cmd/Ctrl+1–9, health indicator, and export/import with secrets stripped or password-encrypted",
-      "Import your connections from MongoDB Compass, Studio 3T and Robo 3T",
+      "PostgreSQL, MySQL, MariaDB, SQL Server, Oracle, SQLite, DuckDB, MongoDB, Redis and Valkey, Elasticsearch and OpenSearch, ClickHouse, Snowflake, BigQuery, Trino, Databricks, Spanner, DynamoDB, Cassandra, InfluxDB, Neo4j, and any JDBC driver",
+      "Hosted services with their own dialogs: Supabase, Neon, RDS and Aurora, Azure SQL, Atlas, Elastic Cloud, Upstash, Astra and more",
+      "TLS with CA and client certificates; SSH tunnels with password or key, host-key pinning and jump hosts; SOCKS5 and HTTP proxies",
+      "Cloud sign-ins such as AWS IAM, Entra ID and OIDC where the database supports them",
+      "Import connections and saved queries from DBeaver, DataGrip, pgAdmin, MySQL Workbench, Azure Data Studio, Navicat, Compass and Studio 3T",
+    ],
+  },
+  {
+    id: "projects",
+    icon: FolderKanban,
+    title: "Projects and environments",
+    items: [
+      "Group one application's databases of every engine into a project with Development, Test, Staging and Production",
+      "Production confirms every write, on every engine, enforced in the app's main process and written to the audit log",
+      "Read-only environments, colour stripes on tabs and a Project Home with pinned objects, saved queries and notes",
+      "Cross-database links: orders.customerId in MongoDB to customers.id in PostgreSQL, with a diagram and jump to related records",
+      "Export a project as a folder you can commit to Git, or share it with your team",
+    ],
+  },
+  {
+    id: "sql-databases",
+    icon: Database,
+    title: "SQL editor and table tools",
+    items: [
+      "SQL editor with schema-aware completion, a result tab per statement, pinned results and result compare",
+      "Per-tab sessions and manual transactions, with confirmations for DROP, TRUNCATE and unbounded DELETE or UPDATE",
+      "Visual SQL Query Builder that joins on foreign keys, and ER diagrams with a design mode",
+      "Table tab with WHERE / ORDER BY, editing by primary key, charts, and export to CSV, JSON, Excel, SQL INSERT or Markdown",
+      "Engine-specific tools: PostgreSQL roles, RLS and partitions, Oracle PL/SQL, ClickHouse merges, Snowflake warehouses, BigQuery cost guard",
+    ],
+  },
+  {
+    id: "insights",
+    icon: Activity,
+    title: "Logs, analytics and server insights",
+    items: [
+      "Logs & analytics for every family: the server's own log, slow operations grouped by shape and live metrics",
+      "PostgreSQL: EXPLAIN, pg_stat_statements, activity and locks, vacuum health and an index advisor",
+      "MySQL, MariaDB and TiDB: statement digests, processes, locks and deadlocks, waits and I/O",
+      "ClickHouse query log, Redis slow log and memory, Elasticsearch cluster health, Cassandra and InfluxDB panels",
+      "Ask AI on any panel: what to fix first, with the plan or statistics as context",
+    ],
+  },
+  {
+    id: "other-engines",
+    icon: Workflow,
+    title: "Tools made for each NoSQL engine",
+    items: [
+      "Redis and Valkey: key browser by namespace, every data type, console, slow log, pub/sub and RDB analysis",
+      "Elasticsearch and OpenSearch: Discover with a time range, documents, console, mappings and index administration",
+      "DynamoDB scan, query and PartiQL; Cassandra rows and CQL; InfluxDB Flux and SQL with charts",
+      "Neo4j and Memgraph: Cypher console with a graph view, label browser and schema",
     ],
   },
   {
     id: "querying",
     icon: Table2,
-    title: "Collection tab and query builder",
+    title: "MongoDB: collection tab and query builder",
     items: [
       "Filter, projection, sort, skip and limit in shell syntax, or build them visually",
       "Tree, table and JSON views with a column picker and in-place editing",
@@ -69,7 +117,7 @@ const groups: {
   {
     id: "intellishell",
     icon: SquareTerminal,
-    title: "IntelliShell",
+    title: "MongoDB: IntelliShell",
     items: [
       "mongosh-style commands with autocomplete, history, snippets, Query Assist and explain",
       "Commands are parsed as literals, never eval'd, so nothing you paste can execute",
@@ -80,7 +128,7 @@ const groups: {
   {
     id: "aggregation",
     icon: Workflow,
-    title: "Aggregation editor",
+    title: "MongoDB: aggregation editor",
     items: [
       "Stage-by-stage preview of the documents after every stage",
       "Full operator library, options and templates",
@@ -91,7 +139,7 @@ const groups: {
   {
     id: "sql",
     icon: FileCode2,
-    title: "SQL Query and Query Code",
+    title: "MongoDB: SQL Query and Query Code",
     items: [
       "Read-only SELECT with joins, grouping and ordering, translated to MongoDB find or aggregate",
       "Open and save .sql files",
@@ -99,35 +147,24 @@ const groups: {
     ],
   },
   {
-    id: "sql-databases",
-    icon: Database,
-    title: "SQL databases",
-    items: [
-      "PostgreSQL, MySQL, MariaDB, SQL Server and Oracle, with TLS and SSH tunnels",
-      "Browse schemas, tables, views, columns and indexes",
-      "SQL editor with autocomplete, a result tab per statement and per-tab transactions",
-      "Edit table rows by primary key; export to CSV, JSON or Excel",
-    ],
-  },
-  {
     id: "data-movement",
     icon: ArrowLeftRight,
     title: "Import, export, compare and sync",
     items: [
-      "JSON, JSON Lines, CSV, BSON, Excel and SQL INSERT, with column mapping and typing",
-      "Insert, upsert, replace and merge modes; streamed jobs with progress and cancel",
-      "Copy collections; dump and restore in mongodump layout or a single archive file",
-      "Data Compare & Sync with field-level diffs, dry-run preview, selective sync and conflict policies",
+      "CSV, JSON, JSON Lines, Excel and SQL INSERT for tables, collections, indices and keys, with column mapping and typing",
+      "Streamed jobs with progress and cancel; insert, upsert, replace and merge modes",
+      "MongoDB: copy collections, dump and restore, and Data Compare & Sync with dry-run preview",
+      "SQL schema and data compare between tables (Pro)",
     ],
   },
   {
     id: "migration",
     icon: Database,
-    title: "SQL Migration and Data Masking",
+    title: "Migration and Data Masking",
     tier: "Pro",
     items: [
-      "Migrate from PostgreSQL, MySQL, MariaDB, SQL Server and Oracle",
-      "Choose reference or embed for each relationship, with preview and progress",
+      "Move data between databases: SQL to MongoDB, Redis to MongoDB or SQL, and more, with type mapping and a dry run",
+      "SQL to MongoDB: choose reference or embed for each relationship, with preview and progress",
       "Data Masking with eleven methods and a preview before anything is written",
       "Reschema operations to restructure documents safely",
     ],
@@ -135,7 +172,7 @@ const groups: {
   {
     id: "schema",
     icon: Network,
-    title: "Schema and Data Model",
+    title: "MongoDB: schema and data model",
     items: [
       "Schema analysis with CSV, Markdown and HTML reports",
       "Schema Compare & History: snapshots, drift, and validator, index and option diffs",
@@ -146,7 +183,7 @@ const groups: {
   {
     id: "admin",
     icon: Gauge,
-    title: "Administration and monitoring",
+    title: "MongoDB: administration and monitoring",
     items: [
       "Index management with hidden indexes, $indexStats usage, live build progress and Index Review",
       "Live server monitoring from serverStatus, dbStats and top; running operations with kill, query profiler and topology view",
@@ -173,10 +210,10 @@ const groups: {
     title: "Tasks and dashboards",
     tier: "Pro",
     items: [
-      "Schedule exports, imports, copies, compares, masking, migrations, dumps, scripts and index reviews",
+      "Schedule exports, imports, copies, compares, masking, migrations, dumps, scripts and snapshots",
       "Once, interval, daily, weekly and cron schedules with a run log",
       "A background runner keeps tasks going while the app is closed; run them from scripts with --cli",
-      "Dashboards with ten chart types on live aggregations, shared filters, present mode and PDF export",
+      "Dashboards with ten chart types on live query results, shared filters, present mode and PDF export",
       "Share dashboards through the workspace folder or the Team Server",
     ],
   },
@@ -186,10 +223,10 @@ const groups: {
     title: "AI assistant",
     items: [
       "Gemini, Anthropic Claude, or any OpenAI-compatible endpoint including local models, with your own key",
-      "Natural language to find, aggregation and SQL; explain plans; fix errors; index advice",
+      "Natural language to SQL, MongoDB queries and pipelines, Cypher, Redis commands and search queries; explain plans; fix errors; index advice",
       "Ask Your Database for natural-language lookups",
       "An Ask AI button on nearly every screen, and backup Gemini models when Gemini is busy",
-      "Off for every connection until you allow it. Sends schema, never document values or credentials",
+      "Off for every connection until you allow it. Sends schema, never row or document values or credentials",
     ],
   },
   {
@@ -221,9 +258,9 @@ const groups: {
     title: "Platforms",
     items: [
       <PlatformsText key="platforms" variant="long" />,
-      "MongoDB 4.4 and later: Community, Enterprise and Atlas",
-      "PostgreSQL, MySQL, MariaDB, SQL Server and Oracle",
-      "Amazon DocumentDB, Azure Cosmos DB for MongoDB and FerretDB",
+      <Link key="dbs" href="/databases" className="text-primary hover:underline">
+        60+ databases and hosted services: see the full list
+      </Link>,
       "SHA-256 checksums with every release (installers are not yet code-signed)",
     ],
   },
@@ -234,8 +271,8 @@ export default function FeaturesPage() {
     <>
       <PageHero
         eyebrow="Features"
-        title="Everything you need to work with MongoDB"
-        description="One desktop app from first connection to production migration. Here is all of it."
+        title="Everything you need, for every database"
+        description="One desktop app for SQL and NoSQL, from first connection to production migration. Here is all of it."
       >
         <nav aria-label="Feature groups" className="mt-10 flex max-w-4xl flex-wrap justify-center gap-2">
           {groups.map((g) => (
@@ -250,27 +287,39 @@ export default function FeaturesPage() {
         </nav>
       </PageHero>
       <section className="container-page py-12" aria-labelledby="feature-pages">
-        <h2 id="feature-pages" className="text-muted-foreground text-center font-mono text-[11px] tracking-[0.14em] uppercase">
+        <h2 id="feature-pages" className="sr-only">
           Explore a feature in depth
         </h2>
-        <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((f) => (
-            <li key={f.slug}>
-              <Link
-                href={`/features/${f.slug}`}
-                className="border-border bg-card/50 hover:border-primary/40 hover:bg-primary/[0.04] flex h-full items-center gap-3 rounded-2xl border px-4 py-3 text-[14.5px] transition"
-              >
-                <f.icon className="text-primary size-4 shrink-0" />
-                <span className="flex-1">{f.name}</span>
-                {f.tier && (
-                  <Badge variant={f.tier === "Pro" ? "default" : "violet"} className="text-[10px]">
-                    {f.tier}
-                  </Badge>
-                )}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {(
+          [
+            { scope: "every", title: "For every database" },
+            { scope: "mongodb", title: "For MongoDB" },
+          ] as const
+        ).map((g) => (
+          <div key={g.scope} className="mt-8 first:mt-0">
+            <h3 className="text-muted-foreground text-center font-mono text-[11px] tracking-[0.14em] uppercase">{g.title}</h3>
+            <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {features
+                .filter((f) => f.scope === g.scope)
+                .map((f) => (
+                  <li key={f.slug}>
+                    <Link
+                      href={`/features/${f.slug}`}
+                      className="border-border bg-card/50 hover:border-primary/40 hover:bg-primary/[0.04] flex h-full items-center gap-3 rounded-2xl border px-4 py-3 text-[14.5px] transition"
+                    >
+                      <f.icon className="text-primary size-4 shrink-0" />
+                      <span className="flex-1">{f.name}</span>
+                      {f.tier && (
+                        <Badge variant={f.tier === "Pro" ? "default" : "violet"} className="text-[10px]">
+                          {f.tier}
+                        </Badge>
+                      )}
+                    </Link>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        ))}
       </section>
       <section className="container-page grid gap-4 py-12 md:grid-cols-2">
         {groups.map((g, i) => (

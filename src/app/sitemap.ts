@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/lib/site";
 import { features } from "@/lib/features";
+import { databases } from "@/lib/databases";
 import { vendors } from "@/lib/compare-vendors";
 import { docPages } from "@/lib/docs";
 import { blogPosts } from "@/lib/blog";
@@ -10,6 +11,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const paths = [
     "",
     "/mongodb-gui",
+    "/databases",
+    ...databases.map((d) => `/databases/${d.slug}`),
     "/features",
     "/videos",
     "/compare",
@@ -39,7 +42,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
   // Pages people search for by name get a higher hint than docs and legal pages.
   const priority = (p: string) =>
-    p === "" ? 1 : /^\/(download|compare|pricing|features|mongodb-gui)(\/|$)/.test(p) ? 0.9 : p.startsWith("/legal/") ? 0.3 : 0.7;
+    p === "" ? 1 : /^\/(download|compare|pricing|features|databases|mongodb-gui)(\/|$)/.test(p) ? 0.9 : p.startsWith("/legal/") ? 0.3 : 0.7;
   const posted = new Map(blogPosts.map((b) => [`/blog/${b.slug}`, b.date]));
   return [...new Set(paths)].map((p) => ({
     url: `${site.url}${p}`,

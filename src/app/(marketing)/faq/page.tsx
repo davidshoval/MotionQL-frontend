@@ -30,7 +30,7 @@ const groups: { title: string; items: Item[] }[] = [
       },
       {
         q: "What's free, and what does Pro add?",
-        a: "Free covers connections with every auth method, the query bar and visual query builder, IntelliShell, the aggregation editor, SQL Query, Query Code, import and export, dump and restore, Compare and Sync, schema tools, indexes, the profiler, dashboards and the AI assistant with your own key. Pro adds SQL Migration, Data Masking, scheduled tasks and MongoDB Atlas management.",
+        a: "Free covers connections to all 60+ databases, the SQL editor, query builder and EXPLAIN plans, server insights and Logs & analytics, projects and environments, the MongoDB tools (query builder, IntelliShell, aggregation, SQL Query, Compare and Sync), import and export, dashboards and the AI assistant with your own key. Pro adds migration between databases, Data Masking, scheduled tasks, SQL schema and data compare, Git version control, the stored-procedure debugger, Supabase and Neon branches, Redis RDB analysis and MongoDB Atlas management.",
       },
       {
         q: "How do I get the free Pro year?",
@@ -53,7 +53,7 @@ const groups: { title: string; items: Item[] }[] = [
     items: [
       {
         q: "Which operating systems are supported?",
-        a: "macOS 12 or later on Apple silicon and Intel, Windows 10 or 11 (64-bit), and Linux on 64-bit x86 desktops (AppImage and deb). MotionQL works with MongoDB 4.4 and later, including Atlas, replica sets and sharded clusters, plus Amazon DocumentDB, Azure Cosmos DB for MongoDB and FerretDB within the features those services implement.",
+        a: "macOS 12 or later on Apple silicon and Intel, Windows 10 or 11 (64-bit), and Linux on 64-bit x86 desktops (AppImage and deb). MotionQL connects to 60+ databases and hosted services, from PostgreSQL, MySQL, SQL Server and Oracle to MongoDB, Redis, ClickHouse, Snowflake, Elasticsearch, DynamoDB and Neo4j. The Databases page lists every one and how deep its support goes.",
         more: { href: "/docs/install", label: "System requirements" },
       },
       {

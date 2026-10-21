@@ -106,19 +106,19 @@ export const comparison: CompareGroup[] = [
 export const faqs = [
   {
     q: "Is MotionQL really free?",
-    a: "Yes. Create an account and you get a personal Pro license that is valid for 12 months, with no credit card. Most of the app, including the query builder, aggregation editor, IntelliShell, SQL Query, import/export and Compare & Sync, is free without any license at all. Pro adds SQL Migration, Data Masking, scheduled tasks and Atlas management.",
+    a: "Yes. Create an account and you get a personal Pro license that is valid for 12 months, with no credit card. Most of the app is free without any license at all: every database connection, the SQL editor and query builder, EXPLAIN plans, server insights, Logs & analytics, projects and environments, the MongoDB tools, import/export and the AI assistant. Pro adds migration between databases, Data Masking, scheduled tasks, SQL schema and data compare, Git version control, the stored-procedure debugger, Supabase and Neon branches, Redis RDB analysis and Atlas management.",
   },
   {
     q: "What happens after the 12 months?",
     a: "While the free plan is on, you renew for another year with one click on your account page. If we ever start charging, you will see pricing before your year ends, and everything that is free today stays free. Nothing on your computer is deleted.",
   },
   {
-    q: "Can I move over from Studio 3T or Compass?",
-    a: "Yes. Import your saved connections from Compass, Studio 3T or Robo 3T in one step, or paste the same connection strings. MotionQL supports the same hosts and auth methods, including SRV, replica sets, sharded clusters, SSH tunnels with jump hosts, X.509, LDAP, Kerberos, AWS IAM and OIDC. Your mongosh-style commands work in IntelliShell.",
+    q: "Can I move over from DBeaver, DataGrip or Studio 3T?",
+    a: "Yes. Import your connections and saved queries from DBeaver, DataGrip, pgAdmin, MySQL Workbench, Azure Data Studio, Navicat, Compass or Studio 3T in one step, or paste a connection string. SSH tunnels with jump hosts, TLS and cloud sign-ins such as AWS IAM work as they do today, and your mongosh-style commands work in IntelliShell.",
   },
   {
     q: "Which databases does it support?",
-    a: "MongoDB 4.4 and later (Community, Enterprise and Atlas, standalone, replica sets and sharded clusters). Amazon DocumentDB, Azure Cosmos DB for MongoDB and FerretDB work through the same driver, limited to what those services implement. It also connects to PostgreSQL, MySQL, MariaDB, SQL Server and Oracle directly, with a SQL editor and table editing, and SQL Migration moves data from them into MongoDB.",
+    a: "60+ databases and hosted services. Relational: PostgreSQL (and Supabase, Neon, Aurora, CockroachDB, YugabyteDB and more), MySQL and MariaDB, SQL Server and Azure SQL, Oracle, SQLite and DuckDB. Document and key-value: MongoDB and compatible services, Redis and Valkey, DynamoDB, Cassandra and ScyllaDB. Analytics: ClickHouse, Snowflake, BigQuery, Trino, Databricks and Spanner. Search, time series and graph: Elasticsearch and OpenSearch, InfluxDB and Neo4j. Anything else with a JDBC driver connects too. See the full list on the Databases page.",
   },
   {
     q: "Does my data go to MotionQL?",

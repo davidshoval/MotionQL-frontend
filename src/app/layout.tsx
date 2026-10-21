@@ -11,35 +11,38 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 // Set explicitly (not via an opengraph-image file) so the alt text is emitted under Turbopack too.
-const ogImage = { url: "/og-image.png", width: 1200, height: 630, alt: "MotionQL: the modern MongoDB GUI, free" };
+const ogImage = { url: "/og-image.png", width: 1200, height: 630, alt: "MotionQL: one desktop IDE for every database, free" };
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "MotionQL: the modern MongoDB IDE",
+    default: "MotionQL: one IDE for every database",
     template: "%s · MotionQL",
   },
   description: site.description,
   keywords: [
+    "database GUI",
+    "database IDE",
+    "SQL client",
+    "PostgreSQL GUI",
+    "MySQL client",
+    "SQL Server client for Mac",
     "MongoDB GUI",
-    "MongoDB IDE",
+    "Redis GUI",
+    "DBeaver alternative",
+    "DataGrip alternative",
     "Studio 3T alternative",
-    "MongoDB Compass alternative",
-    "MongoDB client",
-    "Atlas",
-    "NoSQL GUI",
-    "aggregation editor",
-    "SQL for MongoDB",
+    "database monitoring",
   ],
   openGraph: {
     type: "website",
     siteName: "MotionQL",
-    title: "MotionQL: the modern MongoDB IDE",
+    title: "MotionQL: one IDE for every database",
     description: site.description,
     url: site.url,
     images: [ogImage],
   },
-  twitter: { card: "summary_large_image", title: "MotionQL: the modern MongoDB IDE", description: site.description, images: [ogImage] },
+  twitter: { card: "summary_large_image", title: "MotionQL: one IDE for every database", description: site.description, images: [ogImage] },
 };
 
 const host = new URL(site.url).hostname.replace(/^www\./, "");

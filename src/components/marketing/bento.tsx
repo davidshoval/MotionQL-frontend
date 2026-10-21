@@ -53,57 +53,58 @@ function Tile({
 
 const code = "font-mono text-[12px]";
 
-function PipelineVisual() {
-  const stages = [
-    { op: "$match", arg: '{ status: "shipped" }', n: "48,210" },
-    { op: "$group", arg: '{ _id: "$customer.city", revenue: { $sum: "$total" } }', n: "312" },
-    { op: "$sort", arg: "{ revenue: -1 }", n: "312" },
-    { op: "$limit", arg: "5", n: "5" },
+function EnginesVisual() {
+  const engines = [
+    { n: "PostgreSQL", b: "PG" },
+    { n: "MySQL", b: "MY" },
+    { n: "SQL Server", b: "MS" },
+    { n: "Oracle", b: "OR" },
+    { n: "MongoDB", b: "MG" },
+    { n: "Redis", b: "RD" },
+    { n: "ClickHouse", b: "CH" },
+    { n: "Snowflake", b: "SF" },
+    { n: "BigQuery", b: "BQ" },
+    { n: "Elasticsearch", b: "ES" },
+    { n: "DynamoDB", b: "DY" },
+    { n: "Cassandra", b: "CA" },
+    { n: "InfluxDB", b: "IX" },
+    { n: "Neo4j", b: "N4" },
+    { n: "SQLite", b: "SL" },
+    { n: "DuckDB", b: "DK" },
   ];
   return (
-    <div className="flex h-full flex-col justify-center gap-2 p-6">
-      {stages.map((s, i) => (
+    <div className="grid w-full grid-cols-2 gap-2 p-6 sm:grid-cols-4">
+      {engines.map((e, i) => (
         <motion.div
-          key={s.op}
-          initial={{ opacity: 0, x: -16 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          key={e.n}
+          initial={{ opacity: 0, y: 8 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.15 + i * 0.12, duration: 0.5 }}
-          className="flex items-center gap-3"
+          transition={{ delay: 0.04 * i, duration: 0.4 }}
+          className="border-border bg-background/60 flex min-w-0 items-center gap-2 rounded-xl border px-2.5 py-2 text-[13px]"
         >
-          <span className="border-border text-muted-foreground grid size-6 shrink-0 place-items-center rounded-full border font-mono text-[10px]">
-            {i + 1}
-          </span>
-          <div className={cn(code, "border-border bg-background/60 flex min-w-0 flex-1 items-center gap-2 rounded-xl border px-3 py-2")}>
-            <span className="text-brand-violet">{s.op}</span>
-            <span className="text-muted-foreground truncate">{s.arg}</span>
-          </div>
-          <span className={cn(code, "text-primary w-16 shrink-0 text-right")}>{s.n}</span>
+          <span className={cn(code, "border-primary/30 bg-primary/10 text-primary shrink-0 rounded px-1 text-[10px]")}>{e.b}</span>
+          <span className="truncate">{e.n}</span>
         </motion.div>
       ))}
-      <p className={cn(code, "text-muted-foreground mt-1 pl-9")}>documents after each stage, previewed as you type</p>
     </div>
   );
 }
 
 function ShellVisual() {
+  const lines = [
+    { p: "shop=#", c: "\\dt demo_store.*", tone: "text-brand-sky" },
+    { p: "cache>", c: "ZREVRANGE top:products 0 4", tone: "text-destructive" },
+    { p: "graph>", c: "MATCH (c)-[:BOUGHT]->(p) RETURN p", tone: "text-success" },
+    { p: "shop>", c: "db.orders.find({ total: { $gt: 500 } })", tone: "text-primary" },
+  ];
   return (
-    <div className={cn(code, "space-y-1.5 p-6 leading-relaxed")}>
-      <p>
-        <span className="text-primary">shop&gt;</span> db.orders.find({"{"} total: {"{"} <span className="text-brand-violet">$gt</span>:{" "}
-        <span className="text-warning">500</span> {"}"} {"}"})
-      </p>
-      <p className="text-muted-foreground">
-        {" "}
-        .sort({"{"} createdAt: <span className="text-warning">-1</span> {"}"}).limit(<span className="text-warning">20</span>)
-      </p>
-      <div className="border-border bg-popover/90 mt-3 w-fit rounded-lg border p-1 shadow-lg">
-        {["limit", "lean", "length"].map((s, i) => (
-          <p key={s} className={cn("rounded px-2 py-0.5", i === 0 && "bg-primary/15 text-primary")}>
-            .{s}()
-          </p>
-        ))}
-      </div>
+    <div className={cn(code, "w-full space-y-2 p-6 leading-relaxed")}>
+      {lines.map((l) => (
+        <p key={l.p} className="truncate">
+          <span className={l.tone}>{l.p}</span> {l.c}
+        </p>
+      ))}
     </div>
   );
 }
@@ -112,14 +113,13 @@ function SqlVisual() {
   return (
     <div className={cn(code, "grid h-full grid-rows-[auto_auto_auto] content-center gap-2 p-6")}>
       <div className="border-border bg-background/60 rounded-xl border p-3">
-        <span className="text-brand-sky">SELECT</span> city, <span className="text-brand-sky">SUM</span>(total)
+        <span className="text-brand-sky">SELECT</span> country, <span className="text-brand-sky">SUM</span>(total)
         <br />
-        <span className="text-brand-sky">FROM</span> orders <span className="text-brand-sky">GROUP BY</span> city
+        <span className="text-brand-sky">FROM</span> orders <span className="text-brand-sky">GROUP BY</span> country
       </div>
-      <div className="text-muted-foreground flex justify-center">↓ translated</div>
+      <div className="text-muted-foreground flex justify-center">↓ explain</div>
       <div className="border-primary/25 bg-primary/[0.06] text-muted-foreground rounded-xl border p-3">
-        [{"{"} <span className="text-brand-violet">$group</span>: {"{"} _id: <span className="text-primary">&quot;$city&quot;</span> … {"}"}{" "}
-        {"}"}]
+        <span className="text-primary">HashAggregate</span> → Hash Join → <span className="text-warning">Seq Scan</span> orders
       </div>
     </div>
   );
@@ -151,7 +151,7 @@ function DiffVisual() {
 }
 
 function FormatsVisual() {
-  const formats = ["JSON", "JSON Lines", "CSV", "Excel", "BSON", "SQL INSERT", "mongodump"];
+  const formats = ["CSV", "JSON", "JSON Lines", "Excel", "Markdown", "SQL INSERT", "BSON"];
   return (
     <div className="flex h-full flex-wrap content-center items-center justify-center gap-2 p-6">
       {formats.map((f, i) => (
@@ -170,50 +170,30 @@ function FormatsVisual() {
   );
 }
 
-function SchemaVisual() {
-  const fields = [
-    {
-      f: "email",
-      types: [
-        { t: "string", w: 97 },
-        { t: "null", w: 3 },
-      ],
-    },
-    {
-      f: "total",
-      types: [
-        { t: "double", w: 82 },
-        { t: "int", w: 18 },
-      ],
-    },
-    {
-      f: "tags",
-      types: [
-        { t: "array", w: 64 },
-        { t: "missing", w: 36 },
-      ],
-    },
-    { f: "createdAt", types: [{ t: "date", w: 100 }] },
+function LogsVisual() {
+  const ops = [
+    { q: "SELECT … FROM orders WHERE status = $1", ms: 412, w: 92 },
+    { q: "db.events.aggregate([{ $match … }])", ms: 268, w: 64 },
+    { q: "SCAN 0 MATCH session:*", ms: 121, w: 34 },
+    { q: "MATCH (c:Customer)-[:BOUGHT]->(p)", ms: 74, w: 20 },
   ];
-  const tone = ["bg-primary", "bg-brand-sky", "bg-brand-violet"];
   return (
-    <div className="w-full space-y-4 p-6">
-      {fields.map((r) => (
-        <div key={r.f} className="grid grid-cols-[5.5rem_1fr] items-center gap-3">
-          <span className={cn(code, "text-muted-foreground")}>{r.f}</span>
-          <div className="bg-foreground/5 flex h-2.5 overflow-hidden rounded-full">
-            {r.types.map((t, i) => (
+    <div className="w-full space-y-3 p-6">
+      {ops.map((o, i) => (
+        <div key={o.q} className="grid grid-cols-[1fr_3.5rem] items-center gap-3">
+          <div className="min-w-0">
+            <p className={cn(code, "text-muted-foreground truncate")}>{o.q}</p>
+            <div className="bg-foreground/5 mt-1 h-1.5 overflow-hidden rounded-full">
               <motion.span
-                key={t.t}
                 initial={{ width: 0 }}
-                whileInView={{ width: `${t.w}%` }}
+                whileInView={{ width: `${o.w}%` }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.9, delay: 0.1 * i }}
-                className={cn("h-full", tone[i])}
-                title={`${t.t} ${t.w}%`}
+                className="bg-primary block h-full"
               />
-            ))}
+            </div>
           </div>
+          <span className={cn(code, "text-right")}>{o.ms} ms</span>
         </div>
       ))}
     </div>
@@ -221,7 +201,7 @@ function SchemaVisual() {
 }
 
 function TasksVisual() {
-  const runs = ["Nightly export → S3 folder", "Sync staging ← prod (masked)", "Index review: orders"];
+  const runs = ["Nightly export: orders → CSV", "Copy prod → staging (masked)", "Refresh dashboard: revenue"];
   return (
     <div className="space-y-2 p-6">
       {runs.map((r, i) => (
@@ -284,7 +264,7 @@ function ErVisual() {
           customers
         </text>
         <text x="26" y="56" className="fill-muted-foreground">
-          _id
+          id
         </text>
         <text x="26" y="70" className="fill-muted-foreground">
           email
@@ -293,10 +273,10 @@ function ErVisual() {
           orders
         </text>
         <text x="222" y="50" className="fill-muted-foreground">
-          customerId
+          customer_id
         </text>
         <text x="222" y="64" className="fill-muted-foreground">
-          items[]
+          product_id
         </text>
         <text x="124" y="120" className="fill-primary">
           products
@@ -318,23 +298,23 @@ export function Bento() {
     <section id="features" className="container-page py-28">
       <SectionHeading
         eyebrow="One app, every job"
-        title="From first query to production migration"
-        description="MotionQL covers the full life of a MongoDB project, so you stop switching between a GUI, a shell, a migration tool and a pile of scripts."
+        title="Every database. One set of habits."
+        description="Stop switching between pgAdmin, a Redis GUI, Compass, Kibana and a pile of scripts. MotionQL gives each database its own tools inside one workspace."
       />
       <div className="mt-16 grid grid-cols-1 gap-4 md:grid-cols-6">
         <Tile
           className="md:col-span-4"
           icon={Workflow}
-          title="Aggregation editor with stage-by-stage preview"
-          body="Build pipelines stage by stage and see the documents after every stage. Full operator library, templates, and one click from a find to a pipeline."
+          title="60+ databases, each with its own tools"
+          body="Relational, document, key-value, warehouse, search, time-series and graph. Not one generic grid: a key browser for Redis, Discover for Elasticsearch, Cypher graphs for Neo4j, aggregation for MongoDB."
         >
-          <PipelineVisual />
+          <EnginesVisual />
         </Tile>
         <Tile
           className="md:col-span-2"
           icon={SquareTerminal}
-          title="IntelliShell"
-          body="mongosh-style commands with autocomplete, history and snippets. Parsed, never eval'd."
+          title="A console for every engine"
+          body="psql-style commands, Redis, Cypher, CQL, Flux and mongosh, with autocomplete and history."
           delay={0.05}
         >
           <ShellVisual />
@@ -342,8 +322,8 @@ export function Bento() {
         <Tile
           className="md:col-span-2"
           icon={FileCode2}
-          title="SQL Query"
-          body="Write SELECT with joins and GROUP BY. MotionQL translates it to a find or an aggregation."
+          title="SQL editor and query builder"
+          body="Autocomplete from your schema, visual EXPLAIN plans, and a drag-and-drop builder that joins on foreign keys."
           delay={0.05}
         >
           <SqlVisual />
@@ -351,8 +331,8 @@ export function Bento() {
         <Tile
           className="md:col-span-2"
           icon={ArrowLeftRight}
-          title="Data Compare & Sync"
-          body="Field-level diffs between any two collections, a dry-run preview, then sync only what you choose."
+          title="Compare, sync and migrate"
+          body="Diff tables or collections, preview the changes, and move data between databases with type mapping."
           delay={0.1}
         >
           <DiffVisual />
@@ -361,7 +341,7 @@ export function Bento() {
           className="md:col-span-2"
           icon={FileSpreadsheet}
           title="Import and export anything"
-          body="Map and type columns, then insert, upsert, replace or merge. Streamed with progress and cancel."
+          body="CSV, JSON, Excel, SQL INSERT and more, from a table, a collection or any query result. Streamed with progress and cancel."
           delay={0.15}
         >
           <FormatsVisual />
@@ -369,16 +349,16 @@ export function Bento() {
         <Tile
           className="md:col-span-3"
           icon={Rows3}
-          title="Schema analysis and history"
-          body="See every field's types and coverage, export reports, and track schema drift between snapshots."
+          title="Logs & analytics"
+          body="The server's own log, slow operations grouped by shape and live metrics, the same way for every database."
         >
-          <SchemaVisual />
+          <LogsVisual />
         </Tile>
         <Tile
           className="md:col-span-3"
           icon={Network}
-          title="Data Model diagrams"
-          body="ER diagrams inferred from field names, DBRefs and matching values. Export to PNG, SVG or Mermaid."
+          title="ER diagrams"
+          body="Diagrams from foreign keys in SQL databases and inferred relationships in MongoDB. Export to PNG, SVG or Mermaid."
           delay={0.05}
         >
           <ErVisual />
@@ -387,7 +367,7 @@ export function Bento() {
           className="md:col-span-2"
           icon={CalendarClock}
           title="Scheduled tasks"
-          body="Exports, syncs, dumps and scripts on a schedule, even while the app is closed, plus a --cli."
+          body="Exports, copies, syncs and scripts on a schedule, even while the app is closed, plus a --cli."
         >
           <TasksVisual />
         </Tile>
@@ -404,7 +384,7 @@ export function Bento() {
           className="md:col-span-2"
           icon={ChartColumn}
           title="Dashboards"
-          body="Charts and metrics on live aggregations, with shared filters, auto refresh and PDF export."
+          body="Charts on live query results from any database, with shared filters, auto refresh and PDF export."
           delay={0.1}
         >
           <ChartVisual />

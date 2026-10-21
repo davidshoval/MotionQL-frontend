@@ -20,7 +20,7 @@ const flow = [
   {
     icon: Laptop,
     t: "Interface",
-    d: "Sandboxed and context-isolated, with a strict content security policy. It never touches MongoDB, files or secrets.",
+    d: "Sandboxed and context-isolated, with a strict content security policy. It never touches your databases, files or secrets.",
   },
   {
     icon: Cpu,

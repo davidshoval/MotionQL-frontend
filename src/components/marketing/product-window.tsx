@@ -2,61 +2,136 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ChevronDown, ChevronRight, Database, Play, Sparkles, Table2, Terminal, Workflow, FileCode2, Zap, ShieldCheck } from "lucide-react";
+import { ChevronRight, Play, Sparkles, Zap, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type Status = "shipped" | "pending" | "delivered" | "refunded";
-interface Row {
-  id: string;
-  name: string;
-  city: string;
-  status: Status;
-  total: number;
-  items: number;
-  date: string;
-}
+type Engine = "PG" | "MG" | "RE" | "CH";
 
-const ROWS: Row[] = [
-  { id: "66f1a2…e41", name: "Ava Thompson", city: "Austin", status: "shipped", total: 248.5, items: 3, date: "2026-09-28" },
-  { id: "66f1a2…e42", name: "Noah Kim", city: "Seattle", status: "delivered", total: 1290.0, items: 7, date: "2026-09-28" },
-  { id: "66f1a2…e43", name: "Lena Fischer", city: "Berlin", status: "shipped", total: 179.99, items: 2, date: "2026-09-27" },
-  { id: "66f1a2…e44", name: "Mateo García", city: "Madrid", status: "pending", total: 412.3, items: 4, date: "2026-09-27" },
-  { id: "66f1a2…e45", name: "Yuki Tanaka", city: "Osaka", status: "shipped", total: 865.2, items: 5, date: "2026-09-26" },
-  { id: "66f1a2…e46", name: "Chloé Martin", city: "Lyon", status: "delivered", total: 102.75, items: 1, date: "2026-09-26" },
-  { id: "66f1a2…e47", name: "Omar Haddad", city: "Dubai", status: "shipped", total: 2310.0, items: 9, date: "2026-09-25" },
-  { id: "66f1a2…e48", name: "Priya Nair", city: "Pune", status: "refunded", total: 64.0, items: 1, date: "2026-09-25" },
-  { id: "66f1a2…e49", name: "Lucas Silva", city: "Lisbon", status: "shipped", total: 532.4, items: 4, date: "2026-09-24" },
-  { id: "66f1a2…e4a", name: "Emma Jansen", city: "Berlin", status: "delivered", total: 1045.0, items: 6, date: "2026-09-24" },
-  { id: "66f1a2…e4b", name: "Kofi Mensah", city: "Accra", status: "shipped", total: 318.9, items: 3, date: "2026-09-23" },
-  { id: "66f1a2…e4c", name: "Sofia Rossi", city: "Madrid", status: "shipped", total: 1499.0, items: 8, date: "2026-09-23" },
-  { id: "66f1a2…e4d", name: "Liam O'Brien", city: "Lyon", status: "pending", total: 87.5, items: 1, date: "2026-09-22" },
-  { id: "66f1a2…e4e", name: "Hana Novak", city: "Prague", status: "shipped", total: 954.0, items: 5, date: "2026-09-22" },
-];
-
-const SCENES = [
-  {
-    query: '{ status: "shipped", total: { $gt: 150 } }',
-    filter: (r: Row) => r.status === "shipped" && r.total > 150,
-    plan: "IXSCAN",
-    ms: 4,
-  },
-  {
-    query: '{ "customer.city": { $in: ["Berlin", "Lyon", "Madrid"] } }',
-    filter: (r: Row) => ["Berlin", "Lyon", "Madrid"].includes(r.city),
-    plan: "IXSCAN",
-    ms: 6,
-  },
-  { query: "{ total: { $gte: 800 } }", filter: (r: Row) => r.total >= 800, plan: "IXSCAN", ms: 3 },
-];
-
-const statusTone: Record<Status, string> = {
-  shipped: "bg-sky-400/12 text-sky-300 ring-sky-400/25",
-  delivered: "bg-emerald-400/12 text-emerald-300 ring-emerald-400/25",
-  pending: "bg-amber-400/12 text-amber-300 ring-amber-400/25",
-  refunded: "bg-rose-400/12 text-rose-300 ring-rose-400/25",
+const ENGINE_TONE: Record<Engine, string> = {
+  PG: "bg-sky-400/15 text-sky-300 ring-sky-400/25",
+  MG: "bg-emerald-400/15 text-emerald-300 ring-emerald-400/25",
+  RE: "bg-rose-400/15 text-rose-300 ring-rose-400/25",
+  CH: "bg-amber-400/15 text-amber-200 ring-amber-400/25",
 };
 
-function useTyping(text: string, speed = 32) {
+interface Scene {
+  engine: Engine;
+  connection: string;
+  object: string;
+  tab: string;
+  label: string;
+  query: string;
+  columns: { key: string; align?: "right"; hide?: true }[];
+  rows: Record<string, string>[];
+  badge: string;
+  footer: string;
+}
+
+// Four connections, four query languages, one window: the scenes cycle through them.
+const SCENES: Scene[] = [
+  {
+    engine: "PG",
+    connection: "Shop (PostgreSQL)",
+    object: "demo_store.orders",
+    tab: "SQL - Shop",
+    label: "SQL",
+    query: "SELECT country, count(*) AS orders, sum(total) AS revenue FROM orders GROUP BY 1 ORDER BY 3 DESC",
+    columns: [
+      { key: "country" },
+      { key: "orders", align: "right" },
+      { key: "revenue", align: "right" },
+      { key: "avg_basket", align: "right", hide: true },
+    ],
+    rows: [
+      { country: "United States", orders: "4,212", revenue: "512,390.40", avg_basket: "121.65" },
+      { country: "Germany", orders: "2,034", revenue: "248,117.95", avg_basket: "121.98" },
+      { country: "United Kingdom", orders: "1,876", revenue: "231,004.10", avg_basket: "123.14" },
+      { country: "France", orders: "1,402", revenue: "166,880.25", avg_basket: "119.03" },
+      { country: "Spain", orders: "988", revenue: "112,402.60", avg_basket: "113.77" },
+      { country: "Canada", orders: "961", revenue: "109,775.00", avg_basket: "114.23" },
+      { country: "Japan", orders: "744", revenue: "96,310.80", avg_basket: "129.45" },
+    ],
+    badge: "Index Only Scan",
+    footer: "7 rows · 18 ms",
+  },
+  {
+    engine: "MG",
+    connection: "Catalog (MongoDB)",
+    object: "shop.orders",
+    tab: "orders",
+    label: "Filter",
+    query: '{ status: "shipped", total: { $gt: 150 } }',
+    columns: [
+      { key: "_id" },
+      { key: "customer.name" },
+      { key: "status" },
+      { key: "total", align: "right" },
+      { key: "items", align: "right", hide: true },
+    ],
+    rows: [
+      { _id: "66f1a2…e41", "customer.name": "Ava Thompson", status: "shipped", total: "248.50", items: "3" },
+      { _id: "66f1a2…e43", "customer.name": "Lena Fischer", status: "shipped", total: "179.99", items: "2" },
+      { _id: "66f1a2…e45", "customer.name": "Yuki Tanaka", status: "shipped", total: "865.20", items: "5" },
+      { _id: "66f1a2…e47", "customer.name": "Omar Haddad", status: "shipped", total: "2,310.00", items: "9" },
+      { _id: "66f1a2…e49", "customer.name": "Lucas Silva", status: "shipped", total: "532.40", items: "4" },
+      { _id: "66f1a2…e4c", "customer.name": "Sofia Rossi", status: "shipped", total: "1,499.00", items: "8" },
+    ],
+    badge: "IXSCAN",
+    footer: "6 documents · 4 ms",
+  },
+  {
+    engine: "RE",
+    connection: "Cache (Valkey)",
+    object: "db0",
+    tab: "Console - Cache",
+    label: "Command",
+    query: "ZREVRANGE demo_store:leaderboard:products 0 5 WITHSCORES",
+    columns: [{ key: "#", align: "right" }, { key: "member" }, { key: "score", align: "right" }],
+    rows: [
+      { "#": "1", member: "product:118", score: "9,412" },
+      { "#": "2", member: "product:42", score: "8,977" },
+      { "#": "3", member: "product:7", score: "8,031" },
+      { "#": "4", member: "product:263", score: "7,650" },
+      { "#": "5", member: "product:91", score: "7,288" },
+      { "#": "6", member: "product:150", score: "6,940" },
+    ],
+    badge: "0.3 ms",
+    footer: "6 members · 0.3 ms",
+  },
+  {
+    engine: "CH",
+    connection: "Events (ClickHouse)",
+    object: "demo_store.events",
+    tab: "SQL - Events",
+    label: "SQL",
+    query: "SELECT toStartOfDay(ts) AS day, type, count() AS events FROM events GROUP BY day, type ORDER BY day DESC",
+    columns: [{ key: "day" }, { key: "type" }, { key: "events", align: "right" }],
+    rows: [
+      { day: "2025-12-31", type: "page_view", events: "1,204,551" },
+      { day: "2025-12-31", type: "add_to_cart", events: "88,310" },
+      { day: "2025-12-31", type: "checkout", events: "21,948" },
+      { day: "2025-12-30", type: "page_view", events: "1,187,002" },
+      { day: "2025-12-30", type: "add_to_cart", events: "86,775" },
+      { day: "2025-12-30", type: "checkout", events: "21,330" },
+    ],
+    badge: "2.1M rows read",
+    footer: "6 rows · 41 ms",
+  },
+];
+
+const CONNECTIONS: { engine: Engine | "MS" | "ES" | "My"; name: string; env: string }[] = [
+  { engine: "PG", name: "Shop (PostgreSQL)", env: "bg-rose-400" },
+  { engine: "MG", name: "Catalog (MongoDB)", env: "bg-rose-400" },
+  { engine: "RE", name: "Cache (Valkey)", env: "bg-amber-400" },
+  { engine: "CH", name: "Events (ClickHouse)", env: "bg-amber-400" },
+  { engine: "My", name: "Billing (MySQL)", env: "bg-sky-400" },
+  { engine: "MS", name: "Finance (SQL Server)", env: "bg-sky-400" },
+  { engine: "ES", name: "Search (Elasticsearch)", env: "bg-sky-400" },
+];
+
+const badgeTone = (e: string) => ENGINE_TONE[e as Engine] ?? "bg-violet-400/15 text-violet-300 ring-violet-400/25";
+
+function useTyping(text: string, speed = 26) {
   const [state, setState] = useState({ text, n: 0 });
   useEffect(() => {
     const t = setInterval(() => {
@@ -71,7 +146,7 @@ function useTyping(text: string, speed = 32) {
   return state.text === text ? text.slice(0, state.n) : "";
 }
 
-/** A coded, animated replica of the MotionQL collection tab. Crisp at any size and in both themes. */
+/** A coded, animated replica of MotionQL moving between four databases. Crisp at any size and in both themes. */
 export function ProductWindow({ className }: { className?: string }) {
   const [scene, setScene] = useState(0);
   const s = SCENES[scene];
@@ -79,11 +154,9 @@ export function ProductWindow({ className }: { className?: string }) {
   const done = typed.length === s.query.length;
 
   useEffect(() => {
-    const t = setTimeout(() => setScene((n) => (n + 1) % SCENES.length), 6500);
+    const t = setTimeout(() => setScene((n) => (n + 1) % SCENES.length), 7000);
     return () => clearTimeout(t);
   }, [scene]);
-
-  const rows = ROWS.filter(s.filter);
 
   return (
     <div
@@ -92,7 +165,7 @@ export function ProductWindow({ className }: { className?: string }) {
         className,
       )}
       role="img"
-      aria-label="The MotionQL collection tab: a filter on shop.orders returns matching documents in a table, with an index scan in 4 ms."
+      aria-label="MotionQL with PostgreSQL, MongoDB, Valkey, ClickHouse, MySQL, SQL Server and Elasticsearch connections in one sidebar, running a query on each in turn."
     >
       {/* Title bar */}
       <div className="flex h-10 items-center gap-3 border-b border-white/[0.07] bg-white/[0.02] px-4">
@@ -101,66 +174,48 @@ export function ProductWindow({ className }: { className?: string }) {
           <span className="size-3 rounded-full bg-[#febc2e]" />
           <span className="size-3 rounded-full bg-[#28c840]" />
         </div>
-        <div className="flex-1 text-center text-[12px] text-slate-400">MotionQL — Production cluster</div>
-        <span className="rounded-md bg-rose-500/15 px-1.5 py-0.5 font-mono text-[10px] text-rose-300 ring-1 ring-rose-400/25">prod</span>
+        <div className="flex-1 text-center text-[12px] text-slate-400">MotionQL · Acme project</div>
+        <span className="rounded-md bg-rose-500/15 px-1.5 py-0.5 font-mono text-[10px] text-rose-300 ring-1 ring-rose-400/25">
+          production
+        </span>
       </div>
 
       <div className="flex h-[440px] sm:h-[480px]">
         {/* Sidebar */}
-        <aside className="hidden w-56 shrink-0 flex-col border-r border-white/[0.07] bg-white/[0.015] p-3 sm:flex">
-          <div className="mb-2 px-2 font-mono text-[10px] tracking-widest text-slate-500">CONNECTIONS</div>
-          <TreeItem depth={0} open icon={<span className="size-2 rounded-full bg-emerald-400 shadow-[0_0_8px] shadow-emerald-400" />}>
-            Production cluster
-          </TreeItem>
-          <TreeItem depth={1} open icon={<Database className="size-3.5 text-slate-400" />}>
-            shop
-          </TreeItem>
-          <TreeItem depth={2} active icon={<Table2 className="size-3.5" />}>
-            orders
-          </TreeItem>
-          <TreeItem depth={2} icon={<Table2 className="size-3.5 text-slate-500" />}>
-            customers
-          </TreeItem>
-          <TreeItem depth={2} icon={<Table2 className="size-3.5 text-slate-500" />}>
-            products
-          </TreeItem>
-          <TreeItem depth={1} icon={<Database className="size-3.5 text-slate-400" />}>
-            analytics
-          </TreeItem>
-          <TreeItem depth={0} icon={<span className="size-2 rounded-full bg-amber-400" />}>
-            Staging
-          </TreeItem>
-          <TreeItem depth={0} icon={<span className="size-2 rounded-full bg-sky-400" />}>
-            localhost:27017
-          </TreeItem>
+        <aside className="hidden w-60 shrink-0 flex-col border-r border-white/[0.07] bg-white/[0.015] p-3 sm:flex">
+          <div className="mb-2 px-2 font-mono text-[10px] tracking-widest text-slate-500">ACME · ALL ENVIRONMENTS</div>
+          {CONNECTIONS.map((c) => (
+            <TreeItem key={c.name} active={c.name === s.connection} engine={c.engine} env={c.env}>
+              {c.name}
+            </TreeItem>
+          ))}
           <div className="mt-auto rounded-xl border border-white/[0.07] bg-gradient-to-br from-emerald-400/[0.08] to-sky-400/[0.05] p-3">
             <div className="flex items-center gap-1.5 text-[11px] font-medium text-emerald-300">
-              <ShieldCheck className="size-3.5" /> Read-only connection
+              <ShieldCheck className="size-3.5" /> Production asks first
             </div>
-            <p className="mt-1 text-[10.5px] leading-snug text-slate-400">Writes are blocked in the app, including $out and $merge.</p>
+            <p className="mt-1 text-[10.5px] leading-snug text-slate-400">
+              Every write on a production connection is confirmed and audited, on every engine.
+            </p>
           </div>
         </aside>
 
         {/* Main */}
         <div className="flex min-w-0 flex-1 flex-col">
           <div className="flex h-9 items-end gap-0.5 border-b border-white/[0.07] px-2">
-            <Tab active icon={<Table2 className="size-3.5" />}>
-              orders
-            </Tab>
-            <Tab icon={<Terminal className="size-3.5" />}>IntelliShell</Tab>
-            <Tab icon={<Workflow className="size-3.5" />}>Aggregation</Tab>
-            <Tab icon={<FileCode2 className="size-3.5" />} className="hidden md:flex">
-              SQL
-            </Tab>
+            {SCENES.map((x, i) => (
+              <Tab key={x.tab} active={i === scene} engine={x.engine} className={i > 1 ? "hidden md:flex" : undefined}>
+                {x.tab}
+              </Tab>
+            ))}
           </div>
 
           {/* Query bar */}
           <div className="space-y-2 border-b border-white/[0.07] p-3">
             <div className="flex items-center gap-2">
-              <span className="w-12 shrink-0 font-mono text-[11px] text-slate-500">Filter</span>
+              <span className="w-16 shrink-0 font-mono text-[11px] text-slate-500">{s.label}</span>
               <div className="flex h-8 min-w-0 flex-1 items-center rounded-lg border border-white/10 bg-black/30 px-2.5 font-mono text-[12px]">
                 <SyntaxLine text={typed} />
-                <span className={cn("ml-px inline-block h-4 w-[7px] bg-emerald-300/90", done ? "animate-blink" : "")} />
+                <span className={cn("ml-px inline-block h-4 w-[7px] shrink-0 bg-emerald-300/90", done ? "animate-blink" : "")} />
               </div>
               <button
                 tabIndex={-1}
@@ -170,12 +225,15 @@ export function ProductWindow({ className }: { className?: string }) {
               </button>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-12 shrink-0 font-mono text-[11px] text-slate-500">Sort</span>
-              <div className="flex h-7 flex-1 items-center rounded-lg border border-white/[0.07] bg-black/20 px-2.5 font-mono text-[12px]">
-                <SyntaxLine text="{ createdAt: -1 }" />
+              <span className="w-16 shrink-0 font-mono text-[11px] text-slate-500">On</span>
+              <div className="flex h-7 flex-1 items-center gap-2 rounded-lg border border-white/[0.07] bg-black/20 px-2.5 font-mono text-[12px] text-slate-300">
+                <span className={cn("rounded px-1 text-[10px] ring-1", badgeTone(s.engine))}>{s.engine}</span>
+                <span className="truncate">
+                  {s.connection} › {s.object}
+                </span>
               </div>
               <span className="hidden items-center gap-1 rounded-md bg-emerald-400/10 px-2 py-1 font-mono text-[10.5px] text-emerald-300 ring-1 ring-emerald-400/20 sm:flex">
-                <Zap className="size-3" /> {s.plan} · {s.ms} ms
+                <Zap className="size-3" /> {s.badge}
               </span>
             </div>
           </div>
@@ -185,21 +243,22 @@ export function ProductWindow({ className }: { className?: string }) {
             <table className="w-full border-collapse text-left">
               <thead className="sticky top-0 bg-[#0d141e] font-mono text-[10.5px] tracking-wide text-slate-500">
                 <tr>
-                  <th className="px-3 py-2 font-normal">_id</th>
-                  <th className="px-3 py-2 font-normal">customer.name</th>
-                  <th className="hidden px-3 py-2 font-normal lg:table-cell">customer.city</th>
-                  <th className="px-3 py-2 font-normal">status</th>
-                  <th className="px-3 py-2 text-right font-normal">total</th>
-                  <th className="hidden px-3 py-2 text-right font-normal md:table-cell">items</th>
-                  <th className="hidden px-3 py-2 font-normal xl:table-cell">createdAt</th>
+                  {s.columns.map((c) => (
+                    <th
+                      key={c.key}
+                      className={cn("px-3 py-2 font-normal", c.align === "right" && "text-right", c.hide && "hidden md:table-cell")}
+                    >
+                      {c.key}
+                    </th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
                 <AnimatePresence mode="popLayout">
                   {done &&
-                    rows.map((r, i) => (
+                    s.rows.map((r, i) => (
                       <motion.tr
-                        key={`${scene}-${r.id}`}
+                        key={`${scene}-${i}`}
                         layout
                         initial={{ opacity: 0, x: -6 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -207,15 +266,22 @@ export function ProductWindow({ className }: { className?: string }) {
                         transition={{ delay: i * 0.06, duration: 0.3 }}
                         className="border-t border-white/[0.05] hover:bg-white/[0.03]"
                       >
-                        <td className="px-3 py-2 font-mono text-[11px] text-violet-300/90">{r.id}</td>
-                        <td className="px-3 py-2 whitespace-nowrap">{r.name}</td>
-                        <td className="hidden px-3 py-2 text-slate-400 lg:table-cell">{r.city}</td>
-                        <td className="px-3 py-2">
-                          <span className={cn("rounded-full px-2 py-0.5 text-[10.5px] ring-1", statusTone[r.status])}>{r.status}</span>
-                        </td>
-                        <td className="px-3 py-2 text-right font-mono text-amber-200/90">{r.total.toFixed(2)}</td>
-                        <td className="hidden px-3 py-2 text-right font-mono text-sky-300/90 md:table-cell">{r.items}</td>
-                        <td className="hidden px-3 py-2 font-mono text-[11px] text-slate-400 xl:table-cell">{r.date}</td>
+                        {s.columns.map((c, k) => (
+                          <td
+                            key={c.key}
+                            className={cn(
+                              "px-3 py-2 whitespace-nowrap",
+                              c.align === "right"
+                                ? "text-right font-mono text-amber-200/90"
+                                : k === 0
+                                  ? "font-mono text-[11px] text-violet-300/90"
+                                  : "",
+                              c.hide && "hidden md:table-cell",
+                            )}
+                          >
+                            {r[c.key]}
+                          </td>
+                        ))}
                       </motion.tr>
                     ))}
                 </AnimatePresence>
@@ -232,8 +298,8 @@ export function ProductWindow({ className }: { className?: string }) {
           </div>
 
           <div className="flex h-8 items-center justify-between border-t border-white/[0.07] px-3 font-mono text-[10.5px] text-slate-500">
-            <span>shop.orders</span>
-            <span>{done ? `${rows.length} documents · ${s.ms} ms` : "running…"}</span>
+            <span>{s.object}</span>
+            <span>{done ? s.footer : "running…"}</span>
           </div>
         </div>
       </div>
@@ -246,92 +312,65 @@ export function ProductWindow({ className }: { className?: string }) {
         className="absolute right-4 bottom-12 hidden w-72 rounded-xl border border-violet-400/20 bg-[#131a2a]/95 p-3 shadow-2xl backdrop-blur md:block"
       >
         <div className="flex items-center gap-1.5 text-[11px] font-medium text-violet-300">
-          <Sparkles className="size-3.5" /> Ask your database
+          <Sparkles className="size-3.5" /> Ask AI
         </div>
-        <p className="mt-1.5 text-[12px] text-slate-200">&ldquo;Shipped orders over $150, newest first&rdquo;</p>
-        <p className="mt-1 text-[10.5px] text-slate-500">Schema only. No document values leave your machine.</p>
+        <p className="mt-1.5 text-[12px] text-slate-200">&ldquo;Revenue by country, biggest first&rdquo;</p>
+        <p className="mt-1 text-[10.5px] text-slate-500">Schema only. No row values leave your machine.</p>
       </motion.div>
     </div>
   );
 }
 
-function TreeItem({
-  depth,
-  open,
-  active,
-  icon,
-  children,
-}: {
-  depth: number;
-  open?: boolean;
-  active?: boolean;
-  icon: React.ReactNode;
-  children: React.ReactNode;
-}) {
-  const hasChildren = depth < 2;
+function TreeItem({ active, engine, env, children }: { active?: boolean; engine: string; env: string; children: React.ReactNode }) {
   return (
     <div
       className={cn(
-        "flex items-center gap-1.5 rounded-md py-1 pr-2 text-[12px]",
-        active ? "bg-emerald-400/10 text-emerald-200 ring-1 ring-emerald-400/20" : "text-slate-300",
+        "flex items-center gap-2 rounded-md px-2 py-1.5 text-[12px] transition-colors",
+        active ? "bg-emerald-400/10 text-emerald-100 ring-1 ring-emerald-400/20" : "text-slate-300",
       )}
-      style={{ paddingLeft: 6 + depth * 14 }}
     >
-      {hasChildren ? (
-        open ? (
-          <ChevronDown className="size-3 text-slate-500" />
-        ) : (
-          <ChevronRight className="size-3 text-slate-500" />
-        )
-      ) : (
-        <span className="w-3" />
-      )}
-      {icon}
+      <ChevronRight className="size-3 shrink-0 text-slate-500" />
+      <span className={cn("rounded px-1 font-mono text-[9.5px] ring-1", badgeTone(engine))}>{engine}</span>
       <span className="truncate">{children}</span>
+      <span className={cn("ml-auto size-1.5 shrink-0 rounded-full", env)} />
     </div>
   );
 }
 
-function Tab({
-  active,
-  icon,
-  children,
-  className,
-}: {
-  active?: boolean;
-  icon: React.ReactNode;
-  children: React.ReactNode;
-  className?: string;
-}) {
+function Tab({ active, engine, children, className }: { active?: boolean; engine: string; children: React.ReactNode; className?: string }) {
   return (
     <div
       className={cn(
-        "flex h-8 items-center gap-1.5 rounded-t-lg px-3 text-[12px]",
+        "flex h-8 items-center gap-1.5 rounded-t-lg px-3 text-[12px] whitespace-nowrap transition-colors",
         active ? "border border-b-0 border-white/[0.08] bg-[#0b1119] text-slate-100" : "text-slate-500",
         className,
       )}
     >
-      {icon}
+      <span className={cn("rounded px-1 font-mono text-[9.5px] ring-1", badgeTone(engine))}>{engine}</span>
       {children}
     </div>
   );
 }
 
-/** Tiny MQL highlighter: operators, strings, numbers, keys. */
+const KEYWORDS = /^(SELECT|FROM|WHERE|GROUP|BY|ORDER|DESC|AS|ZREVRANGE|WITHSCORES)$/;
+
+/** Tiny highlighter for the scenes: SQL and Redis keywords, MQL operators, strings, numbers, keys. */
 function SyntaxLine({ text }: { text: string }) {
-  const parts = text.split(/("[^"]*"?|\$\w+|\b\d+(?:\.\d+)?\b|[{}[\]:,])/g).filter(Boolean);
+  const parts = text.split(/("[^"]*"?|\$\w+|\b[A-Z]{2,}\b|\b\d+(?:\.\d+)?\b|[{}[\]:,()])/g).filter(Boolean);
   return (
     <span className="truncate whitespace-pre">
       {parts.map((p, i) => {
-        const cls = p.startsWith("$")
-          ? "text-violet-300"
-          : p.startsWith('"')
-            ? "text-emerald-300"
-            : /^\d/.test(p)
-              ? "text-amber-200"
-              : /^[{}[\]:,]$/.test(p)
-                ? "text-slate-500"
-                : "text-sky-200";
+        const cls = KEYWORDS.test(p)
+          ? "text-sky-300"
+          : p.startsWith("$")
+            ? "text-violet-300"
+            : p.startsWith('"')
+              ? "text-emerald-300"
+              : /^\d/.test(p)
+                ? "text-amber-200"
+                : /^[{}[\]:,]$/.test(p)
+                  ? "text-slate-500"
+                  : "text-sky-200";
         return (
           <span key={i} className={cls}>
             {p}

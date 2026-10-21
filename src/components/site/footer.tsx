@@ -9,9 +9,10 @@ const columns = [
       { href: "/features", label: "Features" },
       { href: "/videos", label: "Video tours" },
       { href: "/download", label: "Download" },
-      { href: "/download/mac", label: "MongoDB GUI for Mac" },
-      { href: "/download/windows", label: "MongoDB GUI for Windows" },
-      { href: "/download/linux", label: "MongoDB GUI for Linux" },
+      { href: "/databases", label: "Supported databases" },
+      { href: "/download/mac", label: "Database GUI for Mac" },
+      { href: "/download/windows", label: "Database GUI for Windows" },
+      { href: "/download/linux", label: "Database GUI for Linux" },
       { href: "/pricing", label: "Pricing" },
       { href: "/changelog", label: "Changelog" },
       { href: "/tools", label: "Free MongoDB tools" },
@@ -33,8 +34,9 @@ const columns = [
     links: [
       { href: "/compare/studio-3t", label: "MotionQL vs Studio 3T" },
       { href: "/compare/compass", label: "MotionQL vs Compass" },
-      { href: "/compare/robo-3t", label: "MotionQL vs Robo 3T" },
-      { href: "/compare/visualeaf", label: "MotionQL vs VisuaLeaf" },
+      { href: "/compare/dbeaver", label: "MotionQL vs DBeaver" },
+      { href: "/compare/datagrip", label: "MotionQL vs DataGrip" },
+      { href: "/compare/tableplus", label: "MotionQL vs TablePlus" },
       { href: "/compare", label: "All comparisons" },
     ],
   },
@@ -63,7 +65,8 @@ export function Footer() {
         <div className="max-w-xs">
           <Logo />
           <p className="text-muted-foreground mt-4 text-sm leading-relaxed">
-            The desktop IDE for MongoDB, Atlas, DocumentDB, Cosmos DB and FerretDB. Built for developers, DBAs and data teams.
+            One desktop IDE for PostgreSQL, MySQL, SQL Server, Oracle, MongoDB, Redis, ClickHouse and 50+ more. Built for developers, DBAs
+            and data teams.
           </p>
           <a href={`mailto:${site.supportEmail}`} className="text-muted-foreground hover:text-foreground mt-4 inline-block text-sm">
             {site.supportEmail}
@@ -86,7 +89,10 @@ export function Footer() {
       </div>
       <div className="container-page border-border text-muted-foreground flex flex-col gap-2 border-t py-6 text-xs sm:flex-row sm:justify-between">
         <p>© {new Date().getFullYear()} MotionQL. All rights reserved.</p>
-        <p>MongoDB is a trademark of MongoDB, Inc. MotionQL is not affiliated with MongoDB, Inc. or 3T Software Labs.</p>
+        <p>
+          All product names and trademarks are the property of their owners. MotionQL is not affiliated with or endorsed by any database
+          vendor.
+        </p>
       </div>
     </footer>
   );

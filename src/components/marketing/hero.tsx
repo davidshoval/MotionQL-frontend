@@ -26,11 +26,11 @@ export function Hero() {
       <div className="container-page flex flex-col items-center text-center">
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease }}>
           <Link
-            href="/register"
+            href="/databases"
             className="group border-border bg-foreground/[0.04] text-muted-foreground hover:border-primary/40 hover:text-foreground inline-flex items-center gap-2 rounded-full border py-1 pr-3 pl-1 text-[13px] backdrop-blur transition"
           >
             <span className="bg-primary text-primary-foreground rounded-full px-2 py-0.5 text-[11px] font-semibold">New</span>
-            MotionQL 1.0 is here. Pro is free for your first year
+            New: 60+ databases in one app. Pro is free for your first year
             <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
           </Link>
         </motion.div>
@@ -41,9 +41,9 @@ export function Hero() {
           transition={{ duration: 0.9, delay: 0.08, ease }}
           className="mt-8 max-w-5xl text-[2.9rem] leading-[0.98] font-semibold tracking-[-0.045em] text-balance sm:text-7xl lg:text-[5.5rem]"
         >
-          <span className="text-gradient">The MongoDB IDE</span>
+          <span className="text-gradient">Every database.</span>
           <br />
-          <span className="text-gradient-brand">you won&apos;t outgrow.</span>
+          <span className="text-gradient-brand">One fast IDE.</span>
         </motion.h1>
 
         <motion.p
@@ -52,8 +52,8 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.2, ease }}
           className="text-muted-foreground mt-7 max-w-2xl text-lg leading-relaxed text-pretty sm:text-xl"
         >
-          Everything you reach for in Compass and Studio 3T, in one fast desktop app: visual queries, aggregation, SQL, compare and sync,
-          migration, and an AI assistant that never sees your data.
+          PostgreSQL, MySQL, SQL Server, Oracle, MongoDB, Redis, ClickHouse, Snowflake, Elasticsearch and 50 more, each with tools made for
+          it, in one desktop app with projects, production guards and an AI assistant that never sees your data.
         </motion.p>
 
         <motion.div
@@ -70,7 +70,7 @@ export function Hero() {
             </Link>
           </Button>
           <Button asChild size="lg" variant="secondary" className="h-13 px-7 text-base">
-            <Link href="/compare">Compare with Studio 3T</Link>
+            <Link href="/databases">See all databases</Link>
           </Button>
         </motion.div>
 

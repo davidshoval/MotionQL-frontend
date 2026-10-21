@@ -7,7 +7,7 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
   title: "Documentation",
-  description: "How to install MotionQL, connect to MongoDB, query, move data, automate tasks and use the AI assistant.",
+  description: "How to install MotionQL, connect to your databases, query, move data, automate tasks and use the AI assistant.",
   path: "/docs",
 });
 
@@ -17,7 +17,7 @@ export default function DocsIndex() {
       <p className="text-primary font-mono text-[11px] tracking-[0.14em] uppercase">Documentation</p>
       <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">MotionQL docs</h1>
       <p className="text-muted-foreground mt-4 max-w-2xl text-lg leading-relaxed">
-        MotionQL is a desktop IDE for MongoDB, Atlas and MongoDB-compatible databases. Start with{" "}
+        MotionQL is a desktop IDE for 60+ databases, SQL and NoSQL. Start with{" "}
         <Link href="/docs/install" className="text-primary hover:underline">
           installing the app
         </Link>{" "}
