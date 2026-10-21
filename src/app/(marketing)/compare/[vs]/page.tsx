@@ -25,7 +25,7 @@ const pages = {
     reasons: [
       {
         t: "No per-seat bill",
-        d: "Pro is free for your first year and team seats are free for now. The core app is free forever, including for commercial work.",
+        d: "Pro is free for your first year and team seats are free for their first year. The core app is free forever, including for commercial work.",
       },
       {
         t: "No license check-ins",
@@ -43,6 +43,10 @@ const pages = {
       {
         t: "Bring your connections",
         d: "Import your saved Studio 3T connections in one step, or paste your URIs. SRV, replica sets, sharded clusters, SSH jump hosts, X.509, LDAP, Kerberos, AWS IAM and OIDC are all supported.",
+      },
+      {
+        t: "Your other databases, too",
+        d: "PostgreSQL, MySQL, SQL Server, Redis, Elasticsearch and 50+ more in the same app, with projects that keep Production safe.",
       },
     ],
     // Answers use only facts from the shared comparison table (content.ts) and the docs (connections, install).
@@ -91,6 +95,10 @@ const pages = {
       {
         t: "Guardrails for production",
         d: "Read-only connections enforced in the app, a prod banner, typed-name drop confirmation and a local audit log.",
+      },
+      {
+        t: "Your other databases, too",
+        d: "PostgreSQL, MySQL, SQL Server, Redis, Elasticsearch and 50+ more in the same app, with projects that keep Production safe.",
       },
     ],
   },

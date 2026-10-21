@@ -18,7 +18,7 @@ const points = [
   {
     icon: Eye,
     t: "No data leaves your machine",
-    d: "MotionQL talks straight to your database. We never receive documents, queries, connection settings or credentials.",
+    d: "MotionQL talks straight to your database. We never receive your rows, documents, queries, connection settings or credentials.",
   },
   {
     icon: ScrollText,

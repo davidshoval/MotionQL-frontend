@@ -9,9 +9,9 @@ import { Button } from "@/components/ui/button";
 import { vendors } from "@/lib/compare-vendors";
 
 export const metadata: Metadata = pageMetadata({
-  title: "MotionQL vs Studio 3T vs MongoDB Compass",
+  title: "Compare MotionQL: DBeaver, DataGrip, TablePlus, Studio 3T, Compass and more",
   description:
-    "A side-by-side comparison of MotionQL, Studio 3T and MongoDB Compass: querying, SQL, compare and sync, migration, masking, AI and licensing.",
+    "How MotionQL compares with DBeaver, DataGrip and TablePlus for every database, and with Studio 3T, Compass and other MongoDB GUIs: features, licensing and AI.",
   path: "/compare",
 });
 
@@ -20,24 +20,40 @@ export default function ComparePage() {
     <>
       <PageHero
         eyebrow="Compare"
-        title="MotionQL vs Studio 3T vs Compass"
-        description="Studio 3T's power features and Compass's price, in one app. Here is how the three line up, feature by feature."
+        title="How MotionQL compares"
+        description="One app for 60+ databases, next to the multi-database tools you know and the MongoDB GUIs you may be coming from. Every claim about another product links to its source."
       >
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Button asChild variant="secondary">
-            <Link href="/compare/studio-3t">
-              Switching from Studio 3T <ArrowRight />
-            </Link>
-          </Button>
-          <Button asChild variant="secondary">
-            <Link href="/compare/compass">
-              Switching from Compass <ArrowRight />
-            </Link>
-          </Button>
+          {[
+            { href: "/compare/dbeaver", label: "vs DBeaver" },
+            { href: "/compare/datagrip", label: "vs DataGrip" },
+            { href: "/compare/tableplus", label: "vs TablePlus" },
+          ].map((c) => (
+            <Button key={c.href} asChild variant="secondary">
+              <Link href={c.href}>
+                {c.label} <ArrowRight />
+              </Link>
+            </Button>
+          ))}
         </div>
       </PageHero>
-      <section className="container-page py-8">
-        <CompareTable />
+      <section className="container-page py-8" aria-labelledby="mongodb-compare">
+        <h2 id="mongodb-compare" className="text-center text-2xl font-semibold tracking-tight">
+          For MongoDB: MotionQL vs Studio 3T vs Compass
+        </h2>
+        <p className="text-muted-foreground mx-auto mt-3 max-w-2xl text-center">
+          Studio 3T&apos;s power features and Compass&apos;s price, in the same app as the rest of your databases.{" "}
+          <Link href="/compare/studio-3t" className="text-primary hover:underline">
+            Switching from Studio 3T
+          </Link>{" "}
+          ·{" "}
+          <Link href="/compare/compass" className="text-primary hover:underline">
+            Switching from Compass
+          </Link>
+        </p>
+        <div className="mt-10">
+          <CompareTable />
+        </div>
       </section>
       <section className="container-page py-16" aria-labelledby="more-comparisons">
         <h2 id="more-comparisons" className="text-center text-2xl font-semibold tracking-tight">

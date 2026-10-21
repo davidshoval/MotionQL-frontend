@@ -24,7 +24,7 @@ export default function NewTeamPage() {
       </span>
       <h1 className="mt-6 text-2xl font-semibold tracking-tight">Create a team</h1>
       <p className="text-muted-foreground mt-2">
-        You&apos;ll be the owner. Invite people next; each gets their own Pro key. Seats are free for now.
+        You&apos;ll be the owner. Invite people next; each gets their own Pro key. Seats are free for their first year.
       </p>
       <form
         className="mt-8 grid gap-4"

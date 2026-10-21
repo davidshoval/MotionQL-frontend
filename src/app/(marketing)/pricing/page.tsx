@@ -7,7 +7,7 @@ import { Cta } from "@/components/marketing/cta";
 
 export const metadata: Metadata = pageMetadata({
   title: "Pricing",
-  description: "MotionQL is free. Get a free Pro license for 12 months when you create an account, and free team seats for now.",
+  description: "MotionQL is free. Get a free Pro license for 12 months when you create an account, and free team seats for a year.",
   path: "/pricing",
 });
 
@@ -17,7 +17,7 @@ export default function PricingPage() {
       <PageHero
         eyebrow="Pricing"
         title="Free while we launch. Fair after."
-        description="The core app is free forever. Pro is free for your first year, and you can renew free with one click while the launch offer runs. Team seats are free too."
+        description="The core app is free forever. Pro is free for your first year, and team seats are free for their first year too."
       />
       <section className="container-page py-8">
         <PricingCards />

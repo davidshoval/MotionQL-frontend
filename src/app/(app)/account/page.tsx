@@ -37,8 +37,8 @@ export default function AccountPage() {
       </div>
 
       {me.pendingInvites.length > 0 && (
-        <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-primary/30 bg-primary/[0.06] px-5 py-4 text-sm">
-          <Mail className="size-4 text-primary" />
+        <div className="border-primary/30 bg-primary/[0.06] flex flex-wrap items-center gap-3 rounded-2xl border px-5 py-4 text-sm">
+          <Mail className="text-primary size-4" />
           {me.pendingInvites.map((i) => (
             <span key={i.id}>
               <span className="font-medium">{i.invitedBy}</span> invited you to <span className="font-medium">{i.teamName}</span>.
@@ -166,8 +166,7 @@ function QuickDownload() {
   );
 }
 
-const extraTime = (days: number) =>
-  days % 30 === 0 ? `${days / 30} extra month${days === 30 ? "" : "s"}` : `${days} extra days`;
+const extraTime = (days: number) => (days % 30 === 0 ? `${days / 30} extra month${days === 30 ? "" : "s"}` : `${days} extra days`);
 
 /** Refer a friend: the user's invite link and how many people used it. The app's "Invite a friend" opens /account#invite. */
 function InviteCard() {
@@ -184,7 +183,7 @@ function InviteCard() {
             ? reward.remaining > 0
               ? `Share your link. When a friend signs up and confirms their email, you both get ${extraTime(reward.bonusDays)} of Pro.`
               : "Share your link. You've earned every reward there is for now. Thank you!"
-            : "Know someone who works with MongoDB? Share your link: they get the same free Pro year you did."}
+            : "Know someone who works with databases? Share your link: they get the same free Pro year you did."}
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-3">
@@ -193,7 +192,13 @@ function InviteCard() {
         ) : (
           <>
             <div className="flex gap-2">
-              <Input readOnly value={referral.url} aria-label="Your invite link" onFocus={(e) => e.currentTarget.select()} className="font-mono text-sm" />
+              <Input
+                readOnly
+                value={referral.url}
+                aria-label="Your invite link"
+                onFocus={(e) => e.currentTarget.select()}
+                className="font-mono text-sm"
+              />
               <CopyButton value={referral.url} label="Copy" toastText="Invite link copied" variant="secondary" />
             </div>
             <p className="text-muted-foreground text-sm">
@@ -220,7 +225,7 @@ function TeamsCard() {
         <CardTitle className="flex items-center gap-2">
           <Users className="text-primary size-5" /> Teams
         </CardTitle>
-        <CardDescription>Give everyone their own Pro key and manage it in one place. Free for now.</CardDescription>
+        <CardDescription>Give everyone their own Pro key and manage it in one place. Free for the first year.</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-2">
         {me.teams.map((t) => (
@@ -300,7 +305,7 @@ function ChangePassword() {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <KeyRound className="size-5 text-primary" /> Password
+          <KeyRound className="text-primary size-5" /> Password
         </CardTitle>
         <CardDescription>Changing it signs you out everywhere else.</CardDescription>
       </CardHeader>
@@ -326,7 +331,13 @@ function ChangePassword() {
           }}
         >
           <FormField id="pw-current" label="Current password" error={errors.currentPassword}>
-            <Input id="pw-current" type="password" autoComplete="current-password" value={current} onChange={(e) => setCurrent(e.target.value)} />
+            <Input
+              id="pw-current"
+              type="password"
+              autoComplete="current-password"
+              value={current}
+              onChange={(e) => setCurrent(e.target.value)}
+            />
           </FormField>
           <FormField id="pw-new" label="New password" error={errors.newPassword}>
             <Input id="pw-new" type="password" autoComplete="new-password" value={next} onChange={(e) => setNext(e.target.value)} />

@@ -25,12 +25,12 @@ const groups: { title: string; items: Item[] }[] = [
     items: [
       {
         q: "How much does MotionQL cost?",
-        a: "Nothing today. The core app is free forever and needs no license key. When you create an account you also get a Pro license, free for 12 months, with no credit card. Team seats are free for now too.",
+        a: "Nothing today. The core app is free forever and needs no license key. When you create an account you also get a Pro license, free for 12 months, with no credit card. Team seats are free for their first year too.",
         more: { href: "/pricing", label: "See pricing" },
       },
       {
         q: "What's free, and what does Pro add?",
-        a: "Free covers connections with every auth method, the query bar and visual query builder, IntelliShell, the aggregation editor, SQL Query, Query Code, import and export, dump and restore, Compare and Sync, schema tools, indexes, the profiler, dashboards and the AI assistant with your own key. Pro adds SQL Migration, Data Masking, scheduled tasks and MongoDB Atlas management.",
+        a: "Free covers connections to all 60+ databases, the SQL editor, query builder and EXPLAIN plans, server insights and Logs & analytics, projects and environments, the MongoDB tools (query builder, IntelliShell, aggregation, SQL Query, Compare and Sync), import and export, dashboards and the AI assistant with your own key. Pro adds migration between databases, Data Masking, scheduled tasks, SQL schema and data compare, Git version control, the stored-procedure debugger, Supabase and Neon branches, Redis RDB analysis and MongoDB Atlas management.",
       },
       {
         q: "How do I get the free Pro year?",
@@ -39,7 +39,7 @@ const groups: { title: string; items: Item[] }[] = [
       },
       {
         q: "What happens after the 12 months?",
-        a: "While the free launch offer runs, you renew for another year with one click on your account page and paste the new key. If we ever start charging for Pro, you'll see the price before your year ends, and everything that's free today stays free. If a key does expire, only the Pro features stop: MotionQL still opens, connects and shows your data, and nothing on your computer is deleted.",
+        a: "The free Pro year is one per email address and isn't renewed. From 30 days before it ends, MotionQL reminds you. When it ends, only the Pro features pause: MotionQL still opens, connects and shows your data, every free feature keeps working, and nothing on your computer is deleted. You can then upgrade to keep Pro.",
       },
       {
         q: "Can I use MotionQL for commercial work?",
@@ -53,7 +53,7 @@ const groups: { title: string; items: Item[] }[] = [
     items: [
       {
         q: "Which operating systems are supported?",
-        a: "macOS 12 or later on Apple silicon and Intel, Windows 10 or 11 (64-bit), and Linux on 64-bit x86 desktops (AppImage and deb). MotionQL works with MongoDB 4.4 and later, including Atlas, replica sets and sharded clusters, plus Amazon DocumentDB, Azure Cosmos DB for MongoDB and FerretDB within the features those services implement.",
+        a: "macOS 12 or later on Apple silicon and Intel, Windows 10 or 11 (64-bit), and Linux on 64-bit x86 desktops (AppImage and deb). MotionQL connects to 60+ databases and hosted services, from PostgreSQL, MySQL, SQL Server and Oracle to MongoDB, Redis, ClickHouse, Snowflake, Elasticsearch, DynamoDB and Neo4j. The Databases page lists every one and how deep its support goes.",
         more: { href: "/docs/install", label: "System requirements" },
       },
       {
@@ -100,7 +100,7 @@ const groups: { title: string; items: Item[] }[] = [
     items: [
       {
         q: "Is there a version for teams?",
-        a: "Yes, and team seats are free for now. Create a team from your account, invite people by email, and assign each member a seat. Each member gets their own Pro key. Owners and admins can free a seat, reissue a key or remove someone at any time, and every change is logged.",
+        a: "Yes, and team seats are free for their first year. Create a team from your account, invite people by email, and assign each member a seat. Each member gets their own Pro key. Owners and admins can free a seat, reissue a key or remove someone at any time, and every change is logged.",
         more: { href: "/docs/licensing-teams", label: "Licensing and teams" },
       },
       {

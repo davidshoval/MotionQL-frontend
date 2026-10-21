@@ -13,7 +13,7 @@ export function VideoTour() {
       <SectionHeading
         eyebrow="Watch"
         title="Watch a quick tour"
-        description="Recorded in the real app: connect, browse, and query MongoDB."
+        description="Recorded in the real app: PostgreSQL, Redis, Elasticsearch, Neo4j and MongoDB, side by side."
       />
       <Reveal className="mx-auto mt-14 max-w-5xl">
         <VideoPlayer video={videos[0]} />

@@ -7,7 +7,7 @@ import { MarkdownDoc } from "@/components/marketing/markdown";
 
 export const metadata: Metadata = pageMetadata({
   title: "Changelog",
-  description: "What's new in each release of MotionQL, the MongoDB GUI for macOS, Windows and Linux.",
+  description: "What's new in each release of MotionQL, the database IDE for macOS, Windows and Linux.",
   path: "/changelog",
 });
 

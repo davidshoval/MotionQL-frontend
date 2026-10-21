@@ -75,7 +75,7 @@ export default function SupportPage() {
             <ul className="text-muted-foreground mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
               <li>your MotionQL version (Settings → About) and operating system;</li>
               <li>what you did, what you expected and what happened, with the exact error message;</li>
-              <li>the type of server: MongoDB version, Atlas, replica set or sharded, DocumentDB or Cosmos DB;</li>
+              <li>the database and server version, and where it runs (self-hosted, a cloud service such as Atlas, RDS or Azure);</li>
               <li>
                 if useful, a diagnostics file from <span className="text-foreground">Settings → Diagnostics → Export diagnostics…</span>.
                 It&apos;s redacted, but review it before sending.

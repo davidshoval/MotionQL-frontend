@@ -232,54 +232,113 @@ export const vendors: Record<string, Vendor> = {
   // https://dbeaver.io/download/ (Community on Windows, macOS, Linux; MongoDB listed for PRO)
   dbeaver: {
     name: "DBeaver",
-    title: "MotionQL vs DBeaver for MongoDB",
+    title: "MotionQL vs DBeaver",
     description:
-      "DBeaver is a universal database tool, and its MongoDB support is in the paid PRO editions. MotionQL is a MongoDB-only IDE that is free for commercial work, with Pro free for a year.",
+      "DBeaver and MotionQL are both multi-database tools. DBeaver's free Community edition covers SQL databases and its MongoDB driver is in the paid editions. MotionQL connects to 60+ databases, MongoDB included, in the free app, with Pro free for a year.",
     reasons: [
       {
-        t: "MongoDB in the free app",
-        d: "Connect, query, edit, import and export MongoDB without a paid edition. Pro is free for 12 months.",
+        t: "SQL and NoSQL in the free app",
+        d: "PostgreSQL, MySQL, SQL Server, Oracle and SQLite sit next to MongoDB, Redis, Elasticsearch, DynamoDB, Cassandra and Neo4j without a paid edition.",
       },
       {
-        t: "MongoDB-native tools",
-        d: "A visual query builder, an aggregation editor with stage preview, IntelliShell, and visual explain plans.",
+        t: "Each database keeps its own tools",
+        d: "pg_stat_statements and EXPLAIN for PostgreSQL, a key browser for Redis, Discover for Elasticsearch, Cypher graphs for Neo4j, aggregation for MongoDB.",
       },
       {
-        t: "Compare, sync and migrate",
-        d: "Data Compare & Sync with dry-run preview, and SQL to MongoDB migration with reference or embed for each relationship.",
+        t: "Projects and environments",
+        d: "Group connections into Development, Staging and Production. Production asks before every write, and read-only connections stay read-only.",
       },
       {
-        t: "Schema you can see",
-        d: "Schema analysis, schema compare and drift history, and ER diagrams with relationships inferred from your data.",
+        t: "Logs & analytics for every server",
+        d: "The server's own log, slow operations grouped by shape and live metrics, in one view for every family.",
       },
       {
-        t: "Every MongoDB auth method",
-        d: "SCRAM, X.509, LDAP, Kerberos, AWS IAM and OIDC, plus SSH jump hosts and proxies.",
+        t: "Migration between databases",
+        d: "Move tables and collections between engines, with type mapping and a dry run first.",
       },
       {
         t: "AI with your own key",
-        d: "Natural language to queries, pipelines and SQL with Gemini, Claude, an OpenAI-compatible endpoint or a local model.",
+        d: "Write and fix SQL, MQL, Cypher and more with Gemini, Claude, an OpenAI-compatible endpoint or a local model.",
       },
     ],
     rows: [
       {
-        feature: "MongoDB support in the free edition",
+        feature: "MongoDB in the free edition",
         motionql: "yes",
         them: "no",
         note: "DBeaver's MongoDB driver is in the Lite, Enterprise and Ultimate editions only.",
       },
+      { feature: "Relational databases in the free edition", motionql: "yes", them: "yes" },
       { feature: "SQL against MongoDB", motionql: "SELECT (read-only)", them: "SELECT, INSERT, UPDATE and DELETE" },
-      { feature: "JavaScript / shell queries", motionql: "yes", them: "yes" },
-      { feature: "Grid and JSON document views", motionql: "yes", them: "yes" },
+      { feature: "JavaScript / shell queries for MongoDB", motionql: "yes", them: "yes" },
       { feature: "Import and export", motionql: "yes", them: "yes" },
-      { feature: "Users and active operations", motionql: "yes", them: "yes" },
-      { feature: "Other databases in the same tool", motionql: "MongoDB and compatible only", them: "yes" },
       { feature: "Platforms", motionql: platformsMotionql, them: "Windows, macOS and Linux" },
     ],
-    fit: "If you work across PostgreSQL, MySQL, Oracle and MongoDB every day and want one tool for all of them, DBeaver's universal approach is hard to beat. DBeaver also lets SQL write to MongoDB, where MotionQL's SQL is read-only.",
+    fit: "DBeaver has been around for years, supports a very long list of JDBC drivers, and lets SQL write to MongoDB where MotionQL's SQL is read-only. If you rely on an unusual JDBC database or DBeaver's plugin ecosystem, it remains a strong choice; MotionQL also connects any JDBC driver, with fewer engine-specific tools for those.",
     sources: [
       { label: "DBeaver docs: MongoDB", url: "https://dbeaver.com/docs/dbeaver/MongoDB/" },
       { label: "DBeaver download", url: "https://dbeaver.io/download/" },
+    ],
+  },
+
+  // Sources:
+  // https://www.jetbrains.com/datagrip/ (product page lists PostgreSQL, MySQL, SQL Server, Oracle, MongoDB, Redis,
+  //   Apache Cassandra, ClickHouse "... and more"; Windows, macOS, Linux)
+  // https://www.jetbrains.com/datagrip/features/mongodb (SQL translated for MongoDB supports SELECT only; most mongo
+  //   shell commands available)
+  // https://blog.jetbrains.com/datagrip/2025/10/01/datagrip-is-now-free-for-non-commercial-use/ (free for
+  //   non-commercial use; commercial licensing unchanged)
+  datagrip: {
+    name: "DataGrip",
+    title: "MotionQL vs DataGrip",
+    description:
+      "DataGrip is JetBrains' multi-database IDE, free for non-commercial use and paid for commercial work. MotionQL connects to 60+ databases and is free for commercial use, with Pro free for a year.",
+    reasons: [
+      {
+        t: "Free at work, too",
+        d: "The core app is free for any use, including commercial work. Pro is free for your first 12 months.",
+      },
+      {
+        t: "Database-specific tools, not only SQL",
+        d: "A Redis key browser, Elasticsearch Discover, DynamoDB scan and query, Cypher graphs, InfluxDB charts and MongoDB aggregation sit next to the SQL editor.",
+      },
+      {
+        t: "Server insights built in",
+        d: "pg_stat_statements, MySQL digests, ClickHouse query log and merges, slow operations by shape and the server's own log.",
+      },
+      {
+        t: "Projects and environments",
+        d: "Development, Staging and Production per project, with production asking before every write.",
+      },
+      {
+        t: "Migration and data tools",
+        d: "Copy tables and collections between engines, compare data, generate test data and mask sensitive columns.",
+      },
+      {
+        t: "AI with your own key",
+        d: "Use your own Gemini, Claude, OpenAI-compatible or local model. Nothing is sent unless you allow it per connection.",
+      },
+    ],
+    rows: [
+      { feature: "PostgreSQL, MySQL, SQL Server and Oracle", motionql: "yes", them: "yes" },
+      { feature: "MongoDB, Redis, Cassandra and ClickHouse", motionql: "yes", them: "yes" },
+      { feature: "SQL against MongoDB", motionql: "SELECT (read-only)", them: "SELECT only" },
+      {
+        feature: "Free for commercial use",
+        motionql: "yes",
+        them: "no",
+        note: "DataGrip is free for non-commercial use since October 2025; commercial use needs a paid license.",
+      },
+      { feature: "Platforms", motionql: platformsMotionql, them: "Windows, macOS and Linux" },
+    ],
+    fit: "DataGrip has some of the deepest SQL editing around: refactoring, code inspections and navigation shared with the other JetBrains IDEs. If most of your day is writing SQL inside the JetBrains ecosystem, it is an excellent tool.",
+    sources: [
+      { label: "DataGrip product page", url: "https://www.jetbrains.com/datagrip/" },
+      { label: "DataGrip features: MongoDB", url: "https://www.jetbrains.com/datagrip/features/mongodb" },
+      {
+        label: "JetBrains blog: DataGrip is free for non-commercial use",
+        url: "https://blog.jetbrains.com/datagrip/2025/10/01/datagrip-is-now-free-for-non-commercial-use/",
+      },
     ],
   },
 
@@ -290,13 +349,13 @@ export const vendors: Record<string, Vendor> = {
   // https://tableplus.com/blog/2019/08/tableplus-native-gui-client-mongodb.html (credentials in Keychain, built-in SSH)
   tableplus: {
     name: "TablePlus",
-    title: "MotionQL vs TablePlus for MongoDB",
+    title: "MotionQL vs TablePlus",
     description:
-      "TablePlus is a fast, multi-database client where MongoDB support is in beta. MotionQL is built only for MongoDB, from the shell to aggregation, SQL and Atlas.",
+      "TablePlus is a fast, native client for SQL databases and Redis, with MongoDB in beta. MotionQL connects to 60+ databases with tools made for each one, and the core app is free.",
     reasons: [
       {
-        t: "MongoDB is the whole product",
-        d: "IntelliShell, a visual query builder, an aggregation editor with stage preview, explain plans and Index Review, made for documents rather than tables.",
+        t: "Deep tools for each database",
+        d: "EXPLAIN plans and pg_stat_statements for PostgreSQL, MySQL digests, ClickHouse merges, Elasticsearch Discover, and a full MongoDB IDE with aggregation and IntelliShell.",
       },
       {
         t: "Free with no tab limits",
@@ -307,16 +366,16 @@ export const vendors: Record<string, Vendor> = {
         d: "Tree, table and JSON views with nested documents and every BSON type, plus document history with revert.",
       },
       {
-        t: "Move data between clusters",
-        d: "Compare & Sync, copy collections, and dump and restore in mongodump format.",
+        t: "Move data between databases",
+        d: "Migration between engines, data compare and sync, and import and export to CSV, JSON, Excel and SQL.",
       },
       {
-        t: "Every MongoDB auth method",
-        d: "SCRAM, X.509, LDAP, Kerberos, AWS IAM and OIDC, plus SSH jump hosts and proxies.",
+        t: "Projects and environments",
+        d: "Development, Staging and Production per project, with production asking before every write.",
       },
       {
         t: "AI with your own key",
-        d: "Natural language to find, aggregation and SQL, with your own provider or a local model.",
+        d: "Write and fix SQL, MQL and more with your own provider or a local model.",
       },
     ],
     rows: [
@@ -329,10 +388,10 @@ export const vendors: Record<string, Vendor> = {
         them: "Free trial: 2 tabs, 2 windows, 2 advanced filters at a time",
       },
       { feature: "Paid license", motionql: "None needed today", them: "Perpetual license, from $99 per device" },
-      { feature: "Other databases in the same tool", motionql: "MongoDB and compatible only", them: "yes" },
+      { feature: "Relational databases and Redis", motionql: "yes", them: "yes" },
       { feature: "Platforms", motionql: platformsMotionql, them: "macOS, Windows, Linux and iOS" },
     ],
-    fit: "TablePlus is a lovely, lightweight client for SQL databases and Redis, with a perpetual license and an iOS app. If MongoDB is a small part of your day, one tool for everything may suit you better.",
+    fit: "TablePlus is a lovely, lightweight native client with a perpetual license and an iOS app. If you want a minimal table editor for SQL databases and Redis and prefer to pay once, it is a great fit.",
     sources: [
       { label: "TablePlus docs", url: "https://docs.tableplus.com/" },
       { label: "TablePlus pricing", url: "https://tableplus.com/pricing" },

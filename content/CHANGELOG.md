@@ -2,6 +2,32 @@
 
 All notable changes to MotionQL are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and MotionQL uses [Semantic Versioning](https://semver.org/).
 
+## [1.3.0] — [RELEASE DATE]
+
+MotionQL is now an IDE for every database you run, not only MongoDB.
+
+### Added
+
+- **60+ databases and hosted services.** PostgreSQL and its family (Supabase, Neon, TimescaleDB, Citus, CockroachDB, YugabyteDB, Redshift and more), MySQL, MariaDB, Percona and TiDB, SQL Server and Azure SQL, Oracle and Autonomous Database, SQLite and DuckDB, Redis and Valkey, Elasticsearch and OpenSearch, ClickHouse, Snowflake, Google BigQuery, Trino and Starburst, Databricks SQL, Cloud Spanner, Amazon DynamoDB, Cassandra and ScyllaDB, InfluxDB, Neo4j and Memgraph, plus Db2, Firebird, H2, HSQLDB and Derby through a JDBC bridge. Each engine is rated *Deep* or *Good* in the app.
+- **Tools made for each engine.** A Redis key browser, console and RDB analysis (Pro); Elasticsearch Discover, documents, console and administration; DynamoDB scan, query and PartiQL; Cassandra rows and CQL; InfluxDB Flux and SQL with charts; Cypher with a graph view for Neo4j and Memgraph.
+- **SQL editor for every SQL engine:** schema-aware completion, a result tab per statement, pinned results and result compare, manual transactions with Commit and Rollback, and confirmations for risky statements.
+- **SQL Query Builder and ER diagrams** with a design mode; tables join on their foreign keys.
+- **Server insights:** PostgreSQL EXPLAIN, pg_stat_statements, activity and locks, vacuum health and an index advisor; MySQL digests, processes and deadlocks; ClickHouse query log, merges and storage; SQL Server, Oracle, Snowflake and BigQuery panels.
+- **Logs & analytics for every database:** the server's own log, slow operations grouped by shape, live metrics, history from the database itself, storage growth, usage by client and local alerts.
+- **Projects and environments for every engine:** Development, Test, Staging and Production, with Production confirming every write and read-only environments refusing them, enforced in the app's main process.
+- **Cross-database links:** connect `orders.customerId` in MongoDB to `customers.id` in PostgreSQL or a Redis key pattern, see them in a diagram and jump to related records.
+- **Scripts folder and Git version control (Pro)**, a **PostgreSQL routine debugger (Pro)**, SQL schema and data compare (Pro), and Supabase and Neon branches (Pro).
+- **Test data for every engine** and **Load demo data** for MongoDB, Redis and Elasticsearch connections.
+- **Migration between databases (Pro)**, with AI mapping suggestions in the import, export and migration wizards.
+- **AI for every database family:** SQL, MQL, Cypher, CQL, Flux, Redis commands and search queries, checked against your schema before they are offered. Ask AI about any plan, panel or empty result.
+- **Paste a connection string** from Vercel, Neon, Supabase, Prisma or Upstash and the dialog fills itself in.
+- **Import connections and saved queries** from DBeaver, DataGrip, pgAdmin, MySQL Workbench, Azure Data Studio and Navicat, as well as Compass and Studio 3T.
+
+### Changed
+
+- The theme follows your system by default.
+- A visual and accessibility pass over every screen, in light and dark, down to 1024px windows.
+
 ## [1.2.1] — 2026-10-06
 
 ### Fixed

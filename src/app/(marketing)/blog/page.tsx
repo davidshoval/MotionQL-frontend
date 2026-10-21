@@ -8,7 +8,7 @@ import { formatDate } from "@/lib/utils";
 
 const base = pageMetadata({
   title: "Blog",
-  description: "Releases, guides and MongoDB know-how from the team building MotionQL.",
+  description: "Releases, guides and database know-how from the team building MotionQL.",
   path: "/blog",
 });
 
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 export default function BlogIndex() {
   return (
     <>
-      <PageHero eyebrow="Blog" title="Notes from the team" description="Releases, guides and MongoDB know-how.">
+      <PageHero eyebrow="Blog" title="Notes from the team" description="Releases, guides and database know-how.">
         <a href="/blog/rss.xml" className="text-muted-foreground hover:text-foreground mt-6 inline-flex items-center gap-1.5 text-sm">
           <Rss className="size-4" /> RSS feed
         </a>

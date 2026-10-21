@@ -36,15 +36,24 @@ export default function HomePage() {
         <SectionHeading
           eyebrow="Compare"
           title="How MotionQL stacks up"
-          description="The features you'd pay for elsewhere, side by side with Studio 3T and MongoDB Compass."
+          description="For MongoDB, side by side with Studio 3T and Compass. Coming from a multi-database tool? See DBeaver, DataGrip and TablePlus."
         />
         <div className="mt-14">
           <CompareTable />
         </div>
-        <div className="mt-8 flex justify-center">
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          {[
+            { href: "/compare/dbeaver", label: "vs DBeaver" },
+            { href: "/compare/datagrip", label: "vs DataGrip" },
+            { href: "/compare/tableplus", label: "vs TablePlus" },
+          ].map((c) => (
+            <Button key={c.href} asChild variant="ghost">
+              <Link href={c.href}>{c.label}</Link>
+            </Button>
+          ))}
           <Button asChild variant="secondary">
             <Link href="/compare">
-              See the full comparison <ArrowRight />
+              See every comparison <ArrowRight />
             </Link>
           </Button>
         </div>
@@ -54,7 +63,7 @@ export default function HomePage() {
         <SectionHeading
           eyebrow="Pricing"
           title="Free. Really."
-          description="Pro is free for your first year, team seats are free for now, and the core app is free forever."
+          description="Pro is free for your first year, team seats are free for their first year, and the core app is free forever."
         />
         <div className="mt-14">
           <PricingCards />

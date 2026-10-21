@@ -5,8 +5,8 @@ import { Check, Cpu, KeyRound, Lock, Sparkles, X } from "lucide-react";
 import { SectionHeading } from "./section-heading";
 import { Reveal } from "./reveal";
 
-const sees = ["Your request", "Database, collection and field names", "Field types and indexes", "Explain-plan structure"];
-const never = ["Document values", "Passwords and connection strings", "Your queries' results"];
+const sees = ["Your request", "Table, collection and column names", "Column types, keys and indexes", "Explain-plan structure"];
+const never = ["Row and document values", "Passwords and connection strings", "Your queries' results"];
 
 export function AiSection() {
   return (
@@ -31,7 +31,7 @@ export function AiSection() {
                 <span className="text-gradient-brand">Not your data.</span>
               </>
             }
-            description="Describe what you want in plain English and get a query, a pipeline or SQL. Ask why a query is slow, fix an error, or get index advice. It works with your own Gemini, Claude or OpenAI-compatible key, or a local model."
+            description="Describe what you want in plain English and get SQL, a MongoDB pipeline, Cypher, a Redis command or a search query. Ask why a query is slow, fix an error, or get index advice. It works with your own Gemini, Claude or OpenAI-compatible key, or a local model."
           />
           <Reveal delay={0.1} className="mt-10 grid gap-6 sm:grid-cols-2">
             <div>
@@ -80,7 +80,7 @@ export function AiSection() {
                 </span>
                 Ask your database
                 <span className="bg-foreground/5 text-muted-foreground ml-auto rounded-md px-2 py-0.5 font-mono text-[11px]">
-                  shop.orders
+                  Shop (PostgreSQL)
                 </span>
               </div>
               <motion.div
@@ -99,27 +99,21 @@ export function AiSection() {
                 transition={{ delay: 0.9 }}
                 className="border-border bg-background/60 mt-4 rounded-2xl rounded-bl-md border p-4 font-mono text-[12.5px] leading-relaxed"
               >
-                <span className="text-muted-foreground">db.orders.aggregate([</span>
+                <span className="text-brand-sky">SELECT</span> c.city, <span className="text-brand-sky">SUM</span>(o.total){" "}
+                <span className="text-brand-sky">AS</span> revenue
+                <br />
+                <span className="text-brand-sky">FROM</span> orders o <span className="text-brand-sky">JOIN</span> customers c{" "}
+                <span className="text-brand-sky">ON</span> c.id = o.customer_id
+                <br />
+                <span className="text-brand-sky">WHERE</span> o.status = <span className="text-primary">&apos;shipped&apos;</span>
                 <br />
                 {"  "}
-                <span className="text-brand-violet">{"{ $match"}</span>: {"{ status: "}
-                <span className="text-primary">&quot;shipped&quot;</span>, createdAt: {"{ "}
-                <span className="text-brand-violet">$gte</span>: ISODate(<span className="text-primary">&quot;2026-09-01&quot;</span>){" "}
-                {"} } },"}
+                <span className="text-brand-sky">AND</span> o.created_at &gt;= date_trunc(
+                <span className="text-primary">&apos;month&apos;</span>, now()) - <span className="text-brand-sky">interval</span>{" "}
+                <span className="text-primary">&apos;1 month&apos;</span>
                 <br />
-                {"  "}
-                <span className="text-brand-violet">{"{ $group"}</span>: {"{ _id: "}
-                <span className="text-primary">&quot;$customer.city&quot;</span>, revenue: {"{ "}
-                <span className="text-brand-violet">$sum</span>: <span className="text-primary">&quot;$total&quot;</span>
-                {" } } },"}
-                <br />
-                {"  "}
-                <span className="text-brand-violet">{"{ $sort"}</span>: {"{ revenue: "}
-                <span className="text-warning">-1</span>
-                {" } },"} <span className="text-brand-violet">{"{ $limit"}</span>: <span className="text-warning">5</span>
-                {" }"}
-                <br />
-                <span className="text-muted-foreground">])</span>
+                <span className="text-brand-sky">GROUP BY</span> c.city <span className="text-brand-sky">ORDER BY</span> revenue{" "}
+                <span className="text-brand-sky">DESC LIMIT</span> <span className="text-warning">5</span>;
               </motion.div>
               <motion.div
                 initial={{ opacity: 0 }}
@@ -131,7 +125,7 @@ export function AiSection() {
                 <span className="bg-success/10 text-success inline-flex items-center gap-1.5 rounded-full px-2.5 py-1">
                   <Check className="size-3" /> Validated before display
                 </span>
-                <span>Uses index status_1_createdAt_-1</span>
+                <span>Uses index orders_status_created_at_idx</span>
               </motion.div>
             </div>
           </div>

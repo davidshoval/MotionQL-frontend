@@ -15,6 +15,15 @@ export interface BlogPost {
 
 const posts: BlogPost[] = [
   {
+    slug: "motionql-every-database",
+    title: "MotionQL 1.3: one IDE for every database",
+    description:
+      "60+ databases in one desktop app: PostgreSQL, MySQL, SQL Server, Oracle, Redis, ClickHouse, Snowflake, Elasticsearch, DynamoDB, Neo4j and MongoDB, each with its own tools, plus projects, Logs & analytics and AI for every language.",
+    date: "2026-10-21",
+    author: "The MotionQL team",
+    tags: ["Release"],
+  },
+  {
     slug: "mongodb-gui-up-to-7x-faster-than-compass",
     title: "How we made a MongoDB GUI up to 7x faster than Compass",
     description:

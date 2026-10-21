@@ -25,9 +25,9 @@ No credit card is needed.
 
 Activation happens **offline**. MotionQL checks the key's digital signature against a public key built into the app; nothing is sent anywhere, so it also works behind firewalls and on air-gapped machines.
 
-## Renewing after 12 months
+## After 12 months
 
-While the free launch offer runs, you can renew for another year with one click on your [account page](/account). Renewing issues a new key; paste it into **Settings → License** the same way.
+The free Pro year is one per email address and isn't renewed. From 30 days before it ends, MotionQL reminds you. When it ends, only the Pro features pause: MotionQL still opens, connects and shows your data, every free feature keeps working, and nothing on your computer is deleted. You can then upgrade to keep Pro.
 
 If a key expires, the Pro features stop but MotionQL keeps working: it opens, connects and shows your data, every free feature still works, and nothing is deleted. You can still view and remove items you made with Pro features, such as saved tasks.
 

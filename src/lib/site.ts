@@ -2,9 +2,9 @@ export const site = {
   name: "MotionQL",
   domain: "motionql.com",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://motionql.com",
-  tagline: "The MongoDB IDE for people who outgrew Compass",
+  tagline: "One desktop IDE for every database you run",
   description:
-    "MotionQL is a fast, secure desktop IDE for MongoDB, Atlas and every Mongo-compatible database. Visual queries, aggregation, SQL, compare and sync, migration, and a private AI assistant. Free Pro license for a year.",
+    "MotionQL is a fast, secure desktop IDE for 60+ databases: PostgreSQL, MySQL, SQL Server, Oracle, SQLite, MongoDB, Redis, Elasticsearch, ClickHouse, Snowflake, BigQuery, DynamoDB, Cassandra, Neo4j and more. Visual queries, explain plans, logs and analytics, migration and a private AI assistant. Free Pro license for a year.",
   releasesUrl: "https://github.com/davidshoval/motionql-releases/releases/latest",
   supportEmail: "support@motionql.com",
   securityEmail: "security@motionql.com",
@@ -17,12 +17,12 @@ export const site = {
 };
 
 export const nav = [
+  { href: "/databases", label: "Databases" },
   { href: "/features", label: "Features" },
   { href: "/videos", label: "Videos" },
   { href: "/docs", label: "Docs" },
   { href: "/compare", label: "Compare" },
   { href: "/pricing", label: "Pricing" },
-  { href: "/tools", label: "Tools" },
 ];
 
 /**
