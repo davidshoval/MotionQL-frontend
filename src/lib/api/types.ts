@@ -80,7 +80,11 @@ export interface Team {
 }
 
 export interface Member {
-  userId: string;
+  /** mem_… id; member routes take it (or the account id). */
+  memberId: string;
+  /** Missing while the person has no MotionQL account (an admin added them by email). */
+  userId?: string;
+  hasAccount: boolean;
   email: string;
   name: string;
   role: Role;
@@ -88,8 +92,48 @@ export interface Member {
   edition: Edition;
   features: string[];
   joinedAt: string;
-  license?: { licenseId: string; edition: Edition; features: string[]; issuedAt: string; expiresAt: string; status: LicenseStatus };
+  /** Admin who added them directly (admins only). */
+  addedBy?: string;
+  /** `key` is only sent to admins. */
+  license?: {
+    licenseId: string;
+    key?: string;
+    edition: Edition;
+    features: string[];
+    issuedAt: string;
+    expiresAt: string;
+    status: LicenseStatus;
+  };
   usage?: { lastSeen: string; appVersion: string; platform: string; installs: number };
+}
+
+/** One key from GET /teams/:id/licenses: every key the team issued, newest first. */
+export interface TeamLicense {
+  licenseId: string;
+  /** Only while active. */
+  key?: string;
+  edition: Edition;
+  features: string[];
+  customer: string;
+  email: string;
+  seats: number;
+  issuedAt: string;
+  expiresAt: string;
+  status: LicenseStatus;
+  source: "free" | "team" | "staff";
+  revokedAt?: string | null;
+  /** The key the member holds now. */
+  current: boolean;
+  assignee: { memberId?: string; email: string; name: string };
+  revokeReason?: string;
+  replacedBy?: string;
+  issuedBy?: string;
+}
+
+/** Someone the admin adds directly, without an invitation. */
+export interface NewMember {
+  email: string;
+  name?: string;
 }
 
 export interface Invite {

@@ -1,7 +1,24 @@
 import { API_URL, http, USE_MOCK } from "./client";
 import { mockApi } from "./mock";
 import type { Attribution } from "@/lib/attribution";
-import type { AcquisitionReport, AuditEvent, FreePlan, Invite, InvitePreview, License, Me, Member, Referral, ReferralPreview, Release, Role, Team, User } from "./types";
+import type {
+  AcquisitionReport,
+  AuditEvent,
+  FreePlan,
+  Invite,
+  InvitePreview,
+  License,
+  Me,
+  Member,
+  NewMember,
+  Referral,
+  ReferralPreview,
+  Release,
+  Role,
+  Team,
+  TeamLicense,
+  User,
+} from "./types";
 
 export interface RegisterInput {
   email: string;
@@ -45,13 +62,31 @@ export interface Api {
   deleteTeam(id: string): Promise<void>;
   transferOwnership(id: string, userId: string): Promise<void>;
   members(teamId: string): Promise<{ members: Member[] }>;
-  updateMember(teamId: string, userId: string, patch: { role?: "admin" | "member" }): Promise<unknown>;
-  removeMember(teamId: string, userId: string): Promise<void>;
-  assignSeat(teamId: string, userId: string): Promise<{ license: License }>;
-  freeSeat(teamId: string, userId: string): Promise<void>;
-  reissueMemberKey(teamId: string, userId: string): Promise<{ license: License }>;
+  // Member routes take a member id (mem_…) or an account id.
+  /** Adds people directly: each gets a seat and a key at once, no invitation to accept. */
+  addMembers(
+    teamId: string,
+    input: { members: NewMember[]; role: "admin" | "member"; assignSeat: boolean; sendEmail: boolean },
+  ): Promise<{ members: Member[]; skipped: { email: string; reason: string }[]; team: Team }>;
+  updateMember(teamId: string, memberId: string, patch: { role?: "admin" | "member" }): Promise<unknown>;
+  removeMember(teamId: string, memberId: string): Promise<void>;
+  assignSeat(teamId: string, memberId: string): Promise<{ license: License }>;
+  freeSeat(teamId: string, memberId: string): Promise<void>;
+  reissueMemberKey(teamId: string, memberId: string): Promise<{ license: License }>;
+  /** A new key for a full term from today; the old one stops working. */
+  renewMemberKey(teamId: string, memberId: string): Promise<{ license: License }>;
+  sendMemberKey(teamId: string, memberId: string): Promise<void>;
+  /** Moves the seat to someone else (added to the team if new); the old holder's key is revoked. */
+  reassignSeat(teamId: string, memberId: string, to: NewMember & { sendEmail: boolean }): Promise<{ member: Member }>;
+  teamLicenses(teamId: string): Promise<{ licenses: TeamLicense[] }>;
+  /** URL of the CSV of current keys, or null when the export happens in the browser (mock). */
+  licensesCsvUrl(teamId: string): string | null;
+  renewExpiring(teamId: string, input: { withinDays: number; sendEmail: boolean }): Promise<{ renewed: number }>;
   invites(teamId: string): Promise<{ invites: Invite[] }>;
-  invite(teamId: string, input: { emails: string[]; role: Role; assignSeat: boolean }): Promise<{ invites: Invite[]; skipped: { email: string; reason: string }[] }>;
+  invite(
+    teamId: string,
+    input: { emails: string[]; role: Role; assignSeat: boolean },
+  ): Promise<{ invites: Invite[]; skipped: { email: string; reason: string }[] }>;
   cancelInvite(teamId: string, inviteId: string): Promise<void>;
   resendInvite(teamId: string, inviteId: string): Promise<void>;
   previewInvite(token: string): Promise<InvitePreview>;
@@ -94,11 +129,18 @@ const httpApi: Api = {
   deleteTeam: (id) => http("DELETE", `/teams/${enc(id)}`),
   transferOwnership: (id, userId) => http("POST", `/teams/${enc(id)}/transfer-ownership`, { userId }),
   members: (id) => http("GET", `/teams/${enc(id)}/members`),
-  updateMember: (id, userId, patch) => http("PATCH", `/teams/${enc(id)}/members/${enc(userId)}`, patch),
-  removeMember: (id, userId) => http("DELETE", `/teams/${enc(id)}/members/${enc(userId)}`),
-  assignSeat: (id, userId) => http("POST", `/teams/${enc(id)}/seats/${enc(userId)}`),
-  freeSeat: (id, userId) => http("DELETE", `/teams/${enc(id)}/seats/${enc(userId)}`),
-  reissueMemberKey: (id, userId) => http("POST", `/teams/${enc(id)}/members/${enc(userId)}/reissue`),
+  addMembers: (id, input) => http("POST", `/teams/${enc(id)}/members`, input),
+  updateMember: (id, memberId, patch) => http("PATCH", `/teams/${enc(id)}/members/${enc(memberId)}`, patch),
+  removeMember: (id, memberId) => http("DELETE", `/teams/${enc(id)}/members/${enc(memberId)}`),
+  assignSeat: (id, memberId) => http("POST", `/teams/${enc(id)}/seats/${enc(memberId)}`),
+  freeSeat: (id, memberId) => http("DELETE", `/teams/${enc(id)}/seats/${enc(memberId)}`),
+  reissueMemberKey: (id, memberId) => http("POST", `/teams/${enc(id)}/members/${enc(memberId)}/reissue`),
+  renewMemberKey: (id, memberId) => http("POST", `/teams/${enc(id)}/members/${enc(memberId)}/renew`),
+  sendMemberKey: (id, memberId) => http("POST", `/teams/${enc(id)}/members/${enc(memberId)}/send-key`),
+  reassignSeat: (id, memberId, to) => http("POST", `/teams/${enc(id)}/members/${enc(memberId)}/reassign`, to),
+  teamLicenses: (id) => http("GET", `/teams/${enc(id)}/licenses`),
+  licensesCsvUrl: (id) => `${API_URL}/teams/${enc(id)}/licenses.csv`,
+  renewExpiring: (id, input) => http("POST", `/teams/${enc(id)}/licenses/renew-expiring`, input),
   invites: (id) => http("GET", `/teams/${enc(id)}/invites`),
   invite: (id, input) => http("POST", `/teams/${enc(id)}/invites`, input),
   cancelInvite: (id, inviteId) => http("DELETE", `/teams/${enc(id)}/invites/${enc(inviteId)}`),

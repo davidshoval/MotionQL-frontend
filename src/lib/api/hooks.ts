@@ -13,6 +13,7 @@ export const qk = {
   members: (id: string) => ["team", id, "members"] as const,
   invites: (id: string) => ["team", id, "invites"] as const,
   audit: (id: string) => ["team", id, "audit"] as const,
+  teamLicenses: (id: string) => ["team", id, "licenses"] as const,
 };
 
 /** The signed-in user, or null when signed out. */
