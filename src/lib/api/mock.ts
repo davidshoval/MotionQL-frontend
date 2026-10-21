@@ -5,7 +5,20 @@
 import { ApiError } from "./client";
 import type { Api } from "./index";
 import type { Attribution } from "@/lib/attribution";
-import type { AcquisitionReport, AcquisitionSource, AuditEvent, Invite, License, Me, Member, Release, Role, Team, User } from "./types";
+import type {
+  AcquisitionReport,
+  AcquisitionSource,
+  AuditEvent,
+  Invite,
+  License,
+  Me,
+  Member,
+  Release,
+  Role,
+  Team,
+  TeamLicense,
+  User,
+} from "./types";
 
 interface StoredUser extends User {
   password: string;
@@ -13,11 +26,14 @@ interface StoredUser extends User {
   referredBy?: string;
   heardFrom?: string;
   attribution?: Attribution;
+  /** Someone a team admin added by email who has no account: a stand-in record that registering takes over. */
+  external?: boolean;
 }
 interface StoredTeam {
   id: string;
   name: string;
   seatLimit: number;
+  seatRequest?: Team["seatRequest"];
   createdAt: string;
 }
 interface StoredMember {
@@ -26,6 +42,7 @@ interface StoredMember {
   role: Role;
   licenseId: string | null;
   joinedAt: string;
+  addedBy?: string;
 }
 interface StoredLicense extends License {
   userId: string;
@@ -70,8 +87,8 @@ const b64url = (s: string) => btoa(unescape(encodeURIComponent(s))).replace(/\+/
 function fail(status: number, code: string, message: string, fields?: Record<string, string>): never {
   throw new ApiError(status, code, message, fields);
 }
-function publicUser({ password: _pw, referralCode: _c, referredBy: _r, heardFrom: _h, ...u }: StoredUser): User {
-  void [_pw, _c, _r, _h];
+function publicUser({ password: _pw, referralCode: _c, referredBy: _r, heardFrom: _h, external: _x, ...u }: StoredUser): User {
+  void [_pw, _c, _r, _h, _x];
   return u;
 }
 const referralCode = () => Array.from({ length: 8 }, () => "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[Math.floor(Math.random() * 32)]).join("");
@@ -139,6 +156,7 @@ function teamView(db: DB, t: StoredTeam): Team {
     seatsUsed: db.members.filter((m) => m.teamId === t.id && m.licenseId).length,
     allowedEditions: ["pro"],
     allowedFeatures: [],
+    seatRequest: t.seatRequest ?? null,
     createdAt: t.createdAt,
   };
 }
@@ -147,8 +165,12 @@ function memberView(db: DB, m: StoredMember, withUsage: boolean): Member {
   const lic = db.licenses.find((l) => l.licenseId === m.licenseId);
   // Sample teammates get made-up usage so the admin view has something to show.
   const sample = m.userId.startsWith("demo_") && lic;
+  if (lic) refreshStatus(lic);
   return {
-    userId: m.userId,
+    // The mock keys members by account id; the backend's mem_… ids work the same way in every route.
+    memberId: m.userId,
+    ...(u.external ? {} : { userId: m.userId }),
+    hasAccount: !u.external,
     email: u.email,
     name: u.name,
     role: m.role,
@@ -156,8 +178,19 @@ function memberView(db: DB, m: StoredMember, withUsage: boolean): Member {
     edition: "pro",
     features: [],
     joinedAt: m.joinedAt,
+    ...(withUsage && m.addedBy ? { addedBy: m.addedBy } : {}),
     ...(lic
-      ? { license: { licenseId: lic.licenseId, edition: lic.edition, features: lic.features, issuedAt: lic.issuedAt, expiresAt: lic.expiresAt, status: lic.status } }
+      ? {
+          license: {
+            licenseId: lic.licenseId,
+            ...(withUsage ? { key: lic.key } : {}),
+            edition: lic.edition,
+            features: lic.features,
+            issuedAt: lic.issuedAt,
+            expiresAt: lic.expiresAt,
+            status: lic.status,
+          },
+        }
       : {}),
     ...(withUsage && sample
       ? {
@@ -226,9 +259,12 @@ export const mockApi: Api = {
     await wait();
     const db = load();
     const e = email.trim().toLowerCase();
-    if (db.users.some((u) => u.email === e)) fail(409, "email_taken", "An account with this e-mail already exists.", { email: "Already registered. Sign in instead." });
+    if (db.users.some((u) => u.email === e && !u.external)) fail(409, "email_taken", "An account with this e-mail already exists.", { email: "Already registered. Sign in instead." });
+    // A team admin added this address before it had an account: the new account takes over that record, seat and key.
+    const stand = db.users.find((u) => u.email === e && u.external);
+    if (stand) db.users = db.users.filter((u) => u !== stand);
     const user: StoredUser = {
-      id: id("usr"),
+      id: stand?.id ?? id("usr"),
       email: e,
       name,
       company: company || null,
@@ -416,10 +452,11 @@ export const mockApi: Api = {
     seat(db, team, owner);
     // A few sample teammates so the admin screens have something to show on a preview deploy.
     const domain = user.email.split("@")[1] ?? "example.com";
-    for (const [n, role, withSeat] of [
-      ["maya.cohen", "admin", true],
-      ["jordan.lee", "member", true],
-      ["sam.patel", "member", false],
+    for (const [n, role, withSeat, external] of [
+      ["maya.cohen", "admin", true, false],
+      ["jordan.lee", "member", true, false],
+      ["sam.patel", "member", false, false],
+      ["alex.kim", "member", true, true],
     ] as const) {
       const sample: StoredUser = {
         id: id("demo"),
@@ -433,11 +470,23 @@ export const mockApi: Api = {
         isStaff: false,
         createdAt: now(),
         password: "",
+        ...(external ? { external: true, emailVerified: false } : {}),
       };
       db.users.push(sample);
-      const m: StoredMember = { teamId: team.id, userId: sample.id, role, licenseId: null, joinedAt: now() };
+      const m: StoredMember = {
+        teamId: team.id,
+        userId: sample.id,
+        role,
+        licenseId: null,
+        joinedAt: now(),
+        ...(external ? { addedBy: user.email } : {}),
+      };
       db.members.push(m);
-      if (withSeat) seat(db, team, m);
+      if (withSeat) {
+        const lic = seat(db, team, m);
+        // One key close to its end, so the expiry warnings and "Renew" have something to show.
+        if (n === "jordan.lee") lic.expiresAt = new Date(Date.now() + 12 * DAY).toISOString();
+      }
     }
     log(db, team.id, user, "team.create", { type: "team", id: team.id, name });
     save(db);
@@ -543,6 +592,159 @@ export const mockApi: Api = {
     log(db, teamId, user, "license.issue", userTarget(db, userId), { reason: "reissue" });
     save(db);
     return { license: strip(lic) };
+  },
+  async addMembers(teamId, { members, role, assignSeat, sendEmail }) {
+    await wait();
+    const db = load();
+    const { user, team, me } = access(db, teamId, "admin");
+    if (role === "admin" && me.role !== "owner") fail(403, "forbidden", "Only the team owner can add admins.");
+    const emailOf = (m: StoredMember) => db.users.find((u) => u.id === m.userId)?.email;
+    const people = [...new Map(members.map((p) => [p.email.trim().toLowerCase(), p.name?.trim() || undefined])).entries()];
+    const skipped = people
+      .filter(([e]) => db.members.some((m) => m.teamId === teamId && emailOf(m) === e))
+      .map(([email]) => ({ email, reason: "already_member" }));
+    const fresh = people.filter(([e]) => !skipped.some((s) => s.email === e));
+    const free = team.seatLimit - teamView(db, team).seatsUsed;
+    if (assignSeat && fresh.length > free)
+      fail(
+        409,
+        "seat_limit_reached",
+        `You are adding ${fresh.length} people but ${free <= 0 ? "no seats are" : `only ${free} seat${free === 1 ? " is" : "s are"}`} free. Free some seats or ask us for more.`,
+      );
+    const added: Member[] = [];
+    for (const [email, name] of fresh) {
+      let account = db.users.find((u) => u.email === email);
+      if (!account) {
+        account = {
+          id: id("ext"),
+          email,
+          name: name ?? "",
+          company: null,
+          emailVerified: false,
+          isStaff: false,
+          createdAt: now(),
+          password: "",
+          external: true,
+        };
+        db.users.push(account);
+      }
+      const m: StoredMember = { teamId, userId: account.id, role, licenseId: null, joinedAt: now(), addedBy: user.email };
+      db.members.push(m);
+      db.invites = db.invites.filter((i) => !(i.teamId === teamId && i.email === email));
+      log(db, teamId, user, "team.member.add", { type: "user", id: account.id, email });
+      if (assignSeat) {
+        seat(db, team, m);
+        log(db, teamId, user, "team.seat.assign", { type: "user", id: account.id, email });
+      }
+      added.push(memberView(db, m, true));
+    }
+    void sendEmail; // Preview mode sends no e-mail either way.
+    save(db);
+    return { members: added, skipped, team: teamView(db, team) };
+  },
+  async renewMemberKey(teamId, memberId) {
+    await wait();
+    const db = load();
+    const { user, team } = access(db, teamId, "admin");
+    const m = findMember(db, teamId, memberId);
+    const old = db.licenses.find((l) => l.licenseId === m.licenseId);
+    if (!old) fail(409, "no_seat", "Assign a seat first.");
+    revoke(db, old.licenseId, "replaced");
+    const lic = issueKey(
+      db,
+      db.users.find((u) => u.id === m.userId)!,
+      team,
+    );
+    m.licenseId = lic.licenseId;
+    log(db, teamId, user, "team.seat.renew", userTarget(db, memberId), { to: lic.expiresAt });
+    save(db);
+    return { license: strip(lic) };
+  },
+  async sendMemberKey(teamId, memberId) {
+    await wait();
+    const db = load();
+    const { user } = access(db, teamId, "admin");
+    const m = findMember(db, teamId, memberId);
+    if (!m.licenseId) fail(409, "no_seat", "Assign a seat first.");
+    log(db, teamId, user, "team.key.send", userTarget(db, memberId));
+    save(db);
+  },
+  async reassignSeat(teamId, memberId, to) {
+    const db = load();
+    const { user } = access(db, teamId, "admin");
+    const from = findMember(db, teamId, memberId);
+    if (!from.licenseId) fail(409, "no_seat", "They have no seat to give away.");
+    const email = to.email.trim().toLowerCase();
+    if (userTarget(db, memberId).email === email) fail(400, "same_member", "Pick someone else to give the seat to.");
+    const existing = db.members.find((m) => m.teamId === teamId && db.users.find((u) => u.id === m.userId)?.email === email);
+    if (existing?.licenseId) fail(409, "already_has_seat", `${email} already has a seat.`);
+    revoke(db, from.licenseId);
+    from.licenseId = null;
+    log(db, teamId, user, "team.seat.reassign", userTarget(db, memberId), { to: email });
+    save(db);
+    if (existing) {
+      await mockApi.assignSeat(teamId, existing.userId);
+      const after = load();
+      return {
+        member: memberView(
+          after,
+          after.members.find((m) => m.teamId === teamId && m.userId === existing.userId)!,
+          true,
+        ),
+      };
+    }
+    const { members } = await mockApi.addMembers(teamId, {
+      members: [{ email, name: to.name }],
+      role: "member",
+      assignSeat: true,
+      sendEmail: to.sendEmail,
+    });
+    return { member: members[0] };
+  },
+  async teamLicenses(teamId) {
+    await wait(150);
+    const db = load();
+    access(db, teamId, "admin");
+    const current = new Set(db.members.filter((m) => m.teamId === teamId).map((m) => m.licenseId));
+    const licenses: TeamLicense[] = db.licenses
+      .filter((l) => l.team?.id === teamId)
+      .map((l) => {
+        refreshStatus(l);
+        const holder = db.users.find((u) => u.email === l.email);
+        const { key, team: _t, userId: _u, ...rest } = l;
+        void _t;
+        void _u;
+        return {
+          ...rest,
+          ...(l.status === "active" ? { key } : {}),
+          current: current.has(l.licenseId),
+          assignee: { ...(holder ? { memberId: holder.id } : {}), email: l.email, name: holder?.name ?? "" },
+          ...(l.status === "revoked" ? { revokeReason: "seat freed" } : {}),
+        };
+      })
+      .reverse();
+    return { licenses };
+  },
+  licensesCsvUrl: () => null,
+  async requestSeats(teamId, { seats, note }) {
+    await wait();
+    const db = load();
+    const { user, team } = access(db, teamId, "admin");
+    if (seats <= team.seatLimit) fail(400, "validation_failed", `The team already has ${team.seatLimit} seats.`, { seats: `Ask for more than ${team.seatLimit}.` });
+    team.seatRequest = { seats, note: note?.trim() || null, by: user.email, at: now() };
+    log(db, teamId, user, "team.seat.request", { type: "team", id: teamId }, { to: seats });
+    save(db);
+    return { team: teamView(db, team) };
+  },
+  async renewExpiring(teamId, { withinDays }) {
+    const db = load();
+    access(db, teamId, "admin");
+    const cutoff = Date.now() + withinDays * DAY;
+    const due = db.members.filter(
+      (m) => m.teamId === teamId && db.licenses.some((l) => l.licenseId === m.licenseId && new Date(l.expiresAt).getTime() <= cutoff),
+    );
+    for (const m of due) await mockApi.renewMemberKey(teamId, m.userId);
+    return { renewed: due.length };
   },
   async invites(teamId) {
     await wait(150);
@@ -670,6 +872,27 @@ export const mockApi: Api = {
       sources,
     };
     return report;
+  },
+  // Staff console: in preview mode the signed-in user counts as staff when their account says so.
+  async adminTeams(q) {
+    await wait(150);
+    const db = load();
+    if (!sessionUser(db).isStaff) fail(403, "forbidden", "Staff only.");
+    const s = q?.trim().toLowerCase();
+    const teams = db.teams.filter((t) => !s || t.id === q || t.name.toLowerCase().includes(s)).map((t) => teamView(db, t));
+    return { teams: teams.sort((a, b) => Number(!!b.seatRequest) - Number(!!a.seatRequest)) };
+  },
+  async updateTeamLimits(teamId, { seatLimit }) {
+    await wait();
+    const db = load();
+    if (!sessionUser(db).isStaff) fail(403, "forbidden", "Staff only.");
+    const team = db.teams.find((t) => t.id === teamId);
+    if (!team) fail(404, "not_found", "Team not found.");
+    if (seatLimit < teamView(db, team).seatsUsed) fail(409, "seat_limit_below_used", "Free some seats before lowering the limit.");
+    team.seatLimit = seatLimit;
+    if (team.seatRequest && seatLimit >= team.seatRequest.seats) team.seatRequest = null;
+    save(db);
+    return { team: teamView(db, team) };
   },
 };
 
