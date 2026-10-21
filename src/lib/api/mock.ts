@@ -108,10 +108,12 @@ function strip({ userId: _u, ...l }: StoredLicense): License {
 
 function issueKey(db: DB, user: StoredUser, team: StoredTeam | null, expiresAt?: string): StoredLicense {
   const issuedAt = new Date();
+  // Someone added by name only has no e-mail; like the backend, their key carries the admin's.
+  const email = user.email || db.members.find((m) => m.userId === user.id && m.addedBy)?.addedBy || "";
   const payload = {
     licenseId: id("lic"),
     customer: team?.name ?? user.company ?? user.name,
-    email: user.email,
+    email,
     edition: "pro",
     seats: 1,
     issuedAt: issuedAt.toISOString(),
@@ -128,7 +130,7 @@ function issueKey(db: DB, user: StoredUser, team: StoredTeam | null, expiresAt?:
     edition: "pro",
     features: [],
     customer: payload.customer,
-    email: user.email,
+    email,
     seats: 1,
     issuedAt: payload.issuedAt,
     expiresAt: payload.expiresAt,
@@ -171,7 +173,7 @@ function memberView(db: DB, m: StoredMember, withUsage: boolean): Member {
     memberId: m.userId,
     ...(u.external ? {} : { userId: m.userId }),
     hasAccount: !u.external,
-    email: u.email,
+    ...(u.email ? { email: u.email } : {}),
     name: u.name,
     role: m.role,
     hasSeat: !!m.licenseId,
@@ -195,10 +197,10 @@ function memberView(db: DB, m: StoredMember, withUsage: boolean): Member {
     ...(withUsage && sample
       ? {
           usage: {
-            lastSeen: new Date(Date.now() - (1 + (u.email.length % 5)) * DAY).toISOString(),
+            lastSeen: new Date(Date.now() - (1 + ((u.email || u.name).length % 5)) * DAY).toISOString(),
             appVersion: "1.0.0",
-            platform: ["darwin-arm64", "win32-x64", "linux-x64"][u.email.length % 3],
-            installs: 1 + (u.email.length % 2),
+            platform: ["darwin-arm64", "win32-x64", "linux-x64"][(u.email || u.name).length % 3],
+            installs: 1 + ((u.email || u.name).length % 2),
           },
         }
       : {}),
@@ -538,7 +540,25 @@ export const mockApi: Api = {
     const db = load();
     const { user } = access(db, teamId, patch.role ? "owner" : "admin");
     const m = findMember(db, teamId, userId);
-    if (m.role === "owner") fail(400, "validation_failed", "Use transfer ownership to change the owner.");
+    if (patch.name !== undefined || patch.email !== undefined) {
+      const u = db.users.find((x) => x.id === m.userId)!;
+      const email = patch.email === undefined ? u.email : (patch.email ?? "").trim().toLowerCase();
+      const name = patch.name === undefined ? u.name : patch.name.trim();
+      if (email !== u.email && !u.external) fail(400, "has_account", `${u.email} has a MotionQL account; their e-mail comes from it.`);
+      if (!email && !name) fail(400, "validation_failed", "Give a name or an e-mail.", { name: "Enter a name or an e-mail." });
+      if (email && email !== u.email && db.members.some((x) => x.teamId === teamId && db.users.find((y) => y.id === x.userId)?.email === email))
+        fail(409, "already_member", `${email} is already on this team.`);
+      const emailChanged = email !== u.email;
+      u.email = email;
+      u.name = name;
+      log(db, teamId, user, "team.member.contact", userTarget(db, userId), { email: email || null, name: name || null });
+      if (emailChanged && m.licenseId) {
+        const old = db.licenses.find((l) => l.licenseId === m.licenseId)!;
+        revoke(db, old.licenseId, "replaced");
+        m.licenseId = issueKey(db, u, db.teams.find((t) => t.id === teamId)!, old.expiresAt).licenseId;
+      }
+    }
+    if (patch.role && m.role === "owner") fail(400, "validation_failed", "Use transfer ownership to change the owner.");
     if (patch.role) {
       m.role = patch.role;
       log(db, teamId, user, "team.member.role", userTarget(db, userId), { role: patch.role });
@@ -599,11 +619,18 @@ export const mockApi: Api = {
     const { user, team, me } = access(db, teamId, "admin");
     if (role === "admin" && me.role !== "owner") fail(403, "forbidden", "Only the team owner can add admins.");
     const emailOf = (m: StoredMember) => db.users.find((u) => u.id === m.userId)?.email;
-    const people = [...new Map(members.map((p) => [p.email.trim().toLowerCase(), p.name?.trim() || undefined])).entries()];
+    const people: [string, string | undefined][] = [];
+    for (const p of members) {
+      const email = p.email?.trim().toLowerCase() ?? "";
+      const name = p.name?.trim() || undefined;
+      if (!email && !name) fail(400, "validation_failed", "Give each person a name or an e-mail.");
+      if (email && people.some(([e]) => e === email)) continue;
+      people.push([email, name]);
+    }
     const skipped = people
-      .filter(([e]) => db.members.some((m) => m.teamId === teamId && emailOf(m) === e))
+      .filter(([e]) => e && db.members.some((m) => m.teamId === teamId && emailOf(m) === e))
       .map(([email]) => ({ email, reason: "already_member" }));
-    const fresh = people.filter(([e]) => !skipped.some((s) => s.email === e));
+    const fresh = people.filter(([e]) => !e || !skipped.some((s) => s.email === e));
     const free = team.seatLimit - teamView(db, team).seatsUsed;
     if (assignSeat && fresh.length > free)
       fail(
@@ -613,7 +640,7 @@ export const mockApi: Api = {
       );
     const added: Member[] = [];
     for (const [email, name] of fresh) {
-      let account = db.users.find((u) => u.email === email);
+      let account = email ? db.users.find((u) => u.email === email) : undefined;
       if (!account) {
         account = {
           id: id("ext"),
@@ -630,11 +657,11 @@ export const mockApi: Api = {
       }
       const m: StoredMember = { teamId, userId: account.id, role, licenseId: null, joinedAt: now(), addedBy: user.email };
       db.members.push(m);
-      db.invites = db.invites.filter((i) => !(i.teamId === teamId && i.email === email));
-      log(db, teamId, user, "team.member.add", { type: "user", id: account.id, email });
+      if (email) db.invites = db.invites.filter((i) => !(i.teamId === teamId && i.email === email));
+      log(db, teamId, user, "team.member.add", { type: "user", id: account.id, ...(email ? { email } : { name }) });
       if (assignSeat) {
         seat(db, team, m);
-        log(db, teamId, user, "team.seat.assign", { type: "user", id: account.id, email });
+        log(db, teamId, user, "team.seat.assign", { type: "user", id: account.id, ...(email ? { email } : { name }) });
       }
       added.push(memberView(db, m, true));
     }
@@ -666,6 +693,8 @@ export const mockApi: Api = {
     const { user } = access(db, teamId, "admin");
     const m = findMember(db, teamId, memberId);
     if (!m.licenseId) fail(409, "no_seat", "Assign a seat first.");
+    const u = db.users.find((x) => x.id === m.userId)!;
+    if (!u.email) fail(400, "no_email", `Add an e-mail for ${u.name} to send them their key.`);
     log(db, teamId, user, "team.key.send", userTarget(db, memberId));
     save(db);
   },
@@ -674,13 +703,14 @@ export const mockApi: Api = {
     const { user } = access(db, teamId, "admin");
     const from = findMember(db, teamId, memberId);
     if (!from.licenseId) fail(409, "no_seat", "They have no seat to give away.");
-    const email = to.email.trim().toLowerCase();
-    if (userTarget(db, memberId).email === email) fail(400, "same_member", "Pick someone else to give the seat to.");
-    const existing = db.members.find((m) => m.teamId === teamId && db.users.find((u) => u.id === m.userId)?.email === email);
+    const email = to.email?.trim().toLowerCase() ?? "";
+    if (!email && !to.name?.trim()) fail(400, "validation_failed", "Give a name or an e-mail.");
+    if (email && userTarget(db, memberId).email === email) fail(400, "same_member", "Pick someone else to give the seat to.");
+    const existing = email ? db.members.find((m) => m.teamId === teamId && db.users.find((u) => u.id === m.userId)?.email === email) : undefined;
     if (existing?.licenseId) fail(409, "already_has_seat", `${email} already has a seat.`);
     revoke(db, from.licenseId);
     from.licenseId = null;
-    log(db, teamId, user, "team.seat.reassign", userTarget(db, memberId), { to: email });
+    log(db, teamId, user, "team.seat.reassign", userTarget(db, memberId), { to: email || to.name });
     save(db);
     if (existing) {
       await mockApi.assignSeat(teamId, existing.userId);
@@ -694,7 +724,7 @@ export const mockApi: Api = {
       };
     }
     const { members } = await mockApi.addMembers(teamId, {
-      members: [{ email, name: to.name }],
+      members: [{ ...(email ? { email } : {}), name: to.name }],
       role: "member",
       assignSeat: true,
       sendEmail: to.sendEmail,
@@ -710,7 +740,7 @@ export const mockApi: Api = {
       .filter((l) => l.team?.id === teamId)
       .map((l) => {
         refreshStatus(l);
-        const holder = db.users.find((u) => u.email === l.email);
+        const holder = db.users.find((u) => u.id === l.userId);
         const { key, team: _t, userId: _u, ...rest } = l;
         void _t;
         void _u;
@@ -718,7 +748,7 @@ export const mockApi: Api = {
           ...rest,
           ...(l.status === "active" ? { key } : {}),
           current: current.has(l.licenseId),
-          assignee: { ...(holder ? { memberId: holder.id } : {}), email: l.email, name: holder?.name ?? "" },
+          assignee: { ...(holder ? { memberId: holder.id } : {}), email: holder ? holder.email : l.email, name: holder?.name ?? "" },
           ...(l.status === "revoked" ? { revokeReason: "seat freed" } : {}),
         };
       })

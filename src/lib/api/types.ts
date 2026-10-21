@@ -87,7 +87,8 @@ export interface Member {
   /** Missing while the person has no MotionQL account (an admin added them by email). */
   userId?: string;
   hasAccount: boolean;
-  email: string;
+  /** Missing for someone the admin added by name only. */
+  email?: string;
   name: string;
   role: Role;
   hasSeat: boolean;
@@ -126,15 +127,16 @@ export interface TeamLicense {
   revokedAt?: string | null;
   /** The key the member holds now. */
   current: boolean;
+  /** `email` is "" for someone added by name only. */
   assignee: { memberId?: string; email: string; name: string };
   revokeReason?: string;
   replacedBy?: string;
   issuedBy?: string;
 }
 
-/** Someone the admin adds directly, without an invitation. */
+/** Someone the admin adds directly, without an invitation: a name, an e-mail, or both. */
 export interface NewMember {
-  email: string;
+  email?: string;
   name?: string;
 }
 

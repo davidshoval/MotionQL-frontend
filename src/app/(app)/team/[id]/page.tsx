@@ -26,6 +26,7 @@ import {
   UserPlus,
   Users,
   X,
+  Pencil,
 } from "lucide-react";
 import { api, ApiError, USE_MOCK, type AuditEvent, type Member, type Role } from "@/lib/api";
 import { mockInviteLink } from "@/lib/api/mock";
@@ -49,10 +50,10 @@ import { Avatar } from "@/components/app/user-menu";
 import { ConfirmDialog } from "@/components/app/confirm-dialog";
 import { CopyButton } from "@/components/app/copy-button";
 import { FormError, FormField } from "@/components/app/form-field";
-import { AddPeopleDialog, ReassignDialog } from "./add-people-dialog";
+import { AddPeopleDialog, EditContactDialog, ReassignDialog } from "./add-people-dialog";
 import { LicensesPanel } from "./licenses-panel";
 import { RequestSeatsDialog } from "./request-seats-dialog";
-import { daysLeftText, keyState, keyStateBadge, maskKey } from "./license-utils";
+import { daysLeftText, keyState, keyStateBadge, maskKey, who } from "./license-utils";
 
 const roleTone: Record<Role, "violet" | "default" | "secondary"> = { owner: "violet", admin: "default", member: "secondary" };
 
@@ -266,12 +267,17 @@ function MembersTable({
   const [q, setQ] = useState("");
   const [pending, setPending] = useState<PendingAction>(null);
   const [reassignFrom, setReassignFrom] = useState<Member | null>(null);
+  const [editing, setEditing] = useState<Member | null>(null);
   const refresh = () => Promise.all([qc.invalidateQueries({ queryKey: ["team", teamId] }), qc.invalidateQueries({ queryKey: qk.me })]);
 
   const assign = useMutation({
     mutationFn: (m: Member) => api.assignSeat(teamId, ref(m)),
     onSuccess: (_r, m) => {
-      toast.success(`Seat assigned. ${m.email} gets their key by email${m.hasAccount ? " and in their account" : ""}.`);
+      toast.success(
+        m.email
+          ? `Seat assigned. ${m.email} gets their key by email${m.hasAccount ? " and in their account" : ""}.`
+          : `Seat assigned. Copy ${m.name}'s key from their row to hand it over.`,
+      );
       refresh();
     },
     onError: (e) =>
@@ -298,12 +304,12 @@ function MembersTable({
     m.license?.key &&
     navigator.clipboard
       .writeText(m.license.key)
-      .then(() => toast.success(`Key for ${m.email} copied`))
+      .then(() => toast.success(`Key for ${who(m)} copied`))
       .catch(() => toast.error("Couldn't copy. Use the Licenses tab and copy it from there."));
 
   const filtered = useMemo(() => {
     const s = q.trim().toLowerCase();
-    return (members ?? []).filter((m) => !s || m.email.includes(s) || (m.name ?? "").toLowerCase().includes(s));
+    return (members ?? []).filter((m) => !s || (m.email ?? "").includes(s) || (m.name ?? "").toLowerCase().includes(s));
   }, [members, q]);
 
   async function runPending() {
@@ -317,11 +323,11 @@ function MembersTable({
       if (kind === "owner") await api.transferOwnership(teamId, m.userId!);
       toast.success(
         {
-          remove: `${m.email} was removed`,
+          remove: `${who(m)} was removed`,
           free: "Seat freed and key revoked",
-          reissue: `New key sent to ${m.email}`,
-          renew: `Renewed. ${m.email} was emailed their new key.`,
-          owner: `${m.email} now owns the team. You're an admin.`,
+          reissue: m.email ? `New key sent to ${m.email}` : `New key ready. Copy it from ${m.name}'s row to hand it over.`,
+          renew: m.email ? `Renewed. ${m.email} was emailed their new key.` : `Renewed. Copy ${m.name}'s new key from their row.`,
+          owner: `${who(m)} now owns the team. You're an admin.`,
         }[kind],
       );
       await refresh();
@@ -368,10 +374,10 @@ function MembersTable({
               <tr key={m.memberId} className="border-border/60 hover:bg-foreground/[0.02] border-b last:border-0">
                 <td className="px-5 py-3.5">
                   <div className="flex items-center gap-3">
-                    <Avatar label={m.name || m.email} />
+                    <Avatar label={who(m)} />
                     <div className="min-w-0">
                       <p className="flex items-center gap-2 font-medium">
-                        <span className="truncate">{m.name || m.email}</span>
+                        <span className="truncate">{who(m)}</span>
                         {isAdmin && !m.hasAccount && (
                           <Badge
                             variant="secondary"
@@ -381,7 +387,8 @@ function MembersTable({
                           </Badge>
                         )}
                       </p>
-                      {m.name && <p className="text-muted-foreground truncate text-xs">{m.email}</p>}
+                      {m.name && m.email && <p className="text-muted-foreground truncate text-xs">{m.email}</p>}
+                      {isAdmin && !m.email && <p className="text-muted-foreground truncate text-xs">No email · you hand over their key</p>}
                     </div>
                   </div>
                 </td>
@@ -411,7 +418,7 @@ function MembersTable({
                     {m.role !== "owner" || myRole === "owner" ? (
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon" aria-label={`Actions for ${m.email}`}>
+                          <Button variant="ghost" size="icon" aria-label={`Actions for ${who(m)}`}>
                             <MoreHorizontal />
                           </Button>
                         </DropdownMenuTrigger>
@@ -423,9 +430,11 @@ function MembersTable({
                                   <Copy /> Copy key
                                 </DropdownMenuItem>
                               )}
-                              <DropdownMenuItem onSelect={() => sendKey.mutate(m)}>
-                                <Send /> Email key again
-                              </DropdownMenuItem>
+                              {m.email && (
+                                <DropdownMenuItem onSelect={() => sendKey.mutate(m)}>
+                                  <Send /> Email key again
+                                </DropdownMenuItem>
+                              )}
                               <DropdownMenuItem onSelect={() => setPending({ kind: "renew", member: m })}>
                                 <RefreshCw /> Renew key
                               </DropdownMenuItem>
@@ -444,6 +453,11 @@ function MembersTable({
                           ) : (
                             <DropdownMenuItem onSelect={() => assign.mutate(m)}>
                               <KeyRound /> Assign seat
+                            </DropdownMenuItem>
+                          )}
+                          {!m.hasAccount && (
+                            <DropdownMenuItem onSelect={() => setEditing(m)}>
+                              <Pencil /> {m.email ? "Edit name and email" : "Add email or edit name"}
                             </DropdownMenuItem>
                           )}
                           {m.role !== "owner" && (
@@ -486,12 +500,13 @@ function MembersTable({
         open={!!pending}
         onOpenChange={(o) => !o && setPending(null)}
         destructive={pending?.kind === "remove" || pending?.kind === "free"}
-        title={pending ? confirmCopy[pending.kind].title(pending.member.email) : ""}
+        title={pending ? confirmCopy[pending.kind].title(who(pending.member)) : ""}
         description={pending ? confirmCopy[pending.kind].description : ""}
         confirmLabel={pending ? confirmCopy[pending.kind].label : ""}
         onConfirm={runPending}
       />
       <ReassignDialog teamId={teamId} from={reassignFrom} onOpenChange={(o) => !o && setReassignFrom(null)} />
+      {editing && <EditContactDialog teamId={teamId} member={editing} onOpenChange={(o) => !o && setEditing(null)} />}
     </Card>
   );
 }

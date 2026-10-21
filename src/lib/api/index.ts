@@ -68,7 +68,8 @@ export interface Api {
     teamId: string,
     input: { members: NewMember[]; role: "admin" | "member"; assignSeat: boolean; sendEmail: boolean },
   ): Promise<{ members: Member[]; skipped: { email: string; reason: string }[]; team: Team }>;
-  updateMember(teamId: string, memberId: string, patch: { role?: "admin" | "member" }): Promise<unknown>;
+  /** `name` and `email` only for someone without an account; `email: null` clears it. */
+  updateMember(teamId: string, memberId: string, patch: { role?: "admin" | "member"; name?: string; email?: string | null }): Promise<unknown>;
   removeMember(teamId: string, memberId: string): Promise<void>;
   assignSeat(teamId: string, memberId: string): Promise<{ license: License }>;
   freeSeat(teamId: string, memberId: string): Promise<void>;
