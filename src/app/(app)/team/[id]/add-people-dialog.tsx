@@ -1,16 +1,85 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Download, KeyRound, Loader2, UserPlus } from "lucide-react";
+import { ClipboardPaste, Download, KeyRound, Loader2, Plus, UserPlus, X } from "lucide-react";
 import { api, ApiError, type Member, type Role } from "@/lib/api";
 import { cn, formatDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CopyButton } from "@/components/app/copy-button";
 import { FormError, FormField } from "@/components/app/form-field";
-import { downloadText, keysCsv, maskKey, parsePeople } from "./license-utils";
+import { downloadText, keysCsv, maskKey, parsePeople, who } from "./license-utils";
+
+const EMAIL_OK = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+type Row = { id: number; name: string; email: string };
+
+/** Name and email fields, one line per person; the email is optional. */
+function PeopleRows({ rows, setRows, invalidIds }: { rows: Row[]; setRows: (r: Row[]) => void; invalidIds: Set<number> }) {
+  const next = useRef(rows.length);
+  const update = (id: number, patch: Partial<Row>) => setRows(rows.map((r) => (r.id === id ? { ...r, ...patch } : r)));
+  return (
+    <div className="grid gap-2">
+      <div className="text-muted-foreground grid grid-cols-[1fr_1fr_2.25rem] gap-2 text-xs font-medium">
+        <span>Name</span>
+        <span>Email (optional)</span>
+      </div>
+      {rows.map((r, i) => (
+        <div key={r.id} className="grid grid-cols-[1fr_1fr_2.25rem] items-center gap-2">
+          <Input
+            aria-label={`Name ${i + 1}`}
+            value={r.name}
+            placeholder={i === 0 ? "Maya Cohen" : undefined}
+            autoComplete="off"
+            onChange={(e) => update(r.id, { name: e.target.value })}
+          />
+          <Input
+            aria-label={`Email ${i + 1}`}
+            type="email"
+            value={r.email}
+            placeholder={i === 0 ? "maya@acme.io" : undefined}
+            autoComplete="off"
+            aria-invalid={invalidIds.has(r.id) || undefined}
+            className={cn(invalidIds.has(r.id) && "border-destructive")}
+            onChange={(e) => update(r.id, { email: e.target.value })}
+          />
+          {rows.length > 1 ? (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              aria-label={`Remove person ${i + 1}`}
+              onClick={() => setRows(rows.filter((x) => x.id !== r.id))}
+            >
+              <X />
+            </Button>
+          ) : (
+            <span />
+          )}
+        </div>
+      ))}
+      <div>
+        <Button type="button" variant="ghost" size="sm" onClick={() => setRows([...rows, { id: next.current++, name: "", email: "" }])}>
+          <Plus /> Add another person
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+/** Rows that have something typed in, as people to add, plus the ids whose email doesn't look right. */
+function readRows(rows: Row[]) {
+  const filled = rows.filter((r) => r.name.trim() || r.email.trim());
+  const invalid = new Set(filled.filter((r) => r.email.trim() && !EMAIL_OK.test(r.email.trim())).map((r) => r.id));
+  const seen = new Set<string>();
+  const people = filled
+    .map((r) => ({ ...(r.name.trim() ? { name: r.name.trim() } : {}), ...(r.email.trim() ? { email: r.email.trim().toLowerCase() } : {}) }))
+    .filter((p) => !p.email || (!seen.has(p.email) && seen.add(p.email)));
+  return { people, invalid };
+}
 
 /**
  * The IT-manager flow: type or paste people, and each one gets a seat and a key right away.
@@ -35,13 +104,15 @@ export function AddPeopleDialog({
   onRequestSeats: (extra: number) => void;
 }) {
   const qc = useQueryClient();
-  const [text, setText] = useState("");
+  const [rows, setRows] = useState<Row[]>([{ id: 0, name: "", email: "" }]);
+  const [pasteOpen, setPasteOpen] = useState(false);
+  const [pasteText, setPasteText] = useState("");
   const [role, setRole] = useState<"member" | "admin">("member");
   const [assignSeat, setAssignSeat] = useState(true);
   const [sendEmail, setSendEmail] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [added, setAdded] = useState<Member[] | null>(null);
-  const { people, invalid } = parsePeople(text);
+  const { people, invalid } = readRows(rows);
   const overLimit = assignSeat && people.length > freeSeats;
 
   const add = useMutation({
@@ -50,7 +121,7 @@ export function AddPeopleDialog({
       qc.invalidateQueries({ queryKey: ["team", teamId] });
       if (skipped.length) toast.info(`Skipped ${skipped.map((s) => s.email).join(", ")}: already on the team.`);
       if (!members.length) return;
-      setText("");
+      setRows([{ id: Date.now(), name: "", email: "" }]);
       setAdded(members);
     },
     onError: (e) => setError(e instanceof ApiError ? e.message : "Couldn't add them. Try again."),
@@ -66,6 +137,7 @@ export function AddPeopleDialog({
 
   if (added) {
     const withKeys = added.filter((m) => m.license?.key);
+    const noEmail = withKeys.filter((m) => !m.email).length;
     return (
       <Dialog open={open} onOpenChange={close}>
         <DialogContent className="max-w-2xl">
@@ -75,8 +147,10 @@ export function AddPeopleDialog({
             </DialogTitle>
             <DialogDescription>
               {withKeys.length
-                ? sendEmail
-                  ? "Each one was emailed their key. You can also copy the keys here, or any time from the team page."
+                ? sendEmail && noEmail < withKeys.length
+                  ? noEmail
+                    ? "Everyone with an email was emailed their key. Copy the keys for the others here and hand them over, or find them on the team page later."
+                    : "Each one was emailed their key. You can also copy the keys here, or any time from the team page."
                   : "No email was sent. Hand each person their key, or export them all as CSV."
                 : "They're on the team without a seat. Assign one from the members list when they need a key."}
             </DialogDescription>
@@ -85,9 +159,9 @@ export function AddPeopleDialog({
             {added.map((m) => (
               <li key={m.memberId} className="flex flex-wrap items-center gap-3 px-4 py-3 text-sm">
                 <div className="min-w-0 flex-1">
-                  <p className="truncate font-medium">{m.name || m.email}</p>
+                  <p className="truncate font-medium">{who(m)}</p>
                   <p className="text-muted-foreground truncate text-xs">
-                    {m.name ? `${m.email} · ` : ""}
+                    {m.name ? `${m.email ?? "no email"} · ` : ""}
                     {m.license ? `valid until ${formatDate(m.license.expiresAt)}` : "no seat"}
                   </p>
                 </div>
@@ -99,7 +173,7 @@ export function AddPeopleDialog({
                     <CopyButton
                       value={m.license.key}
                       label="Copy key"
-                      toastText={`Key for ${m.email} copied`}
+                      toastText={`Key for ${who(m)} copied`}
                       variant="secondary"
                       size="sm"
                     />
@@ -131,7 +205,7 @@ export function AddPeopleDialog({
 
   return (
     <Dialog open={open} onOpenChange={close}>
-      <DialogContent className="max-w-xl">
+      <DialogContent className="max-h-[90vh] max-w-xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Add people</DialogTitle>
           <DialogDescription>
@@ -143,8 +217,8 @@ export function AddPeopleDialog({
           onSubmit={(e) => {
             e.preventDefault();
             setError(null);
-            if (!people.length) return setError("Add at least one email.");
-            if (invalid.length) return setError(`These lines have no email: ${invalid.join(", ")}`);
+            if (!people.length) return setError("Enter at least one name or email.");
+            if (invalid.size) return setError("Check the highlighted email addresses, or leave them empty.");
             if (overLimit) return setError(`You're adding ${people.length} people but only ${Math.max(0, freeSeats)} seats are free.`);
             add.mutate();
           }}
@@ -162,27 +236,63 @@ export function AddPeopleDialog({
               </button>
             </p>
           )}
-          <FormField
-            id="add-people"
-            label="People"
-            hint={
-              people.length
-                ? `${people.length} ${people.length === 1 ? "person" : "people"} · ${Math.max(0, freeSeats)} seat${freeSeats === 1 ? "" : "s"} free`
-                : "One per line: an email, or a name and email. You can paste two columns from a spreadsheet."
-            }
-          >
-            <textarea
-              id="add-people"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              rows={5}
-              placeholder={"Maya Cohen <maya@acme.io>\njordan@acme.io"}
-              className={cn(
-                "border-input bg-foreground/[0.03] placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:ring-ring/25 w-full rounded-lg border px-3.5 py-2.5 font-mono text-[14px] outline-none focus-visible:ring-3",
-                overLimit && "border-warning",
+          <div className="grid gap-2">
+            <PeopleRows rows={rows} setRows={setRows} invalidIds={invalid} />
+            <p className="text-muted-foreground text-xs">
+              {people.length
+                ? `${people.length} ${people.length === 1 ? "person" : "people"} · ${Math.max(0, freeSeats)} seat${freeSeats === 1 ? "" : "s"} free. `
+                : ""}
+              Without an email, nothing is sent: you copy their key here and hand it over.{" "}
+              {!pasteOpen && (
+                <button
+                  type="button"
+                  className="text-foreground font-medium underline underline-offset-2"
+                  onClick={() => setPasteOpen(true)}
+                >
+                  Paste a list
+                </button>
               )}
-            />
-          </FormField>
+            </p>
+            {pasteOpen && (
+              <div className="border-border grid gap-2 rounded-xl border p-3">
+                <label htmlFor="paste-people" className="text-sm font-medium">
+                  Paste a list
+                </label>
+                <textarea
+                  id="paste-people"
+                  value={pasteText}
+                  onChange={(e) => setPasteText(e.target.value)}
+                  rows={4}
+                  placeholder={"Maya Cohen, maya@acme.io\nJordan Lee\nalex@acme.io"}
+                  className="border-input bg-foreground/[0.03] placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:ring-ring/25 w-full rounded-lg border px-3.5 py-2.5 font-mono text-[13px] outline-none focus-visible:ring-3"
+                />
+                <p className="text-muted-foreground text-xs">
+                  One person per line: a name, an email, or both. Two columns from a spreadsheet work too.
+                </p>
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="secondary"
+                    onClick={() => {
+                      const parsed = parsePeople(pasteText).people;
+                      if (!parsed.length) return;
+                      const kept = rows.filter((r) => r.name.trim() || r.email.trim());
+                      const base = Date.now();
+                      setRows([...kept, ...parsed.map((p, i) => ({ id: base + i, name: p.name ?? "", email: p.email ?? "" }))]);
+                      setPasteText("");
+                      setPasteOpen(false);
+                    }}
+                  >
+                    <ClipboardPaste /> Add to the list
+                  </Button>
+                  <Button type="button" size="sm" variant="ghost" onClick={() => setPasteOpen(false)}>
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
           {myRole === "owner" && (
             <fieldset className="grid gap-2">
               <legend className="mb-2 text-sm font-medium">Role</legend>
@@ -224,7 +334,7 @@ export function AddPeopleDialog({
                 className="size-4 accent-[var(--primary)]"
               />
               Email each person their key
-              <span className="text-muted-foreground text-xs">(turn off to hand keys out yourself)</span>
+              <span className="text-muted-foreground text-xs">(when they have an email; turn off to hand keys out yourself)</span>
             </label>
           </div>
           <DialogFooter>
@@ -253,16 +363,22 @@ export function ReassignDialog({
   onOpenChange: (o: boolean) => void;
 }) {
   const qc = useQueryClient();
-  const [text, setText] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [sendEmail, setSendEmail] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<Member | null>(null);
-  const parsed = parsePeople(text);
   const reassign = useMutation({
-    mutationFn: () => api.reassignSeat(teamId, from!.userId ?? from!.memberId, { ...parsed.people[0], sendEmail }),
+    mutationFn: () =>
+      api.reassignSeat(teamId, from!.userId ?? from!.memberId, {
+        ...(name.trim() ? { name: name.trim() } : {}),
+        ...(email.trim() ? { email: email.trim().toLowerCase() } : {}),
+        sendEmail,
+      }),
     onSuccess: ({ member }) => {
       qc.invalidateQueries({ queryKey: ["team", teamId] });
-      setText("");
+      setName("");
+      setEmail("");
       setResult(member);
     },
     onError: (e) => setError(e instanceof ApiError ? e.message : "Couldn't move the seat. Try again."),
@@ -278,10 +394,10 @@ export function ReassignDialog({
     <Dialog open={!!from} onOpenChange={close}>
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle>{result ? "Seat reassigned" : `Give ${from?.email}'s seat to someone else`}</DialogTitle>
+          <DialogTitle>{result ? "Seat reassigned" : `Give ${from ? who(from) : ""}'s seat to someone else`}</DialogTitle>
           <DialogDescription>
             {result
-              ? `${result.email} has the seat now${sendEmail ? " and was emailed their key" : ""}.`
+              ? `${who(result)} has the seat now${sendEmail && result.email ? " and was emailed their key" : ". Copy their key below and hand it over"}.`
               : "Their key stops working within about 4 hours and they stay on the team without a seat. The new person gets their own key."}
           </DialogDescription>
         </DialogHeader>
@@ -303,25 +419,38 @@ export function ReassignDialog({
             onSubmit={(e) => {
               e.preventDefault();
               setError(null);
-              if (parsed.people.length !== 1 || parsed.invalid.length) return setError("Enter one email, optionally with a name.");
+              if (!name.trim() && !email.trim()) return setError("Enter a name or an email.");
+              if (email.trim() && !EMAIL_OK.test(email.trim())) return setError("That email doesn't look right.");
               reassign.mutate();
             }}
           >
             <FormError message={error} />
-            <FormField id="reassign-to" label="New person" hint="An email, or a name and email.">
-              <input
-                id="reassign-to"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                placeholder="Jordan Lee <jordan@acme.io>"
-                autoComplete="off"
-                className="border-input bg-foreground/[0.03] placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:ring-ring/25 h-10 w-full rounded-lg border px-3.5 text-[15px] outline-none focus-visible:ring-3"
-              />
-            </FormField>
-            <label className="flex items-center gap-3 text-sm">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <FormField id="reassign-name" label="Name">
+                <Input
+                  id="reassign-name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Jordan Lee"
+                  autoComplete="off"
+                />
+              </FormField>
+              <FormField id="reassign-email" label="Email (optional)">
+                <Input
+                  id="reassign-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="jordan@acme.io"
+                  autoComplete="off"
+                />
+              </FormField>
+            </div>
+            <label className={cn("flex items-center gap-3 text-sm", !email.trim() && "opacity-50")}>
               <input
                 type="checkbox"
-                checked={sendEmail}
+                checked={sendEmail && !!email.trim()}
+                disabled={!email.trim()}
                 onChange={(e) => setSendEmail(e.target.checked)}
                 className="size-4 accent-[var(--primary)]"
               />
@@ -338,6 +467,92 @@ export function ReassignDialog({
             </DialogFooter>
           </form>
         )}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+/**
+ * Name and email of someone without an account. A new email gets them a new key there (same end date); the old key
+ * stops working.
+ */
+export function EditContactDialog({
+  teamId,
+  member,
+  onOpenChange,
+}: {
+  teamId: string;
+  member: Member;
+  onOpenChange: (o: boolean) => void;
+}) {
+  const qc = useQueryClient();
+  const [name, setName] = useState(member.name);
+  const [email, setEmail] = useState(member.email ?? "");
+  const [error, setError] = useState<string | null>(null);
+  const emailChanged = email.trim().toLowerCase() !== (member.email ?? "");
+  const save = useMutation({
+    mutationFn: () =>
+      api.updateMember(teamId, member.memberId, { name: name.trim(), email: email.trim() ? email.trim().toLowerCase() : null }),
+    onSuccess: () => {
+      toast.success(
+        emailChanged && member.hasSeat
+          ? email.trim()
+            ? `Saved. ${email.trim().toLowerCase()} was emailed a new key; the old one stops working.`
+            : "Saved. They have a new key; copy it from their row and hand it over."
+          : "Saved",
+      );
+      qc.invalidateQueries({ queryKey: ["team", teamId] });
+      onOpenChange(false);
+    },
+    onError: (e) => setError(e instanceof ApiError ? (e.fields?.email ?? e.fields?.name ?? e.message) : "Couldn't save. Try again."),
+  });
+  return (
+    <Dialog open onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-lg">
+        <DialogHeader>
+          <DialogTitle>{member.email ? "Edit name and email" : "Add an email"}</DialogTitle>
+          <DialogDescription>
+            {member.hasSeat
+              ? "With an email, they get their key by email and it links to their account if they sign up. Changing the email gives them a new key there with the same end date, and the old key stops working."
+              : "With an email, their key is emailed to them when they get a seat, and it links to their account if they sign up."}
+          </DialogDescription>
+        </DialogHeader>
+        <form
+          className="grid gap-5"
+          onSubmit={(e) => {
+            e.preventDefault();
+            setError(null);
+            if (!name.trim() && !email.trim()) return setError("Enter a name or an email.");
+            if (email.trim() && !EMAIL_OK.test(email.trim())) return setError("That email doesn't look right.");
+            save.mutate();
+          }}
+        >
+          <FormError message={error} />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <FormField id="contact-name" label="Name">
+              <Input id="contact-name" value={name} onChange={(e) => setName(e.target.value)} autoComplete="off" />
+            </FormField>
+            <FormField id="contact-email" label="Email (optional)">
+              <Input
+                id="contact-email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="name@company.com"
+                autoComplete="off"
+              />
+            </FormField>
+          </div>
+          <DialogFooter>
+            <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={save.isPending}>
+              {save.isPending && <Loader2 className="animate-spin" />}
+              {emailChanged && member.hasSeat && email.trim() ? "Save and send new key" : "Save"}
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

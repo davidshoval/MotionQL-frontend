@@ -28,6 +28,9 @@ export function daysLeftText(expiresAt: string) {
   return `Ended ${-d} day${d === -1 ? "" : "s"} ago`;
 }
 
+/** How to name a member: their name, else their email (someone added by name only has no email). */
+export const who = (m: { name?: string; email?: string }) => m.name || m.email || "This person";
+
 export function maskKey(key: string) {
   return key.length > 24 ? `${key.slice(0, 10)}…${key.slice(-6)}` : key;
 }
@@ -36,7 +39,7 @@ const EMAIL = /[^\s<>,;"'()]+@[^\s<>,;"'()]+\.[^\s<>,;"'()]+/g;
 
 /**
  * Reads what an admin pastes: one person per line, as "maya@acme.io", "Maya Cohen <maya@acme.io>",
- * "Maya Cohen, maya@acme.io" (a spreadsheet row) or several bare emails on one line.
+ * "Maya Cohen, maya@acme.io" (a spreadsheet row), just a name, or several bare emails on one line.
  */
 export function parsePeople(text: string): { people: NewMember[]; invalid: string[] } {
   const people: NewMember[] = [];
@@ -46,7 +49,15 @@ export function parsePeople(text: string): { people: NewMember[]; invalid: strin
     if (!line) continue;
     const emails = line.match(EMAIL) ?? [];
     if (!emails.length) {
-      invalid.push(line);
+      // A line with no email is a name: that person is added without one.
+      if (line.includes("@")) invalid.push(line);
+      else
+        people.push({
+          name: line
+            .replace(/[<>"'\t,]+/g, " ")
+            .replace(/\s+/g, " ")
+            .trim(),
+        });
       continue;
     }
     if (emails.length > 1) {
@@ -62,16 +73,16 @@ export function parsePeople(text: string): { people: NewMember[]; invalid: strin
     people.push({ email: email.toLowerCase(), ...(name ? { name } : {}) });
   }
   const seen = new Set<string>();
-  return { people: people.filter((p) => !seen.has(p.email) && seen.add(p.email)), invalid };
+  return { people: people.filter((p) => !p.email || (!seen.has(p.email) && seen.add(p.email))), invalid };
 }
 
 /** CSV for keys handed out by hand (e.g. to device management). */
-export function keysCsv(rows: { email: string; name: string; expiresAt?: string; key?: string }[]) {
+export function keysCsv(rows: { email?: string; name: string; expiresAt?: string; key?: string }[]) {
   const cell = (v: string) => {
     const s = /^[=+\-@\t\r]/.test(v) ? `'${v}` : v;
     return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
-  return [["email", "name", "expires_at", "key"], ...rows.map((r) => [r.email, r.name, r.expiresAt ?? "", r.key ?? ""])]
+  return [["email", "name", "expires_at", "key"], ...rows.map((r) => [r.email ?? "", r.name, r.expiresAt ?? "", r.key ?? ""])]
     .map((r) => r.map(cell).join(","))
     .join("\n");
 }
