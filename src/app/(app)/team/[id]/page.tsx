@@ -51,6 +51,7 @@ import { CopyButton } from "@/components/app/copy-button";
 import { FormError, FormField } from "@/components/app/form-field";
 import { AddPeopleDialog, ReassignDialog } from "./add-people-dialog";
 import { LicensesPanel } from "./licenses-panel";
+import { RequestSeatsDialog } from "./request-seats-dialog";
 import { daysLeftText, keyState, keyStateBadge, maskKey } from "./license-utils";
 
 const roleTone: Record<Role, "violet" | "default" | "secondary"> = { owner: "violet", admin: "default", member: "secondary" };
@@ -73,6 +74,8 @@ export default function TeamPage({ params }: { params: Promise<{ id: string }> }
   const welcome = useSearchParams().get("welcome") === "1";
   const [inviteOpen, setInviteOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
+  // Extra seats to suggest when asking for more (0: no suggestion), or null when the dialog is closed.
+  const [seatsOpen, setSeatsOpen] = useState<number | null>(null);
 
   if (teamQ.isError)
     return (
@@ -128,7 +131,23 @@ export default function TeamPage({ params }: { params: Promise<{ id: string }> }
           <div className="bg-foreground/[0.07] mt-3 h-1.5 overflow-hidden rounded-full">
             <div className={cn("h-full rounded-full", pct > 90 ? "bg-warning" : "bg-primary")} style={{ width: `${pct}%` }} />
           </div>
-          <p className="text-muted-foreground mt-2 text-xs">{freeSeats} free · more seats on request</p>
+          <p className="text-muted-foreground mt-2 text-xs">
+            {freeSeats} free
+            {isAdmin &&
+              (team.seatRequest ? (
+                <>
+                  {" "}
+                  · asked for {team.seatRequest.seats} on {formatDate(team.seatRequest.at)}
+                </>
+              ) : (
+                <>
+                  {" · "}
+                  <button type="button" className="text-foreground underline underline-offset-2" onClick={() => setSeatsOpen(0)}>
+                    Ask for more
+                  </button>
+                </>
+              ))}
+          </p>
         </Stat>
         <Stat label="Members" value={String(membersQ.data?.length ?? "–")} />
         {isAdmin && (
@@ -190,7 +209,29 @@ export default function TeamPage({ params }: { params: Promise<{ id: string }> }
 
       <InviteDialog teamId={id} open={inviteOpen} onOpenChange={setInviteOpen} />
       {isAdmin && (
-        <AddPeopleDialog teamId={id} teamName={team.name} freeSeats={freeSeats} myRole={role} open={addOpen} onOpenChange={setAddOpen} />
+        <>
+          <AddPeopleDialog
+            teamId={id}
+            teamName={team.name}
+            freeSeats={freeSeats}
+            myRole={role}
+            open={addOpen}
+            onOpenChange={setAddOpen}
+            onRequestSeats={(extra) => {
+              setAddOpen(false);
+              setSeatsOpen(extra);
+            }}
+          />
+          {/* Mounted per opening, so it starts from the current limit and suggestion. */}
+          {seatsOpen !== null && (
+            <RequestSeatsDialog
+              team={team}
+              open
+              onOpenChange={(o) => !o && setSeatsOpen(null)}
+              suggested={seatsOpen ? team.seatLimit + seatsOpen : undefined}
+            />
+          )}
+        </>
       )}
     </div>
   );

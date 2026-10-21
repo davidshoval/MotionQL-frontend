@@ -33,6 +33,7 @@ interface StoredTeam {
   id: string;
   name: string;
   seatLimit: number;
+  seatRequest?: Team["seatRequest"];
   createdAt: string;
 }
 interface StoredMember {
@@ -155,6 +156,7 @@ function teamView(db: DB, t: StoredTeam): Team {
     seatsUsed: db.members.filter((m) => m.teamId === t.id && m.licenseId).length,
     allowedEditions: ["pro"],
     allowedFeatures: [],
+    seatRequest: t.seatRequest ?? null,
     createdAt: t.createdAt,
   };
 }
@@ -724,6 +726,16 @@ export const mockApi: Api = {
     return { licenses };
   },
   licensesCsvUrl: () => null,
+  async requestSeats(teamId, { seats, note }) {
+    await wait();
+    const db = load();
+    const { user, team } = access(db, teamId, "admin");
+    if (seats <= team.seatLimit) fail(400, "validation_failed", `The team already has ${team.seatLimit} seats.`, { seats: `Ask for more than ${team.seatLimit}.` });
+    team.seatRequest = { seats, note: note?.trim() || null, by: user.email, at: now() };
+    log(db, teamId, user, "team.seat.request", { type: "team", id: teamId }, { to: seats });
+    save(db);
+    return { team: teamView(db, team) };
+  },
   async renewExpiring(teamId, { withinDays }) {
     const db = load();
     access(db, teamId, "admin");
@@ -860,6 +872,27 @@ export const mockApi: Api = {
       sources,
     };
     return report;
+  },
+  // Staff console: in preview mode the signed-in user counts as staff when their account says so.
+  async adminTeams(q) {
+    await wait(150);
+    const db = load();
+    if (!sessionUser(db).isStaff) fail(403, "forbidden", "Staff only.");
+    const s = q?.trim().toLowerCase();
+    const teams = db.teams.filter((t) => !s || t.id === q || t.name.toLowerCase().includes(s)).map((t) => teamView(db, t));
+    return { teams: teams.sort((a, b) => Number(!!b.seatRequest) - Number(!!a.seatRequest)) };
+  },
+  async updateTeamLimits(teamId, { seatLimit }) {
+    await wait();
+    const db = load();
+    if (!sessionUser(db).isStaff) fail(403, "forbidden", "Staff only.");
+    const team = db.teams.find((t) => t.id === teamId);
+    if (!team) fail(404, "not_found", "Team not found.");
+    if (seatLimit < teamView(db, team).seatsUsed) fail(409, "seat_limit_below_used", "Free some seats before lowering the limit.");
+    team.seatLimit = seatLimit;
+    if (team.seatRequest && seatLimit >= team.seatRequest.seats) team.seatRequest = null;
+    save(db);
+    return { team: teamView(db, team) };
   },
 };
 

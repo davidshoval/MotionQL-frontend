@@ -82,6 +82,8 @@ export interface Api {
   /** URL of the CSV of current keys, or null when the export happens in the browser (mock). */
   licensesCsvUrl(teamId: string): string | null;
   renewExpiring(teamId: string, input: { withinDays: number; sendEmail: boolean }): Promise<{ renewed: number }>;
+  /** Asks staff to raise the seat limit to `seats`. */
+  requestSeats(teamId: string, input: { seats: number; note?: string }): Promise<{ team: Team }>;
   invites(teamId: string): Promise<{ invites: Invite[] }>;
   invite(
     teamId: string,
@@ -97,6 +99,10 @@ export interface Api {
 
   /** Staff only: sign-ups per first-touch utm_source. `from` inclusive, `to` exclusive (YYYY-MM-DD). */
   acquisition(range: { from?: string; to?: string }): Promise<AcquisitionReport>;
+  /** Staff only: teams, those asking for more seats first. */
+  adminTeams(q?: string): Promise<{ teams: Team[] }>;
+  /** Staff only. */
+  updateTeamLimits(teamId: string, patch: { seatLimit: number }): Promise<{ team: Team }>;
 }
 
 const enc = encodeURIComponent;
@@ -141,6 +147,7 @@ const httpApi: Api = {
   teamLicenses: (id) => http("GET", `/teams/${enc(id)}/licenses`),
   licensesCsvUrl: (id) => `${API_URL}/teams/${enc(id)}/licenses.csv`,
   renewExpiring: (id, input) => http("POST", `/teams/${enc(id)}/licenses/renew-expiring`, input),
+  requestSeats: (id, input) => http("POST", `/teams/${enc(id)}/seat-request`, input),
   invites: (id) => http("GET", `/teams/${enc(id)}/invites`),
   invite: (id, input) => http("POST", `/teams/${enc(id)}/invites`, input),
   cancelInvite: (id, inviteId) => http("DELETE", `/teams/${enc(id)}/invites/${enc(inviteId)}`),
@@ -154,6 +161,8 @@ const httpApi: Api = {
     const q = new URLSearchParams({ ...(from ? { from } : {}), ...(to ? { to } : {}) }).toString();
     return http("GET", `/admin/acquisition${q ? `?${q}` : ""}`);
   },
+  adminTeams: (q) => http("GET", `/admin/teams${q ? `?q=${enc(q)}` : ""}`),
+  updateTeamLimits: (id, patch) => http("PATCH", `/admin/teams/${enc(id)}`, patch),
 };
 
 export const api: Api = USE_MOCK ? mockApi : httpApi;

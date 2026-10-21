@@ -76,6 +76,8 @@ export interface Team {
   seatsUsed: number;
   allowedEditions: Edition[];
   allowedFeatures: string[];
+  /** An admin asked staff for more seats and the limit has not reached that yet. */
+  seatRequest?: { seats: number; note: string | null; by: string; at: string } | null;
   createdAt: string;
 }
 

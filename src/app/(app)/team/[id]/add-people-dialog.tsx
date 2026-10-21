@@ -23,6 +23,7 @@ export function AddPeopleDialog({
   myRole,
   open,
   onOpenChange,
+  onRequestSeats,
 }: {
   teamId: string;
   teamName: string;
@@ -30,6 +31,8 @@ export function AddPeopleDialog({
   myRole: Role;
   open: boolean;
   onOpenChange: (o: boolean) => void;
+  /** Opens "Ask for more seats", suggesting how many more this addition needs. */
+  onRequestSeats: (extra: number) => void;
 }) {
   const qc = useQueryClient();
   const [text, setText] = useState("");
@@ -147,6 +150,18 @@ export function AddPeopleDialog({
           }}
         >
           <FormError message={error} />
+          {overLimit && (
+            <p className="border-warning/40 bg-warning/10 rounded-lg border px-3.5 py-2.5 text-sm">
+              That&apos;s {people.length - Math.max(0, freeSeats)} more than your free seats.{" "}
+              <button
+                type="button"
+                className="font-medium underline underline-offset-2"
+                onClick={() => onRequestSeats(people.length - Math.max(0, freeSeats))}
+              >
+                Ask for more seats
+              </button>
+            </p>
+          )}
           <FormField
             id="add-people"
             label="People"
