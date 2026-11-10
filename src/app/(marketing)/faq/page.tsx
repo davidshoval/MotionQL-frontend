@@ -53,7 +53,7 @@ const groups: { title: string; items: Item[] }[] = [
     items: [
       {
         q: "Which operating systems are supported?",
-        a: "macOS 12 or later on Apple silicon and Intel, Windows 10 or 11 (64-bit), and Linux on 64-bit x86 desktops (AppImage and deb). MotionQL connects to 60+ databases and hosted services, from PostgreSQL, MySQL, SQL Server and Oracle to MongoDB, Redis, ClickHouse, Snowflake, Elasticsearch, DynamoDB and Neo4j. The Databases page lists every one and how deep its support goes.",
+        a: "macOS 12 or later on Apple silicon and Intel, Windows 10 or 11 (64-bit), and Linux on 64-bit x86 desktops (AppImage and deb). MotionQL connects to 60+ databases and hosted services, from PostgreSQL, MySQL, SQL Server and Oracle to MongoDB, Redis, ClickHouse, Snowflake, Elasticsearch, DynamoDB, Firestore and Neo4j. The Databases page lists every one and how deep its support goes.",
         more: { href: "/docs/install", label: "System requirements" },
       },
       {
