@@ -61,8 +61,8 @@ export const videos: VideoTour[] = [
   {
     slug: "05-editing",
     title: "Edit documents your way",
-    summary: "Edit inline, in the full editor or in bulk, find any value, and roll back with document history.",
-    seconds: 110,
+    summary: "Double-click to edit inline, use the full editor or bulk edit, find any value, and roll back with document history.",
+    seconds: 105,
     features: [],
   },
   {
