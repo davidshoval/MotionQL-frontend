@@ -4,7 +4,7 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://motionql.com",
   tagline: "One desktop IDE for every database you run",
   description:
-    "MotionQL is a fast, secure desktop IDE for 60+ databases: PostgreSQL, MySQL, SQL Server, Oracle, SQLite, MongoDB, Redis, Elasticsearch, ClickHouse, Snowflake, BigQuery, DynamoDB, Cassandra, Neo4j and more. Visual queries, explain plans, logs and analytics, migration and a private AI assistant. Free Pro license for a year.",
+    "MotionQL is a fast, secure desktop IDE for 60+ databases: PostgreSQL, MySQL, SQL Server, Oracle, SQLite, MongoDB, Redis, Elasticsearch, ClickHouse, Snowflake, BigQuery, DynamoDB, Firestore, Cassandra, Neo4j and more. Visual queries, explain plans, logs and analytics, migration and a private AI assistant. Free Pro license for a year.",
   releasesUrl: "https://github.com/davidshoval/motionql-releases/releases/latest",
   supportEmail: "support@motionql.com",
   securityEmail: "security@motionql.com",

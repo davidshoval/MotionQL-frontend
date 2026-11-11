@@ -47,7 +47,7 @@ const groups: {
     icon: PlugZap,
     title: "Connections for 60+ databases",
     items: [
-      "PostgreSQL, MySQL, MariaDB, SQL Server, Oracle, SQLite, DuckDB, MongoDB, Redis and Valkey, Elasticsearch and OpenSearch, ClickHouse, Snowflake, BigQuery, Trino, Databricks, Spanner, DynamoDB, Cassandra, InfluxDB, Neo4j, and any JDBC driver",
+      "PostgreSQL, MySQL, MariaDB, SQL Server, Oracle, SQLite, DuckDB, MongoDB, Redis and Valkey, Elasticsearch and OpenSearch, ClickHouse, Snowflake, BigQuery, Trino, Databricks, Spanner, DynamoDB, Cloud Firestore, Cassandra, InfluxDB, Neo4j, and any JDBC driver",
       "Hosted services with their own dialogs: Supabase, Neon, RDS and Aurora, Azure SQL, Atlas, Elastic Cloud, Upstash, Astra and more",
       "TLS with CA and client certificates; SSH tunnels with password or key, host-key pinning and jump hosts; SOCKS5 and HTTP proxies",
       "Cloud sign-ins such as AWS IAM, Entra ID and OIDC where the database supports them",
@@ -97,7 +97,7 @@ const groups: {
     items: [
       "Redis and Valkey: key browser by namespace, every data type, console, slow log, pub/sub and RDB analysis",
       "Elasticsearch and OpenSearch: Discover with a time range, documents, console, mappings and index administration",
-      "DynamoDB scan, query and PartiQL; Cassandra rows and CQL; InfluxDB Flux and SQL with charts",
+      "DynamoDB scan, query and PartiQL; Cloud Firestore collections, typed edits, indexes and Security Rules; Cassandra rows and CQL; InfluxDB Flux and SQL with charts",
       "Neo4j and Memgraph: Cypher console with a graph view, label browser and schema",
     ],
   },
@@ -225,7 +225,8 @@ const groups: {
       "Gemini, Anthropic Claude, or any OpenAI-compatible endpoint including local models, with your own key",
       "Natural language to SQL, MongoDB queries and pipelines, Cypher, Redis commands and search queries; explain plans; fix errors; index advice",
       "Ask Your Database for natural-language lookups",
-      "An Ask AI button on nearly every screen, and backup Gemini models when Gemini is busy",
+      "Ask AI opens as a chat beside every table, collection, editor and panel; run its draft right there or put it in the editor",
+      "Fix with AI sends a failed query and its error into the same chat; backup Gemini models when Gemini is busy",
       "Off for every connection until you allow it. Sends schema, never row or document values or credentials",
     ],
   },

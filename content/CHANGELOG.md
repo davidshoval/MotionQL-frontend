@@ -2,7 +2,66 @@
 
 All notable changes to MotionQL are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and MotionQL uses [Semantic Versioning](https://semver.org/).
 
-## [1.3.0] — [RELEASE DATE]
+## [1.7.1] — 2026-11-10
+
+### Changed
+
+- **Double-click a value to edit it right there.** In a SQL table (every SQL database type), a double-click on a cell now opens a text box in the cell itself instead of a pop-up: Enter or clicking elsewhere keeps the value, Escape puts the old one back, and Apply saves the changes as before. Shift+Enter (or right-click → Edit value…) still opens the full editor for NULL, DEFAULT and SQL expressions; multi-line text and PostgreSQL arrays, ranges, enums and JSON open it on a double-click. In MongoDB's table and tree views, clicking elsewhere now saves a changed value too (it used to drop it), and in the tree a double-click anywhere in the value cell edits it, even an empty string. Read-only connections, views, history ("as of") rows and key columns stay read-only: a double-click opens no editor there.
+
+## [1.7.0] — 2026-11-10
+
+### Changed
+
+- **Ask AI opens in the same place on every screen, for every database type.** Whatever you ask AI about (a table, a collection, the SQL editor, an aggregation, a plan, an index, a server panel) now opens in one Ask AI panel on the right of the tab, never on top of what you are looking at. Hiding the panel closes what is in it; AI help inside dialogs stays in the dialog.
+- **MongoDB collections get the Ask AI chat.** The "AI Assistant" sub-tab is replaced by an Ask AI button that opens a chat beside the documents. It keeps the conversation until you hide it or close the tab. The queries it suggests can be run right away ("Run here") or put in the query bar. When a query fails or finds nothing, "Fix with AI" sends it and the error into the same chat. A failed query now shows in the view instead of a pop-up.
+- Elasticsearch / OpenSearch documents lose their "AI Assistant" sub-tab the same way: Ask AI opens the panel on the right.
+- **The SQL editor's Ask AI is the same chat as a table's.** The Write SQL / Fix error / Explain form is replaced by the chat, which keeps the conversation while the tab is open. Describe the query you want, or use "Explain my query" and "Make it faster" on the statement under the cursor. A draft can run right away ("Run here") or go into the editor ("Put in editor"); it replaces the selection, else it is added after your last statement, so nothing you typed is lost. "Ask AI to fix" and "Send the error of the last run" send the failed statement and its error into the same conversation.
+- **One Ask AI per screen.** The Ask AI button in the top toolbar (and "Ask AI about this screen" in the command palette) now opens the Ask AI panel of the tab you are on (a table, collection, SQL editor, console, index or panel) instead of opening a separate Assistant tab. Tabs without their own Ask AI still open the Assistant tab.
+
+## [1.6.1] — 2026-11-09
+
+### Changed
+
+- **Updates are easier to see and install.** Settings → Updates now has Download and Restart and install buttons, a progress bar and the release notes, instead of only saying a version is available. When MotionQL finds a new version it opens the details once by itself, and a version found from Settings shows in the toolbar straight away.
+
+### Added
+
+- **"Updated to X" notice.** On the first launch after an update, MotionQL says which version you now have and what's new in it.
+
+## [1.6.0] — 2026-11-09
+
+### Changed
+
+- **Ask AI on a SQL table opens beside the rows.** It is now a chat in a right-side panel, like the Query Builder, instead of replacing the table. The conversation stays with the tab until you hide the panel or close the tab, so you can follow up. A draft can run right there ("Run here"); when a run fails, "Fix with AI" (or "Send the error of the last run" in the chat) sends the query and its error into the same conversation.
+- **The Connections sidebar lists only the database types you have connections for.** Empty sections such as Redis & Valkey, Elasticsearch or DynamoDB no longer take room; "+" at the top of the sidebar still adds any type. Settings → General → "Show database types without connections in the sidebar" brings them back.
+
+## [1.5.0] — 2026-11-08
+
+### Added
+
+- **Cloud Firestore and the Firestore emulator.** Connect with gcloud credentials, Sign in with Google, a service account key or an access token, to any database of a project. Browse collections, subcollections and collection groups with a query builder, count, paging and a types summary; edit documents as typed JSON (timestamps, references, geopoints, bytes, vectors, server timestamps and increments) with set, merge and update, copy, move and delete with subcollections; a query console in the Firebase JavaScript SDK syntax with Explain; composite indexes, single-field exemptions and TTL policies; database settings, operations and Security Rules; JSON, JSON Lines and CSV import and export. Read-only and production modes work as for the other databases.
+- **AI on every Firestore screen:** write, explain and fix queries, explain empty results, design composite indexes, advise on the data model and write or review Security Rules. Documents are never sent.
+- **One-click license activation.** A `motionql://activate` link (the website's "Open in MotionQL" button) opens the app at Settings → License and asks you to confirm before it activates the key, whether the app was closed or already running.
+
+### Security
+
+- Patched dependency advisories: dompurify (in the Monaco editor), follow-redirects, ip-address, @azure/msal-node and, in the team server, fast-uri. `npm audit` reports no production vulnerabilities.
+- Electron 44.9.3 (eMudhra certificate mitigation).
+
+## [1.4.0] — 2026-11-05
+
+### Added
+
+- **Ask AI on Logs & Analytics and every remaining screen** that did not have it yet.
+- **AI tools (MCP) for saved connections:** create, change, test, open and delete saved connections.
+- **Last year and custom time ranges** in monitoring and dashboards.
+
+### Changed
+
+- **Faster button tooltips:** a themed tooltip appears after 300 ms (immediately when moving along a toolbar), including icon-only buttons.
+- **The macOS app is signed with a Developer ID and notarized by Apple**, so it opens without a security warning. In-app updates are turned on for signed builds.
+
+## [1.3.0] — 2026-10-21
 
 MotionQL is now an IDE for every database you run, not only MongoDB.
 
