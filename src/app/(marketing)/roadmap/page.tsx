@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 
 export const metadata: Metadata = pageMetadata({
   title: "Roadmap",
-  description: "What we're building next for MotionQL, and what shipped recently: AI on every screen, SQL databases, split panes, faster results and a Linux release.",
+  description: "What we're building next for MotionQL, and what shipped recently: Ask AI beside every screen, double-click editing, Cloud Firestore, a signed Mac app with in-app updates and 66 databases.",
   path: "/roadmap",
 });
 
@@ -22,9 +22,34 @@ interface Item {
 // No dates on purpose: we publish what we're working on, not promises about when it ships.
 const items: Item[] = [
   {
-    title: "Signed installers and in-app updates",
+    title: "Signed Windows installers",
     status: "planned",
-    body: "Code-signed macOS and Windows builds, so no security warning on first launch, and updates installed from inside the app.",
+    body: "Code-signed Windows builds, so SmartScreen no longer warns on first launch and Windows gets in-app updates too.",
+  },
+  {
+    title: "Ask AI beside every screen (1.7)",
+    status: "shipped",
+    body: "One Ask AI chat panel on the right of every tab, for every database type. Drafts run right away with Run here, and Fix with AI sends a failed query and its error into the same conversation.",
+  },
+  {
+    title: "Double-click to edit in place (1.7.1)",
+    status: "shipped",
+    body: "Double-click a cell in any SQL table, or a value in MongoDB's table and tree views, and edit it right there.",
+  },
+  {
+    title: "Cloud Firestore (1.5)",
+    status: "shipped",
+    body: "Firestore and the Firestore emulator: collections and subcollections, typed document editing, a query console, indexes, TTL and Security Rules, with AI on every screen.",
+  },
+  {
+    title: "Signed Mac app and in-app updates (1.4 and 1.6)",
+    status: "shipped",
+    body: "The macOS app is signed and notarized by Apple, and MotionQL updates itself on macOS and with the Linux AppImage, with the release notes shown first.",
+  },
+  {
+    title: "66 databases and cloud services",
+    status: "shipped",
+    body: "Redis and Valkey, Elasticsearch and OpenSearch, DynamoDB, Cassandra and ScyllaDB, InfluxDB, Neo4j and Memgraph, ClickHouse, Snowflake, BigQuery, Trino, Databricks, Spanner, Db2 and more, next to MongoDB and SQL.",
   },
   {
     title: "AI on every screen (1.2)",

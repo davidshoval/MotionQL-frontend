@@ -43,18 +43,17 @@ MotionQL keeps passwords in your desktop's Secret Service (GNOME Keyring or KWal
 
 ## About the security warnings
 
-The current MotionQL installers are **not yet code-signed** with an Apple Developer ID or a Windows code-signing certificate. Your operating system will warn you the first time you open the app. This is expected for unsigned apps; it does not mean the file is damaged. If you want to be sure the file is the one we published, check its SHA-256 checksum as shown above.
+- **macOS:** MotionQL is signed with an Apple Developer ID and notarized by Apple, so it opens without a security warning.
+- **Windows:** the installers are **not yet code-signed**, so Microsoft Defender SmartScreen warns the first time you open them. This is expected; it does not mean the file is damaged. To be sure the file is the one we published, check its SHA-256 checksum as shown above.
 
-Because in-app updates require signed builds, MotionQL does not update itself yet. Download new versions from the [download page](/download); the [changelog](/changelog) lists what changed.
+## Updates
+
+On **macOS** and with the **Linux AppImage**, MotionQL updates itself. When a new version is out it tells you once and shows the release notes; **Settings → Updates** has **Download** and **Restart and install** buttons and a progress bar. After an update, MotionQL says which version you now have and what's new in it. On **Windows** (until the builds are signed) and for the **.deb** package, download new versions from the [download page](/download); the [changelog](/changelog) lists what changed. IT can turn updates off with the machine policy file.
 
 ## Install on macOS
 
 1. Open the `.dmg` and drag **MotionQL** to **Applications**.
-2. Open MotionQL from Applications. macOS says it **cannot verify the developer** and offers only **Done** or **Move to Bin**. Choose **Done**.
-3. Open **System Settings → Privacy & Security**. Scroll to **Security**, where you will see *"MotionQL" was blocked to protect your Mac*. Click **Open Anyway** and confirm with your password or Touch ID.
-4. MotionQL opens. You only need to do this once per installed version.
-
-On older macOS versions you can instead **Control-click** (right-click) MotionQL in Applications, choose **Open**, then **Open** again in the dialog.
+2. Open MotionQL from Applications. The first time, macOS asks whether you want to open an app downloaded from the internet; click **Open**.
 
 ## Install on Windows
 

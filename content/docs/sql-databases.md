@@ -1,4 +1,4 @@
-MotionQL also works with PostgreSQL, MySQL, MariaDB, SQL Server and Oracle directly. PostgreSQL and MySQL get the most testing.
+MotionQL works with SQL databases directly: PostgreSQL, MySQL, MariaDB, SQL Server and Oracle (with the deepest support), SQLite and DuckDB files, and dozens of compatible and cloud services. This page covers what every SQL database shares. For engine-specific tools see [Data warehouses](/docs/data-warehouses) and [More SQL engines](/docs/more-sql-engines); the full list is in [Supported databases](/docs/supported-databases).
 
 ## Connecting
 

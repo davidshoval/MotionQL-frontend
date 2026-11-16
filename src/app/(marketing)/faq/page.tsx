@@ -58,12 +58,12 @@ const groups: { title: string; items: Item[] }[] = [
       },
       {
         q: "Why does macOS or Windows warn me about the installer?",
-        a: "The current installers aren't code-signed yet, so macOS Gatekeeper and Windows SmartScreen show a warning the first time you open them. On macOS, open System Settings → Privacy & Security and click Open Anyway. On Windows, click More info → Run anyway. Every release lists SHA-256 checksums so you can confirm the file is the one we published. Signed builds and in-app updates will follow.",
+        a: "The Mac app is signed with an Apple Developer ID and notarized by Apple, so it opens without a warning. The Windows installers aren't code-signed yet, so SmartScreen warns the first time you open them: click More info → Run anyway. Every release lists SHA-256 checksums so you can confirm the file is the one we published.",
         more: { href: "/docs/install#about-the-security-warnings", label: "Install guide" },
       },
       {
         q: "How do I update MotionQL?",
-        a: "Download the new version from the download page and install it over the old one. Your connections and settings are kept. In-app updates need signed builds, so they're off for now.",
+        a: "On macOS and with the Linux AppImage, MotionQL updates itself: when a new version is out it shows the release notes, and Settings → Updates downloads it and restarts to install it. On Windows, and for the .deb package, download the new version from the download page and install it over the old one. Your connections and settings are kept either way.",
       },
     ],
   },

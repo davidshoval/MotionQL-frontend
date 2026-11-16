@@ -4,7 +4,7 @@ If you're still stuck after this page, [contact support](/support). A **diagnost
 
 | Symptom | Fix |
 |---|---|
-| macOS: "Apple could not verify 'MotionQL' is free of malware" | Expected for the current unsigned builds. Open **System Settings → Privacy & Security** and click **Open Anyway**. See [Download and install](/docs/install#install-on-macos) |
+| macOS: "Apple could not verify 'MotionQL' is free of malware" | Builds from 1.4.0 on are signed and notarized and should not show this. You probably have an older download: get the latest one from the [download page](/download). |
 | macOS: "MotionQL is damaged and can't be opened" | The download was corrupted or changed. Download it again from the [download page](/download) and check `SHA256SUMS.txt` |
 | Windows: "Windows protected your PC" | Click **More info → Run anyway**. See [Download and install](/docs/install#install-on-windows) |
 | The license agreement appears every time | MotionQL couldn't save your acceptance. Check that its data folder is writable |

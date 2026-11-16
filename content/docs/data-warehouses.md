@@ -1,0 +1,106 @@
+## ClickHouse
+
+- **Connecting:** pick **ClickHouse** and enter the host, port (8123 over HTTP; 8443 when TLS is on), user and password. The default database is optional: the tree lists every database the account can see.
+- **Sessions:** each SQL tab has its own ClickHouse session, so `USE` and `SET` stay with that tab. **Cancel** stops the running query with `KILL QUERY`.
+- **Exact values:** 64-bit and larger integers and decimals are shown as text. Arrays, maps, tuples, JSON, Dynamic and Variant are shown as compact JSON, and dates as the server prints them.
+- **Tree and table info:** databases, tables, views, materialized views and dictionaries, with row counts. Table info shows the primary key, sorting key, partition key and data-skipping indexes.
+- **Engine-aware tree:** each table shows its engine and size (`ReplacingMergeTree · 1.2 GiB`). Projections and partitions (with their parts, rows and size) show under their table. Up to 200 partitions are listed per table. Opening a partition lists its parts. Opening a projection shows its `ADD PROJECTION` statement.
+- **Table info** also lists the TTL, storage policy, compressed and uncompressed size, compression ratio, parts, partitions and replica state. A materialized view shows the table it writes to and its query. A dictionary shows its layout, source, lifetime and load status.
+- **Object view and DDL:** `SHOW CREATE` output, formatted. Dependencies link a materialized view to its source and target tables. Dictionary passwords stay hidden.
+- **Explain in the editor:** **Explain** shows the plan of one `SELECT` in the plan viewer, with the parts and granules each index keeps and the `EXPLAIN ESTIMATE` row counts. ClickHouse has no `EXPLAIN ANALYZE`, so the Analyze button is hidden.
+- **Completion** offers ClickHouse's own functions (`uniqExact`, `toStartOfInterval`, `dictGet`, …) and keywords (`PREWHERE`, `LIMIT BY`, `FINAL`, …). Number columns are right-aligned in results. Arrays, maps and tuples open in the JSON viewer.
+- **No row edits in the table tab:** ClickHouse changes rows through `ALTER TABLE … UPDATE/DELETE` mutations, so run those in the SQL editor. Filtering, sorting and paging work.
+- **Read-only:** besides MotionQL's own check, every statement on a read-only connection runs with the server setting `readonly=2`, so the server refuses writes too.
+- **Operations** (icon on a ClickHouse connection in the sidebar):
+  - **Queries:** running queries (with **Kill query**), the query log grouped by query shape (count, time, rows and bytes read, peak memory, failures) and recent failures.
+  - **Merges and mutations:** running merges with progress, and mutations with their failure reason and **Kill mutation**.
+  - **Storage:** partitions and parts (active, all or detached; compression ratio) with **Detach**, **Attach** and **Drop partition** and **OPTIMIZE … FINAL**; per-column compression; disks and storage policies.
+  - **Cluster:** replicas (delay, queue size, read-only), the replication queue, Keeper and clusters.
+  - **Explain:** the plan of one `SELECT`, with how many parts and granules each index keeps, plus the processor pipeline. Reads that no index narrows are flagged.
+  - **TTL:** tables with a table or column TTL, their next and last expiry, and **Materialize TTL**, which applies a changed TTL to existing parts.
+  - Every action asks first when it removes or rewrites data, is audited, and is disabled on read-only connections. A view that can't run here (query log off, no Keeper, a missing privilege) stays listed, greyed out, with what to enable.
+
+## Snowflake
+
+- **Connecting:** pick **Snowflake** and enter your account identifier (pasting your Snowflake URL also works), user and database, and optionally a warehouse, role and schema. Host, port, TLS and SSH don't apply.
+- **Sign-in methods:** key pair (a PKCS#8 `.p8` file, optional passphrase), programmatic access token, OAuth token, single sign-on in your browser, or password with Duo MFA. Password-only sign-in still works but shows a warning: Snowflake retires it between August and October 2026. Tokens from SSO and MFA are kept in memory only, until MotionQL quits.
+- **Context bar:** each SQL tab has pickers for role, warehouse, database and schema. Each tab keeps its own session, and changes run as `USE` statements.
+- **Browsing** uses `SHOW` commands, so it works without a running warehouse; queries need one. Table info shows the clustering key where other engines show indexes.
+- **Engine-aware tree:** the tree shows tables (transient and clustered ones are marked), dynamic and external tables, views (secure ones marked) and materialized views. It also shows stages, file formats, pipes, streams, tasks (with state and schedule), sequences, and functions and procedures by signature (`NET_PRICE(NUMBER, FLOAT)`).
+- **Object view:** the DDL comes from `GET_DDL`. A stage's DDL is rebuilt from `SHOW STAGES`, without credentials. A stream links to its source table and a task to the tasks it runs after.
+- **Time Travel helpers:** table info shows ready-to-copy statements: query the table an hour ago (`AT(OFFSET => -3600)`), restore it as a copy (`CLONE … AT(TIMESTAMP => …)`), and `UNDROP TABLE`. Their window is the table's retention.
+- **Explain in the editor:**
+  - **Explain** runs `EXPLAIN USING JSON` and shows the operator tree in the plan viewer, with partitions scanned and a warning when pruning skips little.
+  - **Explain Analyze** runs the `SELECT`, then shows its real profile from `GET_QUERY_OPERATOR_STATS`. It needs a warehouse and uses credits.
+- **Completion** offers Snowflake's own functions (`IFF`, `PARSE_JSON`, `FLATTEN`, `GET_DDL`, …) and keywords (`QUALIFY`, `UNDROP`, `AT`, `BEFORE`, …).
+- **Results** keep NUMBER, date and VARIANT values exactly as Snowflake returns them. Large results download only the rows kept, while the total row count is still shown. Queries are tagged `MotionQL` (`QUERY_TAG`) and can be canceled.
+- **Read-only** Snowflake connections run only `SELECT`, `SHOW`, `DESCRIBE`, `EXPLAIN`, `LIST` and `USE`. Snowflake has no read-only transaction, so MotionQL's statement check is the guard.
+- **Operations** (icon on a Snowflake connection in the sidebar):
+  - **Cost:** recent queries with an immediate credit **estimate** (warehouse size × execution time), and attributed credits from `ACCOUNT_USAGE`, which are actual but lag up to about 8 hours. **Credit trends** shows daily credits per warehouse.
+  - **Warehouses:** state, size, credits per hour, running and queued queries, auto-suspend. **Suspend**, **Resume**, **Set size** (asks first, with the credit cost) and **Set auto-suspend**.
+  - **Query profile:** enter a query id to see its operator tree in the plan viewer, with time share, rows, pruning and spill warnings.
+  - **Time travel:** dropped tables with **Undrop**, and a preview of up to 100 rows of a table `AT` or `BEFORE` a timestamp, an offset or a statement.
+  - **Stages:** stages and their files (`LIST` with a pattern), schema inference from staged files, and **Copy into table** with a dry-run validation mode.
+  - **Objects and security:** streams (with the stale flag), tasks with run history and **Resume**, **Suspend** and **Run now**, dynamic tables with **Refresh**, and a grants explorer.
+  - **Storage:**
+    - Storage per database, with Fail-safe and stages, from `ACCOUNT_USAGE`.
+    - Storage per table (active, Time Travel, Fail-safe and clone bytes), which flags tables that keep more history than data.
+  - **File formats** and **Roles** (with the roles you hold).
+
+## Google BigQuery
+
+- **Connecting:** pick **Google BigQuery** and enter the **project ID** (the project that runs, and is billed for, the queries). Optional: a default dataset for unqualified table names, a location (US, EU, europe-west1 …), other projects whose datasets to list (for example `bigquery-public-data`), the cost guard, and an emulator endpoint. Host, port, TLS and SSH don't apply.
+- **Sign-in methods**, in the order the form offers them:
+  - **Sign in with Google (browser):** enter the id and secret of your own OAuth client (Google Cloud console > APIs & Services > Credentials > Create OAuth client ID, type **Desktop app**), then click **Sign in with Google**. Google's consent page opens in your browser and comes back to MotionQL on a `127.0.0.1` address (the OAuth installed-app flow with PKCE). The form then shows **Signed in as** your account. The refresh token is stored encrypted with the connection, like a password, and is only reused for the same OAuth client; access tokens are renewed automatically. **Cancel** stops a sign-in still waiting for the browser. Revoke access at myaccount.google.com/permissions.
+  - **Use gcloud Application Default Credentials:** the form shows which credentials will be used: `GOOGLE_APPLICATION_CREDENTIALS`, or the file `gcloud auth application-default login` writes (`~/.config/gcloud/application_default_credentials.json`, `%APPDATA%\gcloud` on Windows), with its kind and account. With neither, it says what to run; on Google Cloud the metadata server is used.
+  - **Service account key (JSON):** a `.json` key file read when the connection opens, or the key pasted in (stored encrypted).
+  - **Paste an OAuth access token** (for example `gcloud auth print-access-token`), valid for about an hour.
+  - With an **emulator endpoint** (goccy/bigquery-emulator) no sign-in is sent.
+- **Tree:** projects and datasets (the default dataset opens by itself; other projects show as `project.dataset`), then tables, views, materialized views, external tables, snapshots, routines (functions, table functions, procedures) and ML models. Each table shows its partitioning, clustering, labels and expiration; nested `STRUCT` and `ARRAY<STRUCT>` columns open as a tree with their paths (`address.city`).
+- **Table tab:** the first pages are read with `tabledata.list`, which is free (a `SELECT * … LIMIT` would scan, and bill, the whole table). A filter or sort switches to a query. Nested values show as JSON cells. The query panel and generated statements use backticks and `LIMIT`.
+- **Dry run while you type:** under the toolbar each BigQuery tab shows *This query will process X GB when run*, from a free dry run of the editor text. It also names partitioned tables you read without a filter on their partition column, with **Insert filter** to add an example `WHERE` condition.
+- **Reduce my cost** (AI, at the end of the estimate bar, and **Reduce my cost with AI** on the cost guard's question): sends the dry run's bytes, the cost guard, the partitioning, clustering and column names and types of the tables the query reads, and the query's shape (`SELECT *`, filters, joins, wildcard tables), with the query's literals masked unless the connection allows them and never rows. The answer suggests partition filters, column pruning, filters on clustering columns and cheaper rewrites; a cheaper query opens in the editor, where the estimate bar dry-runs it again. A suggestion that only adds `LIMIT` (which does not reduce the bytes billed) or still skips a required partition filter is flagged.
+- **Cost guard:** set *maximum GB per query* on the connection. Every run is dry-run first; a statement over the guard asks before it runs (**Run over the cost guard?**), and the limit is also sent as `maximumBytesBilled`, so BigQuery itself refuses a bigger bill unless you confirmed.
+- **Results** keep `INT64`, `NUMERIC` and `BIGNUMERIC` exact, and the result notes give the bytes processed and billed, slot-ms, a cache hit and the job id.
+- **Explain:** **Explain** shows the dry run (bytes, statement type, tables read) in the plan viewer, at no cost. **Explain Analyze** runs the `SELECT` (billed) and shows the job's stages with slot time, rows and spill warnings.
+- **Writes and DDL** go through the usual confirmation, production and audit guards. `DELETE … WHERE TRUE` counts as destructive. On **read-only** connections every statement is dry-run first and refused unless BigQuery reports it as a `SELECT`.
+- **Table options** (right-click a table): details (type, size, partitioning, clustering, labels, created and modified), **description**, **labels** and **expiration**, **copy** to another dataset or table, **export to Cloud Storage** (CSV, JSON, Avro or Parquet, optional gzip) and **load a local CSV, JSON or Parquet file** (append, or replace the rows after typing the table's name). Each asks first, is refused on read-only connections and is audited. Drop, truncate and empty use the usual table actions.
+- **Export results to Cloud Storage:** in the SQL editor's results, **Export ▾ > Cloud Storage (EXPORT DATA)…** builds an `EXPORT DATA` statement around the result's query: a `gs://` URI with one `*` wildcard (BigQuery writes numbered files), CSV, newline-delimited JSON, Parquet or Avro, compression, a CSV header and field delimiter, and **overwrite** files at that path. The statement is shown as you type. **Export** asks first and then runs it like the editor does: refused on read-only connections, confirmed in production and over the cost guard, and audited. **Open in editor** and **Copy SQL** let you review or change it.
+- **Insights** (icon on the connection): **Job history** with bytes processed and billed, slot-ms, cache hits and duration (yours, or every user's with `bigquery.jobs.listAll`), and **Cancel job** on a running one; **Job plan**, a job's query stages in the plan viewer; and **Datasets and storage** per dataset and table.
+- **Ask AI** sees the dry-run estimate and the partition filter hints of the editor text, and suggests the filter. The chat and the MCP server have a read-only **`estimate_query_bytes`** tool (a dry run; nothing runs or is billed), and `explain_query` shows the dry-run plan.
+- **Emulator limits:** the emulator has no `INFORMATION_SCHEMA`, query plans, slot-ms, cache hits or DML row counts, and ignores table description, label and expiration changes; copy and export jobs need real BigQuery.
+
+## Trino, PrestoDB and Starburst
+
+- **Connecting:** pick **Trino** and enter the coordinator's host and port (8080 by default; 8443 or 443 with HTTPS). Optional: the **catalog** (for example `hive` or `iceberg`) and **schema** used for unqualified names, **session properties** (`query_max_run_time=30m, iceberg.compression_codec=ZSTD`), **client tags** for resource groups, and a **time zone**. PrestoDB and Starburst are recognised on connect, or can be set as the server type.
+- **Sign-in methods:** **User only** (the user names the query; empty sends `motionql`; HTTP is fine), **User and password** (HTTP Basic), or a **JWT bearer token** (Starburst Galaxy and clusters with JWT authentication). Trino accepts a password or token only over HTTPS: the form turns TLS on and warns when it is off. A CA certificate can be given for a private CA.
+- **Tree:** catalogs, then their schemas (the connection's catalog and schema open by themselves; `information_schema` is left out), then tables, views and materialized views with their comments, then columns. **Functions** (with every overload's signature) and **Session properties** (the value, default and whether it was changed, with `SET SESSION` / `RESET SESSION` to copy) are listed under the connection.
+- **Editor:** `USE catalog.schema` and `SET SESSION` stay in the tab's session. While a statement runs, the status line shows the query's state, a progress bar, splits done, rows and bytes read and the elapsed time; **Cancel** stops it on the server. Results keep `bigint` and `decimal` exact. Generated statements quote names only when needed and use typed literals (`TIMESTAMP '…'`, `DATE '…'`).
+- **Table tab:** Trino has no primary keys, so pages are read with `OFFSET … LIMIT` and rows are not edited in the grid; filters cast their values to the column's type.
+- **Explain:** **Explain** runs `EXPLAIN (TYPE DISTRIBUTED, FORMAT JSON)` and shows all fragments (stages) as one tree with estimates, joins and exchanges; servers without the JSON format get the text plan. **Explain Analyze** runs the statement (only `SELECT`, `WITH`, `TABLE` and `VALUES`) and shows CPU per operator, rows, planning and execution time, row misestimates and spill.
+- **Read-only connections** check every statement before it runs and run it inside `START TRANSACTION READ ONLY`, so the server refuses a write as well.
+- **Insights** (icon on the connection): **Running queries** from `system.runtime.queries` with splits, rows and bytes read, CPU and elapsed time (finished and failed ones on request), and **Kill query** after you type the query id (`system.runtime.kill_query`; refused on read-only connections and audited); **Nodes** with role, version and state; **Catalogs** with their connector, state and schema count. Each panel has an AI review.
+- **Table actions:** create a copy (`CREATE TABLE … AS SELECT`, with or without the rows), rename, drop, truncate and delete all rows. Which ones work depends on the catalog's connector (the memory connector, for example, has no `DELETE`).
+- **Ask AI** sees the running query's progress in the editor, and `explain_query` in the chat and MCP clients returns the Trino plan.
+- **PrestoDB** uses the `X-Presto-*` headers and has no `state` column in `system.metadata.catalogs`; the rest works the same.
+
+## Databricks SQL
+
+MotionQL's Databricks support is tested against a mock of the Databricks REST APIs, not a real workspace: report anything that behaves differently on yours.
+
+- **Connecting:** pick **Databricks SQL** and paste the workspace URL or host (`dbc-a1b2c3d4-e5f6.cloud.databricks.com`, `adb-….azuredatabricks.net`, `….gcp.databricks.com`). Sign in with a **personal access token** (User settings > Developer > Access tokens) or a **service principal** (client id and OAuth secret; MotionQL gets an hour-long token from the workspace's `/oidc/v1/token`). **List warehouses** fills the warehouse list without starting any; a default catalog and schema are optional.
+- **Warehouses:** the editor's warehouse bar shows the warehouse in use and its state. **Start** asks first (a running warehouse is billed); **Stop** asks you to type the warehouse name and is refused on read-only connections. Running a statement on a stopped warehouse asks before it starts it. Insights lists every warehouse with start and stop.
+- **Tree:** Unity Catalog catalogs, their schemas (`information_schema` is left out), then tables, views, materialized views, streaming tables, volumes and functions. Primary keys in Unity Catalog are informational (not enforced), so rows are not edited in the grid.
+- **Editor:** statements run through the SQL Statement Execution API. `USE CATALOG` and `USE SCHEMA` stay in the tab. Big results are read in chunks, from cloud storage links when they are over the inline limit. **Cancel** stops the statement on the warehouse.
+- **Explain:** **Explain** shows `EXPLAIN FORMATTED` as a tree (Photon operators included; a scan with no pushed or partition filter is flagged). **Explain Analyze** runs the statement and adds its query history metrics: time, rows and bytes read, files read and pruned, spill.
+- **Delta history:** right-click a Delta table > **Delta history and restore…** lists every version with its operation, user and metrics. **Restore to version** asks you to type the table name, writes a new version and is refused on read-only connections; it is audited.
+- **Insights:** **SQL warehouses** (state, size, clusters, sessions, auto-stop) and **Query history** (status, duration, rows, warehouse, user; yours or every warehouse's).
+
+## Google Cloud Spanner
+
+- **Connecting:** pick **Google Cloud Spanner** and enter the project, instance and database IDs (a database role is optional). Sign in with Google in the browser, Application Default Credentials (`gcloud auth application-default login`), a service account key or an access token. For the emulator, set **Emulator endpoint** (`http://localhost:9020`) and sign-in **None**. GoogleSQL and PostgreSQL-dialect databases are recognised on connect.
+- **Tree:** the project's instances and their databases; the connection's database opens to its tables (interleaved tables show their parent and ON DELETE action), indexes, views, change streams and sequences.
+- **Editor:** queries run in single-use read-only transactions; DML runs in a read-write transaction and reports its row count; DDL goes through `updateDdl` and shows its progress. Read-only connections refuse DML and DDL.
+- **Grid edits** are Spanner mutations: changed columns are updated by key, new rows inserted and deleted rows removed, after a check that the key still matches exactly one row. Primary keys cannot change, and SQL expressions and DEFAULT on updates are refused (use the editor).
+- **Explain:** **Explain** shows the PLAN query mode; **Explain Analyze** runs the query in PROFILE mode with rows, latency and CPU per operator, and flags full scans. The emulator returns no plans: only the statement's totals are shown.
+- **Insights:** **Query statistics**, **Transaction statistics** and **Lock statistics** from `SPANNER_SYS` (per minute, 10 minutes or hour), and **Oldest active queries** with **Cancel query** after you type its id. The emulator has no `SPANNER_SYS`.
