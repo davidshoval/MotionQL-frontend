@@ -21,7 +21,7 @@ export function AiSection() {
             align="left"
             eyebrow={
               <>
-                <Sparkles className="size-3" /> AI assistant
+                <Sparkles className="size-3" /> Ask AI
               </>
             }
             title={
@@ -31,7 +31,7 @@ export function AiSection() {
                 <span className="text-gradient-brand">Not your data.</span>
               </>
             }
-            description="Describe what you want in plain English and get SQL, a MongoDB pipeline, Cypher, a Redis command or a search query. Ask why a query is slow, fix an error, or get index advice. It works with your own Gemini, Claude or OpenAI-compatible key, or a local model."
+            description="Ask AI opens as a chat beside your table, collection or editor, on every screen. Describe what you want in plain English and get SQL, a MongoDB pipeline, Cypher, a Redis command or a search query, then run it right there or put it in the editor. Ask why a query is slow, send a failed query to fix, or get index advice. It works with your own Gemini, Claude or OpenAI-compatible key, or a local model."
           />
           <Reveal delay={0.1} className="mt-10 grid gap-6 sm:grid-cols-2">
             <div>
@@ -78,7 +78,7 @@ export function AiSection() {
                 <span className="bg-brand-violet/15 text-brand-violet grid size-7 place-items-center rounded-lg">
                   <Sparkles className="size-4" />
                 </span>
-                Ask your database
+                Ask AI
                 <span className="bg-foreground/5 text-muted-foreground ml-auto rounded-md px-2 py-0.5 font-mono text-[11px]">
                   Shop (PostgreSQL)
                 </span>
@@ -125,7 +125,8 @@ export function AiSection() {
                 <span className="bg-success/10 text-success inline-flex items-center gap-1.5 rounded-full px-2.5 py-1">
                   <Check className="size-3" /> Validated before display
                 </span>
-                <span>Uses index orders_status_created_at_idx</span>
+                <span className="bg-foreground/5 rounded-full px-2.5 py-1">Run here</span>
+                <span className="bg-foreground/5 rounded-full px-2.5 py-1">Put in editor</span>
               </motion.div>
             </div>
           </div>

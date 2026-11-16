@@ -29,7 +29,7 @@ Drag a tab to the edge of another pane, or use **Split Right** or **Split Down**
 
 ## Editing documents
 
-- **Edit in place:** change a value in the tree or table and save.
+- **Edit in place:** double-click a value in the tree or table to edit it there. **Enter** or clicking elsewhere keeps the change, **Esc** cancels it, then save.
 - **Insert**, **duplicate** and **delete** documents.
 - **Copy** documents as canonical or relaxed Extended JSON, or in shell syntax.
 

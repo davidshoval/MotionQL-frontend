@@ -481,8 +481,12 @@ analytics/funnel.mqnb`,
         d: "Names that don't exist on the connection get a warning, and another language's syntax is removed with the reason, such as JOIN in CQL or LIMIT on SQL Server.",
       },
       {
-        t: "Ask AI on every screen",
-        d: "Plans, performance panels, slow logs, connection errors, grants, backups, import mappings and more get an Ask AI card that knows the screen. It suggests; nothing runs until you apply it.",
+        t: "Ask AI beside every screen",
+        d: "Tables, collections, the SQL editor, plans, performance panels, slow logs, indexes and more open one Ask AI chat on the right of the tab, never on top of your data. It keeps the conversation while the tab is open, and nothing runs until you click Run here or Put in editor.",
+      },
+      {
+        t: "Fix with AI",
+        d: "When a query fails or finds nothing, one click sends the statement and its error into the same chat, which proposes a corrected version.",
       },
       {
         t: "Inline completion",

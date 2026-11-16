@@ -61,8 +61,8 @@ export const videos: VideoTour[] = [
   {
     slug: "05-editing",
     title: "Edit documents your way",
-    summary: "Edit inline, in the full editor or in bulk, find any value, and roll back with document history.",
-    seconds: 110,
+    summary: "Double-click to edit inline, use the full editor or bulk edit, find any value, and roll back with document history.",
+    seconds: 105,
     features: [],
   },
   {
@@ -103,15 +103,15 @@ export const videos: VideoTour[] = [
   {
     slug: "11-ai",
     title: "Your AI assistant, powered by Gemini",
-    summary: "Bring your own free Gemini key, then ask in plain English for queries, explain plans, pipelines and masking rules.",
-    seconds: 146,
+    summary: "Bring your own free Gemini key, then ask the Ask AI panel beside your documents for queries, index advice, pipelines and masking rules.",
+    seconds: 130,
     features: ["ai-assistant-mcp"],
   },
   {
     slug: "13-ai-everywhere",
     title: "AI on every screen",
     summary: "Dashboards from one sentence, slow-query explanations, PII detection, shell help, index verdicts and test data.",
-    seconds: 131,
+    seconds: 124,
     features: ["ai-assistant-mcp"],
   },
   {

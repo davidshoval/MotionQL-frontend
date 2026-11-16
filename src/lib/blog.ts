@@ -15,6 +15,15 @@ export interface BlogPost {
 
 const posts: BlogPost[] = [
   {
+    slug: "whats-new-in-motionql-1-7",
+    title: "What's new in MotionQL 1.7: Ask AI beside every screen",
+    description:
+      "Ask AI opens as a chat next to your data on every screen, double-click editing in SQL tables, Cloud Firestore support, and updates you install from Settings.",
+    date: "2026-11-10",
+    author: "The MotionQL team",
+    tags: ["Release"],
+  },
+  {
     slug: "motionql-every-database",
     title: "MotionQL 1.3: one IDE for every database",
     description:

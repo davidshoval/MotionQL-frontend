@@ -39,7 +39,15 @@ MotionQL keeps what it sends small (see below): field names, types and query sha
 - **Explain a plan** and get **index advice**; **fix an error**; **debug a pipeline** stage by stage.
 - **Summarize a comparison**, **suggest masking rules**, answer **schema questions** ("which fields look like personal data?") and **suggest relationships** in SQL Migration.
 
-**On every screen:** an **Ask AI** button on nearly every screen, including the chart editor and dashboards, the profiler, server monitoring, indexes, import and export, roles, the task scheduler and the SQL editor, plus **Ask AI about this screen** in the command palette. Each one suggests something you then apply; nothing runs on its own. When Gemini is busy or rate-limited, MotionQL retries on a backup Gemini model and tell you which model answered (**Settings → AI → Backup models**).
+**Ask AI beside every screen.** On a table, a collection, the SQL editor, a console, an aggregation, a plan, an index or a server panel, **Ask AI** opens one chat on the right of the tab, never on top of what you are looking at. The toolbar's **Ask AI** button and **Ask AI about this screen** in the command palette open the same panel for the tab you are on.
+
+- **It's a conversation.** The chat keeps what you asked until you hide the panel or close the tab, so you can follow up ("only last week", "add the customer's city").
+- **You decide what runs.** A query it drafts can run right away with **Run here**, or go into the editor with **Put in editor**. In the SQL editor it replaces your selection, otherwise it's added after your last statement, so nothing you typed is lost.
+- **Explain my query** and **Make it faster** work on the statement under the cursor.
+- **Fix with AI.** When a query fails or finds nothing, one click sends the query and its error into the same chat. **Send the error of the last run** does the same from the chat.
+- AI help inside dialogs (import mapping, connection errors, the table designer) stays in the dialog.
+
+When Gemini is busy or rate-limited, MotionQL retries on a backup Gemini model and tells you which model answered (**Settings → AI → Backup models**).
 
 Suggestions are validated before you see them (a query must parse, and server-side JavaScript is refused when it isn't allowed), but **review them before running**.
 

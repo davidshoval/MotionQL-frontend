@@ -659,6 +659,48 @@ export const databases: DatabaseFamily[] = [
     features: ["logs-analytics", "cross-database-links"],
   },
   {
+    slug: "firestore",
+    name: "Cloud Firestore",
+    group: "Document and key-value",
+    language: "The Firebase JavaScript SDK syntax",
+    flavors: [
+      { name: "Cloud Firestore (Native mode)", depth: "Good" },
+      { name: "Firestore emulator", depth: "Good" },
+    ],
+    title: "Cloud Firestore with typed edits, indexes and Security Rules",
+    metaTitle: "Cloud Firestore and Firebase GUI client with a query console, indexes and Security Rules",
+    summary:
+      "Browse collections, subcollections and collection groups, edit documents as typed JSON, query in the Firebase SDK syntax with Explain, and manage composite indexes, TTL policies and Security Rules.",
+    highlights: [
+      {
+        t: "Every way to sign in",
+        d: "gcloud credentials, Sign in with Google, a service account key or an access token, for the default database or a named one in any project, plus the Firebase emulator.",
+      },
+      {
+        t: "Browse and query",
+        d: "Collections, subcollections and collection groups with a query builder, count, cursor paging and a types summary per field.",
+      },
+      {
+        t: "Typed editing",
+        d: "Edit documents as typed JSON with timestamps, references, geopoints, bytes, vectors, server timestamps and increments; set, merge or update; copy, move and delete with subcollections.",
+      },
+      {
+        t: "A console in the SDK's syntax",
+        d: "db.collection(...).where(...).orderBy(...).get(), collection groups, counts and aggregations, with Explain showing the indexes used and the billed reads.",
+      },
+      {
+        t: "Indexes, TTL and rules",
+        d: "Composite indexes, single-field exemptions, TTL policies, database settings, operations and Security Rules. A query that needs an index shows Firestore's link that creates it.",
+      },
+      {
+        t: "AI that never sees documents",
+        d: "Write, explain and fix queries, design composite indexes, and write or review Security Rules from field paths and types only.",
+      },
+    ],
+    notes: ["Datastore mode databases are not supported. The emulator does not support Explain."],
+    features: ["import-export", "ai-assistant-mcp"],
+  },
+  {
     slug: "cassandra",
     name: "Cassandra and ScyllaDB",
     group: "Document and key-value",
@@ -818,7 +860,7 @@ export const databaseBySlug = (slug: string) => databases.find((d) => d.slug ===
 /** Every database and service name, for the marquee and structured data. */
 export const allDatabaseNames = databases.flatMap((d) => d.flavors.map((f) => f.name));
 
-/** The app's Add connection dialog lists "64 engines and hosted services" (src/shared/engines/registry.ts). Rounded down for copy. */
+/** The app's Add connection dialog lists "66 engines and hosted services" (src/shared/engines/registry.ts). Rounded down for copy. */
 export const databaseCountText = "60+";
 
 export const databaseGroups = [

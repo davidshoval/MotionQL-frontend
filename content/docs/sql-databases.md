@@ -44,7 +44,8 @@ Click a table in the tree to open it.
   - Click a column header to sort.
   - Page through rows; **Count rows** gives the exact total.
 - **Editing** (tables with a primary key):
-  - Double-click a cell to change it, or set it to NULL, then click **Save changes**.
+  - Double-click a cell to edit it right in the cell. **Enter** or clicking elsewhere keeps the new value, **Esc** puts the old one back, and **Apply** saves your changes.
+  - **Shift+Enter** (or right-click → **Edit value…**) opens the full editor, for NULL, DEFAULT or a SQL expression. Multi-line text and PostgreSQL arrays, ranges, enums and JSON open the full editor on a double-click.
   - Select rows and click **Delete** to delete them.
   - Each change is saved by primary key and must match exactly one row, or nothing is saved.
   - Tables without a primary key, views, and read-only connections can't be edited.
