@@ -95,6 +95,53 @@ export const docSections: DocSection[] = [
     ],
   },
   {
+    title: "More databases",
+    pages: [
+      {
+        slug: "supported-databases",
+        title: "Supported databases",
+        description: "All 66 databases and cloud services MotionQL connects to, how each is recognised and its default port.",
+      },
+      {
+        slug: "data-warehouses",
+        title: "Data warehouses",
+        description: "ClickHouse, Snowflake, BigQuery, Trino, PrestoDB, Starburst, Databricks SQL and Cloud Spanner.",
+      },
+      {
+        slug: "more-sql-engines",
+        title: "More SQL engines",
+        description: "TimescaleDB, Citus, Supabase, Neon, Azure SQL, CockroachDB, Redshift, QuestDB, Db2, Firebird and more.",
+      },
+      { slug: "redis-valkey", title: "Redis and Valkey", description: "Key browser, console, streams, Pub/Sub, memory, cluster, ACL, search and snapshots." },
+      {
+        slug: "elasticsearch-opensearch",
+        title: "Elasticsearch and OpenSearch",
+        description: "Indices, documents, the console, cluster panels, administration and migration.",
+      },
+      { slug: "dynamodb", title: "Amazon DynamoDB", description: "Tables, Scan and Query, item editing, PartiQL, backups and migration." },
+      { slug: "firestore", title: "Cloud Firestore", description: "Collections and subcollections, typed document editing, queries, indexes and rules." },
+      {
+        slug: "cassandra-scylladb",
+        title: "Cassandra and ScyllaDB",
+        description: "Keyspaces and tables, rows, the CQL console, schema changes and the cluster panel.",
+      },
+      { slug: "influxdb", title: "InfluxDB", description: "Buckets and measurements, Flux, InfluxQL and SQL, the data explorer and health." },
+      { slug: "neo4j-memgraph", title: "Neo4j and Memgraph", description: "The Cypher console, graph results, the label browser, schema and server info." },
+    ],
+  },
+  {
+    title: "Workspace",
+    pages: [
+      {
+        slug: "projects-links",
+        title: "Projects and cross-database links",
+        description: "Group connections by environment, save items to a project and link fields across databases.",
+      },
+      { slug: "notebooks", title: "Notebooks", description: "SQL, MongoDB and Redis cells with Markdown notes, charts and AI in one document." },
+      { slug: "scripts-git", title: "Scripts folder and Git", description: "Keep queries in a folder and commit, branch and pull without leaving the app." },
+    ],
+  },
+  {
     title: "Schema and performance",
     pages: [
       {

@@ -34,15 +34,15 @@ const platforms = {
     ],
     details: [
       {
-        // The current builds are not code-signed yet (owner decision, October 2026); see /docs/install.
-        t: "Not yet code-signed",
-        d: "macOS asks you to confirm the first launch in System Settings → Privacy & Security (Open Anyway). Every release ships SHA-256 checksums so you can verify the file.",
+        // macOS builds are signed with a Developer ID and notarized since 1.4.0; see /docs/install.
+        t: "Signed and notarized",
+        d: "Signed with an Apple Developer ID and notarized by Apple, so it opens without a security warning. Every release also ships SHA-256 checksums.",
       },
       { t: "Keychain for secrets", d: "Passwords, keys and tokens are encrypted with the macOS Keychain and never shown in the UI." },
       { t: "Drag to install", d: "Open the .dmg for your Mac and drag MotionQL to Applications." },
       {
         t: "Updating",
-        d: "In-app updates need signed builds, so for now you install new versions from the download page. Your connections and settings are kept.",
+        d: "MotionQL updates itself: Settings → Updates downloads the new version and restarts to install it. Your connections and settings are kept.",
       },
       {
         t: "Works with your MDM",
@@ -69,8 +69,9 @@ const platforms = {
         d: "An installer (per user without admin rights, or for all users) or a portable build with no install.",
       },
       {
+        // Windows builds are not Authenticode-signed yet (checked on 1.7.1), so SmartScreen warns and in-app updates stay off.
         t: "Not yet code-signed",
-        d: "SmartScreen warns on first run: click More info, then Run anyway. Every release ships SHA-256 checksums so you can verify the file.",
+        d: "SmartScreen warns on first run: click More info, then Run anyway. Every release ships SHA-256 checksums so you can verify the file. Until Windows builds are signed, install new versions from the download page.",
       },
       {
         t: "Silent installs",
